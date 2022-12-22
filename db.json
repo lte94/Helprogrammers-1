@@ -4,7 +4,17 @@
       "id": 1,
       "title": "helprogrammers",
       "content": "you can do it!",
+      "place": "programmers",
+      "language": "javascript",
       "password": 1111
+    },
+    {
+      "id": 2,
+      "title": "hellprogrammers",
+      "content": "you can't do it!",
+      "place": "baekjoon",
+      "language": "phthon",
+      "password": 1234
     }
   ],
 
