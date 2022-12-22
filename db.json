@@ -2,15 +2,19 @@
   "questions": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "title": "helprogrammers",
+      "content": "you can do it!",
+      "password": 1111
     }
   ],
-  "comments": [
+
+  "hints": [
     {
       "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "hint": "helprogrammers comment",
+      "level": "상",
+      "postId": 1,
+      "password": 1111
     }
   ]
 }
