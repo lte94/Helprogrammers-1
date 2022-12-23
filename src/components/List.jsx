@@ -63,6 +63,7 @@ const Maindiv = styled.main`
 const Newsfeed = styled.section`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   padding-top: 50px;
   min-width: 867px;
   border: 1px solid red;
@@ -75,7 +76,7 @@ const Thread = styled.div`
   padding: 15px;
   border: 1px solid white;
   background-color: #44454a;
-  color: #fff;
+  color: #ffffff57;
 `;
 const ThreadHead = styled.div`
   display: flex;
