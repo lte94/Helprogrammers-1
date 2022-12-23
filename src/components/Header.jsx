@@ -11,11 +11,13 @@ const Header = () => {
         </Helprogrammers>
       </MainLink>
       <SearchForm>
-        <SearchButton></SearchButton>
+        <SearchIcon src="/assets/search.png" />
         <SearchInput type="search" placeholder="알고리즘 문제 검색하기" />
       </SearchForm>
       <AddLink to="/add">
-        <AddButton>질문 추가하기</AddButton>
+        <AddQuestionButton>
+          <AddQuestionIcon src="/assets/write.png"></AddQuestionIcon>질문 작성
+        </AddQuestionButton>
       </AddLink>
       <div></div>
     </HeaderBox>
@@ -27,14 +29,14 @@ export default Header;
 // styled-components
 
 const HeaderBox = styled.div`
+  position: relative;
+  display: flex;
   top: 0;
   left: 0;
   max-width: 100%;
   width: 100%;
   height: 88px;
   background-color: black;
-  display: flex;
-  position: relative;
 `;
 
 const MainLink = styled(Link)`
@@ -61,41 +63,60 @@ const SearchForm = styled.form`
   max-width: 867px;
   width: 100%;
   height: 44px;
-  top: 20px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: row;
   position: absolute;
-  border-radius: 20px;
+  border-radius: 22px;
   background-color: #2f2f33;
 `;
 
 const SearchInput = styled.input`
   width: 90%;
   height: 100%;
-  left: 30px;
+  color: white;
+  font-size: 16px;
   position: relative;
   background: transparent;
+  outline: none;
   border: none;
 `;
 
-const SearchButton = styled.button`
-  width: 18px;
-  height: 18px;
-  position: relative;
-  left: 5px;
-  font-size: 20px;
+const SearchIcon = styled.img`
+  margin: 10px 12px 10px 16px;
+  width: 24px;
+  height: 24px;
 `;
 
 const AddLink = styled(Link)`
   text-decoration: none;
+  position: absolute;
+  max-width: 867px;
+  width: fit-content;
+  height: 44px;
+  top: 20px;
+  right: 28px;
 `;
 
-const AddButton = styled.button`
-  width: 50px;
-  height: 50px;
-  background-color: red;
-  position: absolute;
+const AddQuestionButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 16px 10px;
+  font-size: 16px;
+  gap: 10px;
+  background-color: rgba(13, 240, 172, 1);
+  border-radius: 22px;
+  border: none;
   left: 80%;
+
   top: 18px;
   cursor: pointer;
+`;
+
+const AddQuestionIcon = styled.img`
+  width: 24px;
+  height: 24px;
 `;
