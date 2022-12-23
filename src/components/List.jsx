@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const List = () => {
   const dispatch = useDispatch();
@@ -24,14 +25,16 @@ const List = () => {
   return (
     <div>
       {questions.map((question) => (
-        <div key={question.id}>
-          <div>
-            <span>{question.place}</span>
-            <span>{question.language}</span>
+        <QuestionLink to={`/question-${question.id}`}>
+          <div key={question.id}>
+            <div>
+              <span>{question.place}</span>
+              <span>{question.language}</span>
+            </div>
+            <p>{question.title}</p>
+            <p>{question.content}</p>
           </div>
-          <p>{question.title}</p>
-          <p>{question.content}</p>
-        </div>
+        </QuestionLink>
       ))}
     </div>
   );
@@ -40,3 +43,7 @@ const List = () => {
 export default List;
 
 //styled-components
+
+const QuestionLink = styled(Link)`
+  text-decoration: none;
+`;
