@@ -9,10 +9,13 @@ const initialState = {
   error: null,
 };
 
-export const addQuestions = createAsyncThunk('ADD_TODO', async (newTodo) => {
-  const response = await axios.post(serverUrl, newTodo);
-  return response.data;
-});
+export const addQuestions = createAsyncThunk(
+  'POST_QUESTIONS',
+  async (newQuestion) => {
+    const response = await axios.post(serverUrl, newQuestion);
+    return response.data;
+  },
+);
 
 export const __getQuestions = createAsyncThunk(
   'GET_QUESTIONS',
@@ -30,10 +33,10 @@ export const questionsSlice = createSlice({
   name: 'questions',
   initialState,
   reducers: {
-    getQuestionId : (state, action) => {
+    getQuestionId: (state, action) => {
       state.questions.find((question) => {
-        return question.id === action.payload
-      })
+        return question.id === action.payload;
+      });
     },
   },
   extraReducers: {

@@ -34,7 +34,6 @@
           "level": "상",
           "postId": 2,
           "writer": "hyo",
-
           "password": 1111
         }
       ]
@@ -46,7 +45,6 @@
       "place": "SW Expert Academy",
       "language": "phthon",
       "writer": "Dram",
-
       "password": 1234,
       "hints": [
         {
@@ -55,7 +53,6 @@
           "level": "상",
           "postId": 3,
           "writer": "YJ",
-
           "password": 1111
         },
         {
@@ -74,6 +71,14 @@
           "password": 1111
         }
       ]
+    },
+    {
+      "title": "내가최영진",
+      "content": "바로내가 최영진",
+      "url": "www.backjun.com",
+      "writer": "최영진",
+      "password": "1234",
+      "id": 4
     }
   ]
 }
