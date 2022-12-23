@@ -8,18 +8,9 @@ function AddQuestion() {
 
   return (
     <>
-      <StyleInputBox>
-        <Input />
-      </StyleInputBox>
+      <Input />
     </>
   );
 }
 
 export default AddQuestion;
-
-const StyleInputBox = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
