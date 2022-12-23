@@ -26,8 +26,8 @@ const List = () => {
     <Maindiv>
       <Newsfeed>
         {questions.map((question) => (
-          <QuestionLink to={`/question-${question.id}`}>
-            <Thread key={question.id}>
+          <QuestionLink to={`/question-${question.id}`} key={question.id}>
+            <Thread>
               <ThreadHead>
                 {/* 사이트 네임 태그 */}
                 <Place>{question.place}</Place>
