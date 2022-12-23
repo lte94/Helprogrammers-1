@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-const AddHint = () => {
+const HintList = () => {
   return (
     <Middle>
-      <AddHintBox>
+      <div>
         <LevelCheckLabel>
           <LevelCheckRadio type="radio" name="level" value="상" />
           <LevelCheckSpan>상</LevelCheckSpan>
@@ -16,19 +16,33 @@ const AddHint = () => {
           <LevelCheckRadio type="radio" name="level" value="하" />
           <LevelCheckSpan>하</LevelCheckSpan>
         </LevelCheckLabel>
+      </div>
+      <HintBox>
+        <HintTextBox></HintTextBox>
         <InputNamePassword type="text" placeholder="이름 입력" />
         <InputNamePassword type="password" placeholder="비밀번호 입력" />
-        <AddButton>확인</AddButton>
-        <br />
-        <InputHint type="text" placeholder="힌트를 입력해 주세요!" />
-      </AddHintBox>
+        <DeleteUpdateButton>수정</DeleteUpdateButton>
+        <DeleteUpdateButton>삭제</DeleteUpdateButton>
+      </HintBox>
+      <HintBox>
+        <HintTextBox></HintTextBox>
+        <InputNamePassword type="text" placeholder="이름 입력" />
+        <InputNamePassword type="password" placeholder="비밀번호 입력" />
+        <DeleteUpdateButton>수정</DeleteUpdateButton>
+        <DeleteUpdateButton>삭제</DeleteUpdateButton>
+      </HintBox>
+      <HintBox>
+        <HintTextBox></HintTextBox>
+        <InputNamePassword type="text" placeholder="이름 입력" />
+        <InputNamePassword type="password" placeholder="비밀번호 입력" />
+        <DeleteUpdateButton>수정</DeleteUpdateButton>
+        <DeleteUpdateButton>삭제</DeleteUpdateButton>
+      </HintBox>
     </Middle>
   );
 };
 
-export default AddHint;
-
-//styled-components
+export default HintList;
 
 const Middle = styled.section`
   display: flex;
@@ -41,18 +55,13 @@ const Middle = styled.section`
   /* background-color: yellow; */
 `;
 
-const AddHintBox = styled.form`
-  width: 100%;
-  min-height: 200px;
-  background-color: #44454a;
-  border-radius: 20px;
-  padding: 24px;
-`;
 const LevelCheckLabel = styled.label`
   width: 40px;
   height: 40px;
   float: left;
   margin-left: 5px;
+  position: relative;
+  left: 43%;
 `;
 const LevelCheckSpan = styled.span`
   font-size: 18px;
@@ -86,6 +95,25 @@ const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
   display: none;
 `;
 
+const HintBox = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  min-height: 350px;
+  background-color: #44454a;
+  border-radius: 20px;
+  padding: 24px;
+  position: relative;
+`;
+const HintTextBox = styled.div`
+  width: 100%;
+  min-height: 220px;
+  background-color: #2f2f33;
+  border: transparent;
+  font-size: 20px;
+  color: #ffffff;
+  border-radius: 20px;
+`;
+
 const InputNamePassword = styled.input`
   width: 190px;
   height: 40px;
@@ -94,7 +122,8 @@ const InputNamePassword = styled.input`
   position: relative;
   border: none;
   color: #ffffff;
-  left: 36%;
+  margin-top: 40px;
+  left: 41%;
   margin-left: 10px;
   padding-left: 16px;
   &::placeholder {
@@ -106,32 +135,15 @@ const InputNamePassword = styled.input`
     scale: 1.01;
   }
 `;
-const AddButton = styled.button`
+
+const DeleteUpdateButton = styled.button`
   width: 60px;
   height: 40px;
-  background-color: #0df0ac;
+  background-color: #90969e;
   border-radius: 20px;
   border: transparent;
   position: relative;
-  left: 37%;
+  margin-left: 10px;
+  left: 42%;
   cursor: pointer;
-`;
-const InputHint = styled.textarea`
-  margin-top: 30px;
-  width: 100%;
-  min-height: 70px;
-  background-color: #2f2f33;
-  border: transparent;
-  font-size: 20px;
-  color: #ffffff;
-  border-radius: 20px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 10px;
-  resize: none;
-  &::placeholder {
-    padding-left: 2px;
-    color: #90969e;
-    font-size: 20px;
-  }
 `;

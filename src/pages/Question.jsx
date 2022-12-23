@@ -1,45 +1,23 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { __getQuestions, questionsActions } from '../redux/module/QuestionsSlice';
-import { useParams } from 'react-router-dom';
-
+import React from 'react';
 import styled from 'styled-components';
 import AddHint from '../components/AddHint';
+import HintList from '../components/HintList';
+import { useSelector } from 'react-redux';
 
 function Question() {
-  const dispatch = useDispatch();
-  const { isLoading, error, questions } = useSelector(
-    (state) => (state.questions),
-  );
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    dispatch(__getQuestions());
-  }, [dispatch]);
-
-
-  if (isLoading) {
-    return <div>로딩 중....</div>;
-  }
-
-  if (error) {
-    return <div>{error.message}</div>;
-  }
-
-
+  const question = useSelector((state) => state.questions.question);
+  console.log(question);
   return (
     <QuestionContainer>
       <Wrapper>
         <QuestionHead>
           {/* 사이트 네임 태그 */}
-          <Place>Baekjoon</Place>
+          <Place>{question.place}</Place>
           {/* 언어 태그 */}
-          <Language>javascript</Language>
+          <Language>{question.language}</Language>
         </QuestionHead>
-
         <QuestionTitle>
-          <TitleFont>제목</TitleFont>
+          <TitleFont>{question.title}</TitleFont>
           <form>
             <InputNamePassword type="text" placeholder="이름 입력" />
             <InputNamePassword type="password" placeholder="비밀번호 입력" />
@@ -59,9 +37,9 @@ function Question() {
       </Wrapper>
 
       {/*  댓글 */}
-      <AddHint/>
+      <AddHint />
+      <HintList />
     </QuestionContainer>
-
   );
 }
 
