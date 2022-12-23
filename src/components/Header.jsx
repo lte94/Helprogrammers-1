@@ -14,7 +14,9 @@ const Header = () => {
         <SearchButton></SearchButton>
         <SearchInput type="search" placeholder="알고리즘 문제 검색하기" />
       </SearchForm>
-      <div></div>
+      <AddLink to="/add">
+        <AddButton>질문 추가하기</AddButton>
+      </AddLink>
       <div></div>
     </HeaderBox>
   );
@@ -46,7 +48,6 @@ const Helprogrammers = styled.p`
   left: 36px;
   position: relative;
   font-size: 36px;
-  /* background-color: yellow; */
 `;
 const Hel = styled.span`
   color: #0df0ac;
@@ -83,4 +84,18 @@ const SearchButton = styled.button`
   position: relative;
   left: 5px;
   font-size: 20px;
+`;
+
+const AddLink = styled(Link)`
+  text-decoration: none;
+`;
+
+const AddButton = styled.button`
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  position: absolute;
+  left: 80%;
+  top: 18px;
+  cursor: pointer;
 `;
