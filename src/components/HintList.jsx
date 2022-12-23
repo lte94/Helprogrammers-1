@@ -1,43 +1,65 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 
-const HintList = () => {
+const HintList = ({ question }) => {
+  const [level, setLevel] = useState('');
+
+  const levelHandleChange = (e) => {
+    setLevel(e.target.value);
+  };
+
+  const Highhints = question.hints?.filter((hint) => hint.level === '상');
+  const Middlehints = question.hints?.filter((hint) => hint.level === '중');
+  const Lowhints = question.hints?.filter((hint) => hint.level === '하');
+
   return (
     <Middle>
       <div>
         <LevelCheckLabel>
-          <LevelCheckRadio type="radio" name="level" value="상" />
+          <LevelCheckRadio
+            type="radio"
+            name="level"
+            value="상"
+            onChange={levelHandleChange}
+          />
           <LevelCheckSpan>상</LevelCheckSpan>
         </LevelCheckLabel>
         <LevelCheckLabel>
-          <LevelCheckRadio type="radio" name="level" value="중" />
+          <LevelCheckRadio
+            type="radio"
+            name="level"
+            value="중"
+            onChange={levelHandleChange}
+          />
           <LevelCheckSpan>중</LevelCheckSpan>
         </LevelCheckLabel>
         <LevelCheckLabel>
-          <LevelCheckRadio type="radio" name="level" value="하" />
+          <LevelCheckRadio
+            type="radio"
+            name="level"
+            value="하"
+            onChange={levelHandleChange}
+          />
           <LevelCheckSpan>하</LevelCheckSpan>
         </LevelCheckLabel>
       </div>
-      <HintBox>
-        <HintTextBox></HintTextBox>
-        <InputNamePassword type="text" placeholder="이름 입력" />
-        <InputNamePassword type="password" placeholder="비밀번호 입력" />
-        <DeleteUpdateButton>수정</DeleteUpdateButton>
-        <DeleteUpdateButton>삭제</DeleteUpdateButton>
-      </HintBox>
-      <HintBox>
-        <HintTextBox></HintTextBox>
-        <InputNamePassword type="text" placeholder="이름 입력" />
-        <InputNamePassword type="password" placeholder="비밀번호 입력" />
-        <DeleteUpdateButton>수정</DeleteUpdateButton>
-        <DeleteUpdateButton>삭제</DeleteUpdateButton>
-      </HintBox>
-      <HintBox>
-        <HintTextBox></HintTextBox>
-        <InputNamePassword type="text" placeholder="이름 입력" />
-        <InputNamePassword type="password" placeholder="비밀번호 입력" />
-        <DeleteUpdateButton>수정</DeleteUpdateButton>
-        <DeleteUpdateButton>삭제</DeleteUpdateButton>
-      </HintBox>
+      {/* {question.hints?.map((hint) => (
+        <HintBox key={hint.id}>
+          <HintTextBox>{hint.hint}</HintTextBox>
+          <InputNamePassword
+            type="text"
+            placeholder="이름 입력"
+            value={hint.writer}
+          />
+          <InputNamePassword
+            type="password"
+            placeholder="비밀번호 입력"
+            value={hint.password}
+          />
+          <DeleteUpdateButton>수정</DeleteUpdateButton>
+          <DeleteUpdateButton>삭제</DeleteUpdateButton>
+        </HintBox>
+      ))} */}
     </Middle>
   );
 };
@@ -67,12 +89,7 @@ const LevelCheckSpan = styled.span`
   font-size: 18px;
   width: 36px;
   height: 36px;
-  background: ${(props) =>
-    props.children === '상'
-      ? '#0DF0AC'
-      : props.children === '중'
-      ? '#89F9D7'
-      : '#CBFFEF'};
+  background: #44454a;
   border-radius: 50%;
   border: none;
   display: flex;
@@ -91,6 +108,12 @@ const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
   }
   &:checked + ${LevelCheckSpan} {
     scale: 1.1;
+    background-color: ${(props) =>
+      props.value === '상'
+        ? '#0DF0AC'
+        : props.value === '중'
+        ? '#89F9D7'
+        : '#CBFFEF'};
   }
   display: none;
 `;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const AddHint = () => {
+const AddHint = ({ question }) => {
   return (
     <Middle>
       <AddHintBox>
@@ -58,19 +58,14 @@ const LevelCheckSpan = styled.span`
   font-size: 18px;
   width: 36px;
   height: 36px;
-  background: ${(props) =>
-    props.children === '상'
-      ? '#0DF0AC'
-      : props.children === '중'
-      ? '#89F9D7'
-      : '#CBFFEF'};
+  background: #2f2f33;
   border-radius: 50%;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: black;
+  color: #ffffff;
 `;
 
 const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
@@ -82,7 +77,15 @@ const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
   }
   &:checked + ${LevelCheckSpan} {
     scale: 1.1;
+    color: black;
+    background-color: ${(props) =>
+      props.value === '상'
+        ? '#0DF0AC'
+        : props.value === '중'
+        ? '#89F9D7'
+        : '#CBFFEF'};
   }
+
   display: none;
 `;
 

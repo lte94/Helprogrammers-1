@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 function Question() {
   const question = useSelector((state) => state.questions.question);
-  console.log(question);
   return (
     <QuestionContainer>
       <Wrapper>
@@ -37,8 +36,8 @@ function Question() {
       </Wrapper>
 
       {/*  댓글 */}
-      <AddHint />
-      <HintList />
+      <AddHint question={question} key={question.id} />
+      <HintList question={question} key={question.id} />
     </QuestionContainer>
   );
 }
