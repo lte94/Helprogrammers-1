@@ -9,6 +9,11 @@ const initialState = {
   error: null,
 };
 
+export const addQuestions = createAsyncThunk('ADD_TODO', async (newTodo) => {
+  const response = await axios.post(serverUrl, newTodo);
+  return response.data;
+});
+
 export const __getQuestions = createAsyncThunk(
   'GET_QUESTIONS',
   async (_, thunkAPI) => {
