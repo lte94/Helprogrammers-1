@@ -1,9 +1,7 @@
+import AddHint from '../components/AddHint';
+
 function Question() {
-  return (
-    <>
-      <div>zzzzzfsfdsfsdf</div>
-    </>
-  );
+  return <AddHint />;
 }
 
 export default Question;
