@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const ListCard = ({ question }) => {
+  
+
   return (
-    <QuestionLink to={`/question-${question.id}`}>
+    <QuestionLink to={`/${question.id}`}>
       <Thread>
         <ThreadHead>
           {/* 사이트 네임 태그 */}

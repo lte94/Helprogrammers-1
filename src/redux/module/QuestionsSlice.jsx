@@ -25,11 +25,6 @@ export const questionsSlice = createSlice({
   name: 'questions',
   initialState,
   reducers: {
-    getQuestionId : (state, action) => {
-      state.questions.find((question) => {
-        return question.id === action.payload
-      })
-    },
   },
   extraReducers: {
     [__getQuestions.pending]: (state) => {
@@ -46,5 +41,5 @@ export const questionsSlice = createSlice({
   },
 });
 
-export const questionsActions = questionsSlice.actions;
+export const { } = questionsSlice.actions;
 export default questionsSlice.reducer;

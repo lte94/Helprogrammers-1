@@ -1,45 +1,37 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { __getQuestions, questionsActions } from '../redux/module/QuestionsSlice';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { __getQuestions } from '../redux/module/QuestionsSlice';
+import { useLocation } from 'react-router-dom';
 
 import styled from 'styled-components';
 import AddHint from '../components/AddHint';
+import axios from 'axios';
 
 function Question() {
-  const dispatch = useDispatch();
-  const { isLoading, error, questions } = useSelector(
-    (state) => (state.questions),
-  );
+  const location = useLocation();
+  const [questionState, setQuestionState] = useState("");
 
-  const { id } = useParams();
-
-  useEffect(() => {
-    dispatch(__getQuestions());
-  }, [dispatch]);
-
-
-  if (isLoading) {
-    return <div>로딩 중....</div>;
-  }
-
-  if (error) {
-    return <div>{error.message}</div>;
-  }
-
-
+  // useEfect로 axios 데이터 받아오기
+  useEffect( () =>{
+    const getData = async () => {
+      const {data} = await axios.get(`http://localhost:3001/questions${location.pathname}`)
+      // 받은데이터 state로 업로드
+      setQuestionState(data);
+    }
+    getData();
+  },[]);
+  
   return (
     <QuestionContainer>
       <Wrapper>
         <QuestionHead>
           {/* 사이트 네임 태그 */}
-          <Place>Baekjoon</Place>
+          <Place>{questionState.place}</Place>
           {/* 언어 태그 */}
-          <Language>javascript</Language>
+          <Language>{questionState.language}</Language>
         </QuestionHead>
 
         <QuestionTitle>
-          <TitleFont>제목</TitleFont>
+          <TitleFont>{questionState.title}</TitleFont>
           <form>
             <InputNamePassword type="text" placeholder="이름 입력" />
             <InputNamePassword type="password" placeholder="비밀번호 입력" />
@@ -50,7 +42,7 @@ function Question() {
 
         <QuestionLink>Link</QuestionLink>
 
-        <QuestionContent>이게 너무 어렵잖아요ㅠ</QuestionContent>
+        <QuestionContent>{questionState.content}</QuestionContent>
 
         <QuestionCode>
           <CodeName>소스 코드</CodeName>
