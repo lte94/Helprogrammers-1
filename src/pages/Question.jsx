@@ -36,10 +36,11 @@ function Question() {
           <span>const nanana = banana;</span>
         </QuestionCode>
       </Wrapper>
+      
+      {/*  댓글 */}
+      <AddHint/>
     </QuestionContainer>
 
-    // 댓글
-    <AddHint/>
   );
 }
 
