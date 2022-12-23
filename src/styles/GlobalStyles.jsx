@@ -10,6 +10,8 @@ ${reset}
     
 body {
 	font-family: apple-system, 'Open Sans', sans-serif;
+	background-color: #252527;
+	color: #ffffff
 }
 
 ol, ul {
