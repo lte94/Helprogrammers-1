@@ -1,5 +1,7 @@
+import List from '../components/List';
+
 function Main() {
-  return null;
+  return <List />;
 }
 
 export default Main;
