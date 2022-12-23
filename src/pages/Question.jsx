@@ -1,10 +1,31 @@
-import AddHint from '../components/AddHint';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { __getQuestions, questionsActions } from '../redux/module/QuestionsSlice';
+import { useParams } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import AddHint from '../components/AddHint';
 
 function Question() {
   const dispatch = useDispatch();
+  const { isLoading, error, questions } = useSelector(
+    (state) => (state.questions),
+  );
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(__getQuestions());
+  }, [dispatch]);
+
+
+  if (isLoading) {
+    return <div>로딩 중....</div>;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
 
   return (
@@ -20,10 +41,10 @@ function Question() {
         <QuestionTitle>
           <TitleFont>제목</TitleFont>
           <form>
-            <input name="name" placeholder="이름 입력"></input>
-            <input name="password" placeholder="비밀번호 입력"></input>
-            <button>수정</button>
-            <button>삭제</button>
+            <InputNamePassword type="text" placeholder="이름 입력" />
+            <InputNamePassword type="password" placeholder="비밀번호 입력" />
+            <AddButton>수정</AddButton>
+            <AddButton>삭제</AddButton>
           </form>
         </QuestionTitle>
 
@@ -36,7 +57,7 @@ function Question() {
           <span>const nanana = banana;</span>
         </QuestionCode>
       </Wrapper>
-      
+
       {/*  댓글 */}
       <AddHint/>
     </QuestionContainer>
@@ -92,6 +113,34 @@ const QuestionTitle = styled.div`
 const TitleFont = styled.h1`
   font-size: 1.5vw;
   font-weight: bold;
+`;
+const InputNamePassword = styled.input`
+  width: 190px;
+  height: 40px;
+  background-color: #2f2f33;
+  border-radius: 20px;
+  position: relative;
+  border: none;
+  color: #ffffff;
+  margin-left: 10px;
+  padding-left: 16px;
+  &::placeholder {
+    padding-left: 2px;
+    color: #90969e;
+  }
+  &:focus {
+    box-shadow: 3px 3px 5px #aaa;
+    scale: 1.01;
+  }
+`;
+const AddButton = styled.button`
+  width: 60px;
+  height: 40px;
+  background-color: #0df0ac;
+  border-radius: 20px;
+  border: transparent;
+  position: relative;
+  cursor: pointer;
 `;
 const QuestionLink = styled.a`
   color: #0df0ac;
