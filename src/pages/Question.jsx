@@ -1,3 +1,5 @@
+import AddHint from '../components/AddHint';
+
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -35,6 +37,9 @@ function Question() {
         </QuestionCode>
       </Wrapper>
     </QuestionContainer>
+
+    // 댓글
+    <AddHint/>
   );
 }
 

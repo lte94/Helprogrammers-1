@@ -32,16 +32,19 @@ const List = () => {
                 {/* 사이트 네임 태그 */}
                 <Place>{question.place}</Place>
                 {/* 언어 태그 */}
-                <Language>{question.language}</Language>
+                <Language>
+                  <span class="dot" />
+                  {question.language}
+                </Language>
               </ThreadHead>
-              <h2>{question.title}</h2>
-              <p>{question.content}</p>
+              <ThreadBody>
+                <h2>{question.title}</h2>
+                <p>{question.content}</p>
+              </ThreadBody>
             </Thread>
           </QuestionLink>
         ))}
-
       </Newsfeed>
-
     </Maindiv>
   );
 };
@@ -55,45 +58,79 @@ const QuestionLink = styled(Link)`
 `;
 
 const Maindiv = styled.main`
-  background-color: #252527;
+  background-color: rgba(37, 37, 39, 1);
   height: calc(100vh - 88px); // -88px (헤더 높이)
   display: flex;
   justify-content: center;
 `;
 const Newsfeed = styled.section`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
-  padding-top: 50px;
-  min-width: 867px;
-  border: 1px solid red;
+  padding-top: 40px;
+  width: 868px;
+  gap: 24px;
 `;
 const Thread = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 200px;
-  padding: 15px;
-  border: 1px solid white;
-  background-color: #44454a;
-  color: #ffffff57;
+  height: 216px;
+  gap: 24px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: rgba(68, 69, 74, 1);
 `;
 const ThreadHead = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 `;
 const Place = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
-  height: 30px;
-  border: 1px solid white;
+  padding: 10px 16px;
+  font-size: 16px;
   border-radius: 20px;
-  `;
+  background-color: ${(props) => {
+    if (props.children === 'baekjoon') {
+      return 'rgba(162, 255, 147, 1)';
+    } else if (props.children === 'programmers') {
+      return 'rgba(204, 136, 255, 1)';
+    } else {
+      return 'rgba(135, 255, 255, 1)';
+    }
+  }};
+
+  color: black;
+`;
 const Language = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
   padding-left: 0 10px;
+  gap: 10px;
+  color: white;
+  span {
+    height: 12px;
+    width: 12px;
+    background-color: rgba(13, 240, 172, 1);
+    border-radius: 50%;
+  }
+`;
+const ThreadBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: white;
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 26px;
+  }
 `;
