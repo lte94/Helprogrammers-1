@@ -10,7 +10,6 @@ const Header = () => {
   const [term, setTerm] = useState('');
   const searchHandler = (e) => {
     e.preventDefault();
-    console.log(term);
     dispatch(__getSearchedQuestions(term));
   };
 

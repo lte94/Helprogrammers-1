@@ -10,6 +10,19 @@ const initialState = {
   error: null,
 };
 
+// function getAllMatchingItems(searchString, array) {
+//   const isMatching = (entry) =>
+//     Object.values(entry)
+//       .filter((val) => typeof val === 'string')
+//       .map((val) => val.toLowerCase())
+//       .some((val) => val.includes(searchString.toLowerCase()));
+
+//   return flattenWithSubRows(array).filter(isMatching);
+// }
+
+// const filtered = getAllMatchingItems('third', data);
+// console.log(filtered);
+
 export const __getQuestions = createAsyncThunk(
   'GET_QUESTIONS',
   async (_, thunkAPI) => {
@@ -26,9 +39,15 @@ export const __getSearchedQuestions = createAsyncThunk(
   'GET_SEARCH_QUESTIONS',
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(serverUrl);
-      console.log(data);
-      return thunkAPI.fulfillWithValue(data.data);
+      const searchString = payload.toLowerCase();
+      const data = await axios.get(`http://localhost:3001/questions`);
+      // console.log(data.data);
+      const getMatchingData = data.data.filter(
+        (question) =>
+          question.title.includes(searchString) ||
+          question.content.includes(searchString),
+      );
+      return thunkAPI.fulfillWithValue(getMatchingData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -52,13 +71,7 @@ export const __getQuestion = createAsyncThunk(
 export const questionsSlice = createSlice({
   name: 'questions',
   initialState,
-  reducers: {
-    getQuestionId: (state, action) => {
-      state.questions.find((question) => {
-        return question.id === action.payload;
-      });
-    },
-  },
+  reducers: {},
   extraReducers: {
     [__getQuestions.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
@@ -71,6 +84,19 @@ export const questionsSlice = createSlice({
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
     },
+
+    [__getSearchedQuestions.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getSearchedQuestions.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.questions = action.payload;
+    },
+    [__getSearchedQuestions.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
     [__getQuestion.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
     },
@@ -85,5 +111,5 @@ export const questionsSlice = createSlice({
   },
 });
 
-export const questionsActions = questionsSlice.actions;
+export const questionSlice = questionsSlice.actions;
 export default questionsSlice.reducer;

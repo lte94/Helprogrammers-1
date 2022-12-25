@@ -1,26 +1,76 @@
 import styled from 'styled-components';
+import useInput from '../hooks/useInput';
+import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { __addHint } from '../redux/module/HintsSlice';
 
 const AddHint = ({ question }) => {
+  const dispatch = useDispatch();
+  const [hint, onChangeHint] = useInput('');
+  const [writer, onChangeWriter] = useInput('');
+  const [password, onChangePassword] = useInput('');
+  const [addlevel, onChangeAddLevel] = useInput('');
+
+  const newhint = {
+    id: uuidv4(),
+    hint: hint,
+    writer: writer,
+    password: password,
+    level: addlevel,
+    questionId: question.id,
+  };
+
+  const onClickAddHint = (event) => {
+    event.preventDefault();
+    dispatch(__addHint(newhint));
+  };
   return (
     <Middle>
       <AddHintBox>
         <LevelCheckLabel>
-          <LevelCheckRadio type="radio" name="level" value="상" />
+          <LevelCheckRadio
+            type="radio"
+            name="level"
+            value="상"
+            onChange={onChangeAddLevel}
+          />
           <LevelCheckSpan>상</LevelCheckSpan>
         </LevelCheckLabel>
         <LevelCheckLabel>
-          <LevelCheckRadio type="radio" name="level" value="중" />
+          <LevelCheckRadio
+            type="radio"
+            name="level"
+            value="중"
+            onChange={onChangeAddLevel}
+          />
           <LevelCheckSpan>중</LevelCheckSpan>
         </LevelCheckLabel>
         <LevelCheckLabel>
-          <LevelCheckRadio type="radio" name="level" value="하" />
+          <LevelCheckRadio
+            type="radio"
+            name="level"
+            value="하"
+            onChange={onChangeAddLevel}
+          />
           <LevelCheckSpan>하</LevelCheckSpan>
         </LevelCheckLabel>
-        <InputNamePassword type="text" placeholder="이름 입력" />
-        <InputNamePassword type="password" placeholder="비밀번호 입력" />
-        <AddButton>확인</AddButton>
+        <InputNamePassword
+          type="text"
+          placeholder="이름 입력"
+          onChange={onChangeWriter}
+        />
+        <InputNamePassword
+          type="password"
+          placeholder="비밀번호 입력"
+          onChange={onChangePassword}
+        />
+        <AddButton onClick={onClickAddHint}>확인</AddButton>
         <br />
-        <InputHint type="text" placeholder="힌트를 입력해 주세요!" />
+        <InputHint
+          type="text"
+          placeholder="힌트를 입력해 주세요!"
+          onChange={onChangeHint}
+        />
       </AddHintBox>
     </Middle>
   );
