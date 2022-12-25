@@ -6,7 +6,18 @@
       "content": "you can do it!",
       "place": "programmers",
       "language": "javascript",
-      "password": 1111
+      "writer": "Dram",
+      "password": 1111,
+      "hints": [
+        {
+          "id": 1,
+          "hint": "helprogrammers comment",
+          "level": "상",
+          "postId": 1,
+          "writer": "YJ",
+          "password": 1111
+        }
+      ]
     },
     {
       "id": 2,
@@ -14,25 +25,55 @@
       "content": "you can't do it!",
       "place": "baekjoon",
       "language": "phthon",
-      "password": 1234
+      "writer": "Tae",
+      "password": 1234,
+      "hints": [
+        {
+          "id": 1,
+          "hint": "helprogrammers comment",
+          "level": "상",
+          "postId": 2,
+          "writer": "hyo",
+
+          "password": 1111
+        }
+      ]
     },
     {
       "id": 3,
       "title": "조건에 맞는 도서와 저자 리스트 출력하기",
       "content": "프로그래머스 입문단계 풀고 있는데 하나도 모르겠습니다...  map 사용해서 돌려봤는데 원하는 값이 나오지 않아요...고수님들 계신가요? 일단 제가 써보았던 메소드들은 아래에 첨부해놓겠습니다.",
       "place": "SW Expert Academy",
-      "language": "phthon",
-      "password": 1234
-    }
-  ],
+      "language": "phython",
+      "writer": "Dram",
 
-  "hints": [
-    {
-      "id": 1,
-      "hint": "helprogrammers comment",
-      "level": "상",
-      "postId": 1,
-      "password": 1111
+      "password": 1234,
+      "hints": [
+        {
+          "id": 1,
+          "hint": "helprogrammers comment",
+          "level": "상",
+          "postId": 3,
+          "writer": "YJ",
+
+          "password": 1111
+        },
+        {
+          "id": 2,
+          "hint": "helprogrammers comment",
+          "level": "중",
+          "postId": 3,
+          "writer": "kangik",
+          "password": 1111
+        },
+        {
+          "id": 3,
+          "hint": "easy hint",
+          "level": "하",
+          "postId": 3,
+          "password": 1111
+        }
+      ]
     }
   ]
 }
