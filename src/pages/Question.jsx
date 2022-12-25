@@ -1,25 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { __getQuestions } from '../redux/module/QuestionsSlice';
 import { useLocation } from 'react-router-dom';
-
 import styled from 'styled-components';
 import AddHint from '../components/AddHint';
 import axios from 'axios';
+import HintList from '../components/HintList';
+import { useDispatch, useSelector } from 'react-redux';
+import { __getHints } from '../redux/module/HintsSlice';
 
 function Question() {
   const location = useLocation();
-  const [questionState, setQuestionState] = useState("");
+  const [questionState, setQuestionState] = useState('');
+  const dispatch = useDispatch();
 
   // useEfect로 axios 데이터 받아오기
-  useEffect( () =>{
+  useEffect(() => {
     const getData = async () => {
-      const {data} = await axios.get(`http://localhost:3001/questions${location.pathname}`)
+      const { data } = await axios.get(
+        `http://localhost:3001/questions${location.pathname}`,
+      );
       // 받은데이터 state로 업로드
       setQuestionState(data);
-    }
+    };
     getData();
-  },[]);
-  
+  }, []);
+
+  const { isLoading, error, hints } = useSelector((state) => state.hints);
+
+  useEffect(() => {
+    dispatch(__getHints());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <div>로딩 중....</div>;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
+  const questionHints = hints?.filter(
+    (hint) => hint.questionId === questionState.id,
+  );
+
   return (
     <QuestionContainer>
       <Wrapper>
@@ -29,7 +51,6 @@ function Question() {
           {/* 언어 태그 */}
           <Language>{questionState.language}</Language>
         </QuestionHead>
-
         <QuestionTitle>
           <TitleFont>{questionState.title}</TitleFont>
           <form>
@@ -51,9 +72,9 @@ function Question() {
       </Wrapper>
 
       {/*  댓글 */}
-      <AddHint/>
+      <AddHint question={questionState} key={questionState.id} />
+      <HintList questionHints={questionHints} key={questionState.id} />
     </QuestionContainer>
-
   );
 }
 

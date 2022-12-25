@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
-import ListCard from './ListCard';
 import styled from 'styled-components';
+import ListCard from './ListCard';
 
 const List = () => {
   const dispatch = useDispatch();
