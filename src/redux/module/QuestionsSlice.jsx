@@ -66,5 +66,5 @@ export const questionsSlice = createSlice({
   },
 });
 
-export const questionsActions = questionsSlice.actions;
+export const questionSlice = questionsSlice.actions;
 export default questionsSlice.reducer;
