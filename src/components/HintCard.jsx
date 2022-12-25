@@ -1,6 +1,14 @@
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { __deleteHint } from '../redux/module/HintsSlice';
 
 const HintCard = ({ hint }) => {
+  const dispatch = useDispatch();
+
+  const onClickDeleteHintButtonHandler = (Id) => {
+    dispatch(__deleteHint(Id));
+  };
+
   return (
     <HintBox key={hint.id}>
       <HintTextBox>{hint.hint}</HintTextBox>
@@ -15,7 +23,11 @@ const HintCard = ({ hint }) => {
         value={hint.password}
       />
       <DeleteUpdateButton>수정</DeleteUpdateButton>
-      <DeleteUpdateButton>삭제</DeleteUpdateButton>
+      <DeleteUpdateButton
+        onClick={() => onClickDeleteHintButtonHandler(hint.id)}
+      >
+        삭제
+      </DeleteUpdateButton>
     </HintBox>
   );
 };

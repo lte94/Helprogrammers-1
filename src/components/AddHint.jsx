@@ -15,15 +15,29 @@ const AddHint = ({ question }) => {
     id: uuidv4(),
     hint: hint,
     writer: writer,
-    password: password,
+    password: Number(password),
     level: addlevel,
     questionId: question.id,
   };
 
   const onClickAddHint = (event) => {
     event.preventDefault();
+    if (hint.replace(/ /g, '') === '') {
+      alert('hint를 입력해주세요!');
+      return;
+    } else if (writer.replace(/ /g, '') === '') {
+      alert('작성자를 입력해주세요!');
+      return;
+    } else if (password.replace(/ /g, '') === '') {
+      alert('password를 입력해주세요!');
+      return;
+    } else if (addlevel.replace(/ /g, '') === '') {
+      alert('level을 선택해주세요!');
+      return;
+    }
     dispatch(__addHint(newhint));
   };
+
   return (
     <Middle>
       <AddHintBox>

@@ -9,8 +9,6 @@ const HintList = ({ questionHints }) => {
   const middleHints = questionHints?.filter((hint) => hint.level === '중');
   const lowHints = questionHints?.filter((hint) => hint.level === '하');
 
-  console.log(questionHints);
-
   return (
     <Middle>
       <div>
