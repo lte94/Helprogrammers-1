@@ -10,19 +10,6 @@ const initialState = {
   error: null,
 };
 
-// function getAllMatchingItems(searchString, array) {
-//   const isMatching = (entry) =>
-//     Object.values(entry)
-//       .filter((val) => typeof val === 'string')
-//       .map((val) => val.toLowerCase())
-//       .some((val) => val.includes(searchString.toLowerCase()));
-
-//   return flattenWithSubRows(array).filter(isMatching);
-// }
-
-// const filtered = getAllMatchingItems('third', data);
-// console.log(filtered);
-
 export const __getQuestions = createAsyncThunk(
   'GET_QUESTIONS',
   async (_, thunkAPI) => {
@@ -41,7 +28,6 @@ export const __getSearchedQuestions = createAsyncThunk(
     try {
       const searchString = payload.toLowerCase();
       const data = await axios.get(`http://localhost:3001/questions`);
-      // console.log(data.data);
       const getMatchingData = data.data.filter(
         (question) =>
           question.title.includes(searchString) ||

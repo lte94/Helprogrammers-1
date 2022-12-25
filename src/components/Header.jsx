@@ -2,20 +2,26 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { __getQuestions } from '../redux/module/QuestionsSlice';
 import { __getSearchedQuestions } from '../redux/module/QuestionsSlice';
 
 const Header = () => {
   const dispatch = useDispatch();
-
   const [term, setTerm] = useState('');
+
   const searchHandler = (e) => {
     e.preventDefault();
     dispatch(__getSearchedQuestions(term));
   };
 
+  const resetSearchHandler = () => {
+    setTerm('');
+    dispatch(__getQuestions());
+  };
+
   return (
     <HeaderBox>
-      <MainLink to="/">
+      <MainLink to="/" onClick={resetSearchHandler}>
         <Helprogrammers>
           <Hel>Hel</Hel>
           <Programmers>programmers</Programmers>
