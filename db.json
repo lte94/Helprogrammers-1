@@ -26,6 +26,15 @@
       "language": "phython",
       "writer": "Dram",
       "password": 1234
+    },
+    {
+      "id": 4,
+      "title": "제목을 써봅시다~",
+      "content": "아아 마이크 테스트",
+      "place": "programmers",
+      "language": "javascript",
+      "writer": "YJ",
+      "password": 1111
     }
   ],
   "hints": [

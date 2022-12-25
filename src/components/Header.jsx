@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
 import { __getSearchedQuestions } from '../redux/module/QuestionsSlice';
+import { changeTheme } from '../redux/module/ThemeSlice';
 
 const Header = () => {
+  const { hellMode } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
   const [term, setTerm] = useState('');
 
@@ -17,6 +19,10 @@ const Header = () => {
   const resetSearchHandler = () => {
     setTerm('');
     dispatch(__getQuestions());
+  };
+
+  const changeModeHandler = () => {
+    dispatch(changeTheme());
   };
 
   return (
@@ -36,12 +42,21 @@ const Header = () => {
           onChange={(e) => setTerm(e.target.value)}
         />
       </SearchForm>
-      <AddLink to="/add">
-        <AddQuestionButton>
-          <AddQuestionIcon src="/assets/write.png"></AddQuestionIcon>질문 작성
-        </AddQuestionButton>
-      </AddLink>
-      <div></div>
+      <HeaderButtons>
+        <Link to="/add">
+          <AddQuestionButton>
+            <AddQuestionIcon
+              src={
+                hellMode ? '/assets/white-write.png' : '/assets/black-write.png'
+              }
+            ></AddQuestionIcon>
+            질문 작성
+          </AddQuestionButton>
+        </Link>
+        <ChangeModeButton onClick={changeModeHandler}>
+          {hellMode ? '🔥' : '🌝'}
+        </ChangeModeButton>
+      </HeaderButtons>
     </HeaderBox>
   );
 };
@@ -58,7 +73,7 @@ const HeaderBox = styled.div`
   max-width: 100%;
   width: 100%;
   height: 88px;
-  background-color: black;
+  background-color: ${(props) => props.theme.colors.header};
 `;
 
 const MainLink = styled(Link)`
@@ -74,11 +89,11 @@ const Helprogrammers = styled.p`
   font-size: 36px;
 `;
 const Hel = styled.span`
-  color: #0df0ac;
+  color: ${(props) => props.theme.colors.pointcolor};
 `;
 
 const Programmers = styled.span`
-  color: white;
+  color: ${(props) => props.theme.colors.textcolor};
 `;
 
 const SearchForm = styled.form`
@@ -92,7 +107,7 @@ const SearchForm = styled.form`
   flex-direction: row;
   position: absolute;
   border-radius: 22px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.searchbar};
 `;
 
 const SearchInput = styled.input`
@@ -112,7 +127,7 @@ const SearchIcon = styled.img`
   height: 24px;
 `;
 
-const AddLink = styled(Link)`
+const HeaderButtons = styled.div`
   text-decoration: none;
   position: absolute;
   max-width: 867px;
@@ -120,6 +135,8 @@ const AddLink = styled(Link)`
   height: 44px;
   top: 20px;
   right: 28px;
+  display: flex;
+  gap: 20px;
 `;
 
 const AddQuestionButton = styled.button`
@@ -129,11 +146,11 @@ const AddQuestionButton = styled.button`
   padding: 10px 16px 10px;
   font-size: 16px;
   gap: 10px;
-  background-color: rgba(13, 240, 172, 1);
+  background-color: ${(props) => props.theme.colors.pointcolor};
+  color: ${(props) => props.theme.colors.reversetextcolor};
   border-radius: 22px;
   border: none;
   left: 80%;
-
   top: 18px;
   cursor: pointer;
 `;
@@ -141,4 +158,16 @@ const AddQuestionButton = styled.button`
 const AddQuestionIcon = styled.img`
   width: 24px;
   height: 24px;
+`;
+
+const ChangeModeButton = styled.button`
+  width: 46px;
+  height: 46px;
+  background-color: ${(props) => props.theme.colors.togglebutton};
+  border-radius: 23px;
+  border: none;
+  left: 80%;
+  top: 18px;
+  font-size: 24px;
+  cursor: pointer;
 `;
