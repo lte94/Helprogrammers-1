@@ -6,18 +6,8 @@
       "content": "you can do it!",
       "place": "programmers",
       "language": "javascript",
-      "writer": "Dram",
-      "password": 1111,
-      "hints": [
-        {
-          "id": 1,
-          "hint": "helprogrammers comment",
-          "level": "상",
-          "postId": 1,
-          "writer": "YJ",
-          "password": 1111
-        }
-      ]
+      "writer": "YJ",
+      "password": 1111
     },
     {
       "id": 2,
@@ -26,18 +16,7 @@
       "place": "baekjoon",
       "language": "phthon",
       "writer": "Tae",
-      "password": 1234,
-      "hints": [
-        {
-          "id": 1,
-          "hint": "helprogrammers comment",
-          "level": "상",
-          "postId": 2,
-          "writer": "hyo",
-
-          "password": 1111
-        }
-      ]
+      "password": 1234
     },
     {
       "id": 3,
@@ -46,34 +25,41 @@
       "place": "SW Expert Academy",
       "language": "phthon",
       "writer": "Dram",
-
-      "password": 1234,
-      "hints": [
-        {
-          "id": 1,
-          "hint": "helprogrammers comment",
-          "level": "상",
-          "postId": 3,
-          "writer": "YJ",
-
-          "password": 1111
-        },
-        {
-          "id": 2,
-          "hint": "helprogrammers comment",
-          "level": "중",
-          "postId": 3,
-          "writer": "kangik",
-          "password": 1111
-        },
-        {
-          "id": 3,
-          "hint": "easy hint",
-          "level": "하",
-          "postId": 3,
-          "password": 1111
-        }
-      ]
+      "password": 1234
+    }
+  ],
+  "hints": [
+    {
+      "id": 11,
+      "hint": "helprogrammers comment 상 힌트입니다.",
+      "level": "상",
+      "questionId": 3,
+      "writer": "YJ",
+      "password": 1111
+    },
+    {
+      "id": 12,
+      "hint": "helprogrammers comment 중 힌트입니다.",
+      "level": "중",
+      "questionId": 3,
+      "writer": "kangik",
+      "password": 1111
+    },
+    {
+      "id": 13,
+      "hint": "easy hint 하 힌트입니다.",
+      "level": "하",
+      "questionId": 3,
+      "writer": "hyo",
+      "password": 1111
+    },
+    {
+      "id": "6eb3d739-3022-4747-8040-97d2850fb599",
+      "hint": "쉬운힌트지롱 ㅋㅋ",
+      "writer": "영진",
+      "password": "1122",
+      "level": "하",
+      "questionId": 3
     }
   ]
 }

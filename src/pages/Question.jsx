@@ -2,10 +2,32 @@ import React from 'react';
 import styled from 'styled-components';
 import AddHint from '../components/AddHint';
 import HintList from '../components/HintList';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { __getHints } from '../redux/module/HintsSlice';
 
 function Question() {
   const question = useSelector((state) => state.questions.question);
+  const dispatch = useDispatch();
+
+  const { isLoading, error, hints } = useSelector((state) => state.hints);
+
+  useEffect(() => {
+    dispatch(__getHints());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <div>로딩 중....</div>;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
+  const questionHints = hints?.filter(
+    (hint) => hint.questionId === question.id,
+  );
+
   return (
     <QuestionContainer>
       <Wrapper>
@@ -37,7 +59,7 @@ function Question() {
 
       {/*  댓글 */}
       <AddHint question={question} key={question.id} />
-      <HintList question={question} key={question.id} />
+      <HintList questionHints={questionHints} key={question.id} />
     </QuestionContainer>
   );
 }

@@ -39,13 +39,7 @@ export const __getQuestion = createAsyncThunk(
 export const questionsSlice = createSlice({
   name: 'questions',
   initialState,
-  reducers: {
-    getQuestionId: (state, action) => {
-      state.questions.find((question) => {
-        return question.id === action.payload;
-      });
-    },
-  },
+  reducers: {},
   extraReducers: {
     [__getQuestions.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
