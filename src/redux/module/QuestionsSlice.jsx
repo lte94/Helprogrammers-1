@@ -22,6 +22,19 @@ export const __getQuestions = createAsyncThunk(
   },
 );
 
+export const __getSearchedQuestions = createAsyncThunk(
+  'GET_SEARCH_QUESTIONS',
+  async (payload, thunkAPI) => {
+    try {
+      const data = await axios.get(serverUrl);
+      console.log(data);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
 export const __getQuestion = createAsyncThunk(
   'GET_QUESTION',
   async (payload, thunkAPI) => {

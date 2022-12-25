@@ -1,7 +1,19 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { __getSearchedQuestions } from '../redux/module/QuestionsSlice';
 
 const Header = () => {
+  const dispatch = useDispatch();
+
+  const [term, setTerm] = useState('');
+  const searchHandler = (e) => {
+    e.preventDefault();
+    console.log(term);
+    dispatch(__getSearchedQuestions(term));
+  };
+
   return (
     <HeaderBox>
       <MainLink to="/">
@@ -10,9 +22,14 @@ const Header = () => {
           <Programmers>programmers</Programmers>
         </Helprogrammers>
       </MainLink>
-      <SearchForm>
+      <SearchForm onSubmit={searchHandler}>
         <SearchIcon src="/assets/search.png" />
-        <SearchInput type="search" placeholder="알고리즘 문제 검색하기" />
+        <SearchInput
+          type="text"
+          value={term}
+          placeholder="알고리즘 문제 검색하기"
+          onChange={(e) => setTerm(e.target.value)}
+        />
       </SearchForm>
       <AddLink to="/add">
         <AddQuestionButton>

@@ -7,17 +7,7 @@
       "place": "programmers",
       "language": "javascript",
       "writer": "Dram",
-      "password": 1111,
-      "hints": [
-        {
-          "id": 1,
-          "hint": "helprogrammers comment",
-          "level": "상",
-          "postId": 1,
-          "writer": "YJ",
-          "password": 1111
-        }
-      ]
+      "password": 1111
     },
     {
       "id": 2,
@@ -26,18 +16,7 @@
       "place": "baekjoon",
       "language": "phthon",
       "writer": "Tae",
-      "password": 1234,
-      "hints": [
-        {
-          "id": 1,
-          "hint": "helprogrammers comment",
-          "level": "상",
-          "postId": 2,
-          "writer": "hyo",
-
-          "password": 1111
-        }
-      ]
+      "password": 1234
     },
     {
       "id": 3,
@@ -46,34 +25,7 @@
       "place": "SW Expert Academy",
       "language": "phthon",
       "writer": "Dram",
-
-      "password": 1234,
-      "hints": [
-        {
-          "id": 1,
-          "hint": "helprogrammers comment",
-          "level": "상",
-          "postId": 3,
-          "writer": "YJ",
-
-          "password": 1111
-        },
-        {
-          "id": 2,
-          "hint": "helprogrammers comment",
-          "level": "중",
-          "postId": 3,
-          "writer": "kangik",
-          "password": 1111
-        },
-        {
-          "id": 3,
-          "hint": "easy hint",
-          "level": "하",
-          "postId": 3,
-          "password": 1111
-        }
-      ]
+      "password": 1234
     }
   ]
 }
