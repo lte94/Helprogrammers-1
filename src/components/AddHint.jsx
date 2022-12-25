@@ -15,7 +15,7 @@ const AddHint = ({ question }) => {
     id: uuidv4(),
     hint: hint,
     writer: writer,
-    password: password,
+    password: Number(password),
     level: addlevel,
     questionId: question.id,
   };
