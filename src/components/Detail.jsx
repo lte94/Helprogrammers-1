@@ -1,36 +1,69 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { __deleteDetail, __getDetail } from '../redux/module/DetailSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import useInput from '../hooks/useInput';
 
 // props로 받은 question state
 const Detail = () => {
   const dispatch = useDispatch();
-  const { hellMode } = useSelector((state) => state.theme);
-
-  const { isLoading, error, question } = useSelector((state) => state.detail);
+  const navigation = useNavigate();
+  const [edit, setEdit] = useState(false);
   const { id } = useParams();
+  const { hellMode } = useSelector((state) => state.theme);
+  const { isLoading, error, question } = useSelector((state) => state.detail); // global state
+  const [writer, onChangeWriter] = useInput('');
+  const [password, onChangePassword] = useInput('');
+
   useEffect(() => {
     dispatch(__getDetail(id));
   }, []);
 
   if (isLoading) {
-    return <div>해당 게시글은 삭제 되었습니다</div>;
+    return <div>로딩중 입니다.</div>;
   }
   if (error) {
     return <div>존재하지 않는 페이지 입니다..</div>;
   }
 
   // 삭제 버튼
-  const deleteButton = (id) => {
-    const reCheck = window.confirm('정말 삭제하시겠습니까?'); // confirm 으로 재확인
-    if (reCheck) {
+  const deleteButton = (event, id) => {
+    event.preventDefault();
+    // const reCheck = window.confirm('정말 삭제하시겠습니까?'); // confirm 으로 재확인
+    if (writer.replace(/ /g, '') === '') {
+      alert('(이름)작성자)를 입력해주세요!');
+      return;
+    } else if (question.writer !== writer) {
+      alert('(이름)작성자가 다릅니다');
+      return;
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('비밀번호는 4자리 숫자로 입력해주세요!');
+      return;
+    } else if (question.password !== Number(password)) {
+      alert('비밀번호는 숫자입니다');
+      return;
+    } else if (window.confirm('정말 삭제하시겠습니까?')) {
       dispatch(__deleteDetail(id)); // DetailSlice >> deleteDetail (action)
+      navigation('/'); // main page로 돌아가기
     } else {
       return;
     }
   };
+
+  // 수정 버튼
+  const updateButton = (event) => {
+    event.preventDefault();
+    // 토글 수정, 완료
+    setEdit(!edit);
+  };
+
+  // (수정)완료 버튼
+  const completeButton = (event) => {
+    event.preventDefault();
+    console.log('완료');
+  };
+
   return (
     <Wrapper>
       <QuestionHead key={question.id}>
@@ -45,17 +78,31 @@ const Detail = () => {
       <QuestionTitle>
         <TitleFont>{question.title}</TitleFont>
         <form>
-          <InputNamePassword type="text" placeholder="이름 입력" />
-          <InputNamePassword type="password" placeholder="비밀번호 입력" />
-          <AddButton>수정</AddButton>
-          <AddButton onClick={() => deleteButton(question.id)}>삭제</AddButton>
+          <InputNamePassword
+            type="text"
+            placeholder="이름 입력"
+            onChange={onChangeWriter}
+          />
+          <InputNamePassword
+            type="Number"
+            placeholder="비밀번호 입력"
+            onChange={onChangePassword}
+          />
+          {edit ? (
+            <AddButton onClick={(event) => completeButton(event)}>
+              완료
+            </AddButton>
+          ) : (
+            <AddButton onClick={(event) => updateButton(event)}>수정</AddButton>
+          )}
+
+          <AddButton onClick={(event) => deleteButton(event, question.id)}>
+            삭제
+          </AddButton>
         </form>
       </QuestionTitle>
-
       <QuestionLink>Link</QuestionLink>
-
       <QuestionContent>{question.content}</QuestionContent>
-
       <QuestionCode>
         <CodeName>소스 코드</CodeName>
         <span>const nanana = banana;</span>
@@ -133,15 +180,25 @@ const InputNamePassword = styled.input`
   position: relative;
   border: none;
   color: ${(props) => props.theme.colors.textcolor};
+  margin-top: 40px;
+  left: 41%;
   margin-left: 10px;
   padding-left: 16px;
   &::placeholder {
     padding-left: 2px;
-    color: #90969e;
+    color: ${(props) => props.theme.colors.placeholder};
   }
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
     scale: 1.01;
+  }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 const AddButton = styled.button`
