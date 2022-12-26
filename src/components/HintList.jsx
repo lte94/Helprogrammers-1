@@ -59,7 +59,8 @@ const Middle = styled.section`
   justify-content: center;
   flex-direction: column;
   padding-top: 20px;
-  min-width: 1000px;
+  width: 1000px;
+  /* max-width: 1000px; */
   /* border: 1px solid red; */
   /* background-color: yellow; */
 `;

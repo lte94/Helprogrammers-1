@@ -95,7 +95,6 @@ export const hintsSlice = createSlice({
     },
     [__editHint.fulfilled]: (state, action) => {
       state.isLoading = false;
-
       state.hints = state.hints.map((hint) =>
         hint.id === action.payload.id ? (hint = action.payload.edithint) : hint,
       );

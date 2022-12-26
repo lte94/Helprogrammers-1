@@ -55,9 +55,13 @@ const HintCard = ({ hint }) => {
     } else if (hint.password !== Number(password)) {
       alert('password가 틀렸습니다!');
       return;
+    } else if (window.confirm('정말 삭제하시겠습니까??') === true) {
+      //확인
+      dispatch(__deleteHint(Id));
+    } else {
+      //취소
+      return;
     }
-
-    dispatch(__deleteHint(Id));
   };
 
   return (
@@ -123,6 +127,8 @@ const HintTextBox = styled.div`
   font-size: 20px;
   color: #ffffff;
   border-radius: 20px;
+  word-break: break-all;
+  white-space: pre-line;
 `;
 
 const HintUpdateBox = styled.textarea`
