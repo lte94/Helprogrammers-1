@@ -15,6 +15,7 @@ function Question() {
   const location = useLocation();
   const [questionState, setQuestionState] = useState('');
   const dispatch = useDispatch();
+  const { hellMode } = useSelector((state) => state.theme);
 
   // useEfect로 axios 데이터 받아오기
   useEffect(() => {
@@ -64,7 +65,10 @@ function Question() {
           {/* 사이트 네임 태그 */}
           <Place>{questionState.place}</Place>
           {/* 언어 태그 */}
-          <Language>{questionState.language}</Language>
+          <Language hellMode={hellMode}>
+            <span className="dot" />
+            {questionState.language}
+          </Language>
         </QuestionHead>
         <QuestionTitle>
           <TitleFont>{questionState.title}</TitleFont>
@@ -79,8 +83,7 @@ function Question() {
         </QuestionTitle>
 
         <QuestionLink>Link</QuestionLink>
-
-        <QuestionContent>{questionState.content}</QuestionContent>
+        <p>{questionState.content}</p>
 
         <QuestionCode>
           <CodeName>소스 코드</CodeName>
@@ -111,7 +114,7 @@ const Wrapper = styled.div`
   width: 50%;
   padding: 24px;
   border-radius: 20px;
-  background-color: #44454a;
+  background-color: ${(props) => props.theme.colors.card};
 `;
 
 const QuestionHead = styled.header`
@@ -123,16 +126,31 @@ const Place = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
-  height: 30px;
-  border: 1px solid white;
+  padding: 10px 16px;
+  font-size: 16px;
   border-radius: 20px;
+  background-color: ${(props) =>
+    props.children === 'baekjoon'
+      ? props.theme.colors.baekjoon
+      : props.children === 'programmers'
+      ? props.theme.colors.programmers
+      : props.theme.colors.swexpert};
+  color: black;
 `;
+
 const Language = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
   padding-left: 0 10px;
+  gap: 10px;
+  color: ${(props) => (props.hellMode === true ? '#FF2525' : '#FFFFFF')};
+  span {
+    height: 12px;
+    width: 12px;
+    background-color: ${(props) => props.theme.colors.pointcolor};
+    border-radius: 50%;
+  }
 `;
 const QuestionTitle = styled.div`
   display: flex;
@@ -147,7 +165,7 @@ const TitleFont = styled.h1`
 const InputNamePassword = styled.input`
   width: 190px;
   height: 40px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   position: relative;
   border: none;
@@ -164,28 +182,25 @@ const InputNamePassword = styled.input`
   }
 `;
 const AddButton = styled.button`
-  width: 60px;
   height: 40px;
-  background-color: #0df0ac;
-  border-radius: 20px;
+  background-color: transparent;
   border: transparent;
+  color: ${(props) => props.theme.colors.pointcolor};
   position: relative;
   cursor: pointer;
 `;
 const QuestionLink = styled.a`
-  color: #0df0ac;
+  color: ${(props) => props.theme.colors.pointcolor};
   font-weight: bold;
 `;
-const QuestionContent = styled.p`
-  color: #fff;
-`;
+
 const QuestionCode = styled.section`
   width: 100%;
   height: 300px;
   border-radius: 20px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
 `;
 const CodeName = styled.p`
-  color: #0df0ac;
+  color: ${(props) => props.theme.colors.pointcolor};
   font-weight: bold;
 `;

@@ -30,19 +30,6 @@ const Input = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  // const { isLoading, error } = useSelector((state) => state.questions);
-
-  // useEffect(() => {
-  //   dispatch(__getQuestions());
-  // }, [dispatch]);
-
-  // if (isLoading) {
-  //   return <div>로딩 중....</div>;
-  // }
-
-  // if (error) {
-  //   return <div>{error.message}</div>;
-  // }
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -200,7 +187,7 @@ const Layout = styled.div`
   right: 14.47%;
   top: 140px;
 
-  background: #44454a;
+  background: ${(props) => props.theme.colors.card};
   border-radius: 20px;
 `;
 
@@ -220,9 +207,9 @@ const InputTitle = styled.input`
 
   width: 1180px;
   height: 68px;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
 
-  background: #2f2f33;
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
 
@@ -240,9 +227,9 @@ const InputContent = styled.textarea`
 
   width: 1180px;
   height: 570px;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
 
-  background: #2f2f33;
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
 
@@ -261,9 +248,9 @@ const InputUrl = styled.input`
 
   width: 1180px;
   height: 68px;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
 
-  background: #2f2f33;
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
 
@@ -314,7 +301,8 @@ const AddButton = styled.button`
   width: 91px;
   height: 39px;
 
-  background: #0df0ac;
+  color: ${(props) => props.theme.colors.reversetextcolor};
+  background: ${(props) => props.theme.colors.pointcolor};
   border-radius: 20px;
   border: none;
 
@@ -336,8 +324,8 @@ const BackButton = styled.button`
 
   border-radius: 20px;
   border: none;
-  background-color: #44454a;
-  color: white;
+  background-color: transparent;
+  color: ${(props) => props.theme.colors.textcolor};
 
   flex: none;
   order: 0;
@@ -347,17 +335,17 @@ const BackButton = styled.button`
 const InputNamePass = styled.input`
   width: 190px;
   height: 40px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   position: relative;
   border: none;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
   margin-left: 10px;
   padding-left: 16px;
   border: none;
   &::placeholder {
     padding-left: 2px;
-    color: #90969e;
+    color: ${(props) => props.theme.colors.placeholder};
   }
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
@@ -376,9 +364,9 @@ const DropdownButtonSite = styled.select`
   width: 158px;
   height: 39px;
 
-  color: #90969e;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
   border-radius: 20px;
+  background: ${(props) => props.theme.colors.insidecard};
   border: none;
 
   flex: none;
@@ -397,8 +385,8 @@ const DropdownButtonLanguage = styled.select`
   width: 120px;
   height: 39px;
 
-  color: #90969e;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
 
