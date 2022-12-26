@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  __getQuestions,
-  questionsActions,
-} from '../redux/module/QuestionsSlice';
+import { __getQuestions } from '../redux/module/QuestionsSlice';
 import { useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import AddHint from '../components/AddHint';
@@ -28,6 +25,20 @@ function Question() {
     getData();
   }, []);
 
+  // 삭제 버튼
+  const onClickDelete = () => {
+    const check = window.confirm('정말 삭제 하시겠습니까?');
+    const deleteData = async () => {
+      await axios.delete(`http://localhost:3001/questions/${questionState.id}`);
+    };
+
+    if (check) {
+      deleteData();
+    } else {
+      alert('삭제를 취소 하였습니다.');
+    }
+  };
+
   const { isLoading, error, hints } = useSelector((state) => state.hints);
 
   useEffect(() => {
@@ -45,17 +56,6 @@ function Question() {
   const questionHints = hints?.filter(
     (hint) => hint.questionId === questionState.id,
   );
-
-  const onClickDelete = (event) => {
-    event.preventDefault();
-    const check = window.confirm('진짜 삭제?');
-
-    if (check) {
-      console.log('삭제되었습니다.');
-    } else {
-      console.log('삭제 안되었습니다.');
-    }
-  };
 
   return (
     <QuestionContainer>
