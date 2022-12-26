@@ -63,12 +63,28 @@
       "password": 1111
     },
     {
-      "id": "6eb3d739-3022-4747-8040-97d2850fb599",
-      "hint": "쉬운힌트지롱 ㅋㅋ",
+      "id": "141aa9c2-696c-43af-acf1-c4e48ed7155f",
+      "hint": "중간급 힌트지롱!",
       "writer": "영진",
-      "password": "1122",
+      "password": 1234,
+      "level": "중",
+      "questionId": 1
+    },
+    {
+      "id": "0428beda-6a57-4e60-94d9-3963fbad6cbe",
+      "hint": "sdf",
+      "writer": "sdf",
+      "password": null,
       "level": "하",
-      "questionId": 3
+      "questionId": 2
+    },
+    {
+      "id": "4e87e198-738f-4804-86d4-c09db5cea34e",
+      "hint": "ㄴㅇㄹ",
+      "writer": "ㄴㅇㅇ",
+      "password": 123,
+      "level": "중",
+      "questionId": 2
     }
   ]
 }
