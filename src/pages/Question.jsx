@@ -11,7 +11,7 @@ function Question() {
   const { hellMode } = useSelector((state) => state.theme);
 
   // qeustion state
-  const {question} = useSelector((state) => state.detail);
+  const { question } = useSelector((state) => state.detail);
 
   const { isLoading, error, hints } = useSelector((state) => state.hints);
 
@@ -31,14 +31,14 @@ function Question() {
   );
 
   return (
-  <QuestionContainer>
-    {/* 상세 페이지 */}
-    <Detail question={question} key={question.id} />
+    <QuestionContainer>
+      {/* 상세 페이지 */}
+      <Detail question={question} key={question.id} />
 
-    {/*  댓글 */}
-    <AddHint question={question} key={question.id} />
-    <HintList questionHints={questionHints} key={question.id} />
-  </QuestionContainer>
+      {/*  댓글 */}
+      <AddHint question={question} key={question.id} />
+      <HintList questionHints={questionHints} key={question.id} />
+    </QuestionContainer>
   );
 }
 

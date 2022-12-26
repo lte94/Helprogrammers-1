@@ -1,8 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { __deleteDetail } from '../redux/module/DetailSlice';
 
 // props로 받은 question state
 const Detail = ({ question }) => {
+  const dispatch = useDispatch();
+  const { hellMode } = useSelector((state) => state.theme);
+
+
+  // 삭제 버튼
+  const deleteButton = (id) =>{
+    const reCheck = window.confirm("정말 삭제하시겠습니까?"); // confirm 으로 재확인
+    if(reCheck){
+      dispatch(__deleteDetail(id)) // DetailSlice >> deleteDetail (action)
+    }
+  }
   return (
     <Wrapper>
       <QuestionHead>
@@ -17,7 +30,7 @@ const Detail = ({ question }) => {
           <InputNamePassword type="text" placeholder="이름 입력" />
           <InputNamePassword type="password" placeholder="비밀번호 입력" />
           <AddButton>수정</AddButton>
-          <AddButton>삭제</AddButton>
+          <AddButton onClick={() => deleteButton(question.id)}>삭제</AddButton>
         </form>
       </QuestionTitle>
 

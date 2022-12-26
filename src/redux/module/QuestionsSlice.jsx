@@ -5,7 +5,6 @@ const serverUrl = 'http://localhost:3001/questions';
 
 const initialState = {
   questions: [],
-  question: null,
   isLoading: false,
   error: null,
 };
