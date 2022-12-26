@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ListCard = ({ question }) => {
+  const { hellMode } = useSelector((state) => state.theme);
   return (
     <QuestionLink to={`/${question.id}`}>
       <Thread>
@@ -10,7 +12,7 @@ const ListCard = ({ question }) => {
           {/* 사이트 네임 태그 */}
           <Place>{question.place}</Place>
           {/* 언어 태그 */}
-          <Language>
+          <Language hellMode={hellMode}>
             <span className="dot" />
             {question.language}
           </Language>
@@ -40,7 +42,7 @@ const Thread = styled.div`
   gap: 24px;
   padding: 20px;
   border-radius: 20px;
-  background-color: rgba(68, 69, 74, 1);
+  background-color: ${(props) => props.theme.colors.questioncard};
 `;
 const ThreadHead = styled.div`
   display: flex;
@@ -56,15 +58,14 @@ const Place = styled.span`
   border-radius: 20px;
   background-color: ${(props) => {
     if (props.children === 'baekjoon') {
-      return 'rgba(162, 255, 147, 1)';
+      return props.theme.colors.baekjoon;
     } else if (props.children === 'programmers') {
-      return 'rgba(204, 136, 255, 1)';
+      return props.theme.colors.programmers;
     } else {
-      return 'rgba(135, 255, 255, 1)';
+      return props.theme.colors.swexpert;
     }
   }};
-
-  color: black;
+  color: ${(props) => props.theme.colors.reversetextcolor};
 `;
 const Language = styled.span`
   display: flex;
@@ -72,11 +73,11 @@ const Language = styled.span`
   align-items: center;
   padding-left: 0 10px;
   gap: 10px;
-  color: white;
+  color: ${(props) => (props.hellMode === true ? '#FF2525' : '#FFFFFF')};
   span {
     height: 12px;
     width: 12px;
-    background-color: rgba(13, 240, 172, 1);
+    background-color: ${(props) => props.theme.colors.pointcolor};
     border-radius: 50%;
   }
 `;
@@ -84,14 +85,14 @@ const ThreadBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  color: white;
+  color: ${(props) => props.theme.colors.textcolor};
   h2 {
     font-size: 24px;
     font-weight: 600;
   }
   p {
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 26px;
   }
 `;

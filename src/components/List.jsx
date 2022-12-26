@@ -36,7 +36,6 @@ const List = () => {
 export default List;
 
 const Maindiv = styled.main`
-  background-color: rgba(37, 37, 39, 1);
   height: calc(100vh - 88px); // -88px (헤더 높이)
   display: flex;
   justify-content: center;
