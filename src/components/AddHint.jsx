@@ -28,8 +28,8 @@ const AddHint = ({ question }) => {
     } else if (writer.replace(/ /g, '') === '') {
       alert('작성자를 입력해주세요!');
       return;
-    } else if (password.replace(/ /g, '') === '') {
-      alert('password를 입력해주세요!');
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('password를 4자리 숫자로 입력해주세요!');
       return;
     } else if (addlevel.replace(/ /g, '') === '') {
       alert('level을 선택해주세요!');
@@ -74,7 +74,7 @@ const AddHint = ({ question }) => {
           onChange={onChangeWriter}
         />
         <InputNamePassword
-          type="password"
+          type="Number"
           placeholder="비밀번호 입력"
           onChange={onChangePassword}
         />
@@ -101,14 +101,12 @@ const Middle = styled.section`
   flex-direction: column;
   padding-top: 20px;
   min-width: 1000px;
-  /* border: 1px solid red; */
-  /* background-color: yellow; */
 `;
 
 const AddHintBox = styled.form`
   width: 100%;
   min-height: 200px;
-  background-color: #44454a;
+  background-color: ${(props) => props.theme.colors.card};
   border-radius: 20px;
   padding: 24px;
 `;
@@ -122,14 +120,14 @@ const LevelCheckSpan = styled.span`
   font-size: 18px;
   width: 36px;
   height: 36px;
-  background: #2f2f33;
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 50%;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.placeholder};
 `;
 
 const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
@@ -144,10 +142,10 @@ const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
     color: black;
     background-color: ${(props) =>
       props.value === '상'
-        ? '#0DF0AC'
+        ? props.theme.colors.high
         : props.value === '중'
-        ? '#89F9D7'
-        : '#CBFFEF'};
+        ? props.theme.colors.middle
+        : props.theme.colors.low};
   }
 
   display: none;
@@ -156,11 +154,11 @@ const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
 const InputNamePassword = styled.input`
   width: 190px;
   height: 40px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   position: relative;
   border: none;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
   left: 36%;
   margin-left: 10px;
   padding-left: 16px;
@@ -172,11 +170,19 @@ const InputNamePassword = styled.input`
     box-shadow: 3px 3px 5px #aaa;
     scale: 1.01;
   }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 const AddButton = styled.button`
   width: 60px;
   height: 40px;
-  background-color: #0df0ac;
+  background-color: ${(props) => props.theme.colors.pointcolor};
   border-radius: 20px;
   border: transparent;
   position: relative;
@@ -186,11 +192,11 @@ const AddButton = styled.button`
 const InputHint = styled.textarea`
   margin-top: 30px;
   width: 100%;
-  min-height: 70px;
-  background-color: #2f2f33;
+  min-height: 150px;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border: transparent;
   font-size: 20px;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
   border-radius: 20px;
   padding-left: 16px;
   padding-right: 16px;

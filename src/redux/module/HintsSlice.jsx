@@ -9,13 +9,15 @@ const initialState = {
   error: null,
 };
 
-export const __getHints = createAsyncThunk('GET_HINTS', async (_, thunkAPI) => {
-  try {
-    const data = await axios.get(serverUrl);
-    return thunkAPI.fulfillWithValue(data.data);
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
+export const __getHints = createAsyncThunk(
+  'GET_HINTS',
+  async (_, thunkAPI) => {
+    try {
+      const data = await axios.get(serverUrl);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
 });
 
 export const __addHint = createAsyncThunk(
@@ -35,6 +37,21 @@ export const __deleteHint = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       await axios.delete(`http://localhost:3001/hints/${payload}`);
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
+export const __editHint = createAsyncThunk(
+  'EDIT_HINT',
+  async (payload, thunkAPI) => {
+    try {
+      await axios.patch(
+        `http://localhost:3001/hints/${payload.id}`,
+        payload.edithint,
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -75,6 +92,19 @@ export const hintsSlice = createSlice({
     [__deleteHint.pending]: (state) => {},
 
     [__deleteHint.rejected]: (state, action) => {},
+    [__editHint.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__editHint.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.hints = state.hints.map((hint) =>
+        hint.id === action.payload.id ? (hint = action.payload.edithint) : hint,
+      );
+    },
+    [__editHint.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
   },
 });
 

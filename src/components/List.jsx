@@ -3,39 +3,54 @@ import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
 import styled from 'styled-components';
 import ListCard from './ListCard';
+import { useLocation } from 'react-router-dom';
 
 const List = () => {
+  const location = useLocation();
+  console.log(location);
   const dispatch = useDispatch();
-  const { isLoading, error, questions } = useSelector(
-    (state) => state.questions,
-  );
+  const searchTerm = decodeURI(location.search.slice(3).toLowerCase());
 
   useEffect(() => {
     dispatch(__getQuestions());
   }, [dispatch]);
+
+  const { error, isLoading, questions } = useSelector(
+    (state) => state.questions,
+  );
+
+  const searchedQuestions = searchTerm
+    ? questions.filter(
+        (question) =>
+          question.place.includes(searchTerm) ||
+          question.language.includes(searchTerm) ||
+          question.title.includes(searchTerm) ||
+          question.content.includes(searchTerm),
+      )
+    : questions;
 
   if (isLoading) {
     return <div>로딩 중....</div>;
   }
 
   if (error) {
-    return <div>{error.message}</div>;
+    return <div>{questions.error.message}</div>;
   }
 
   return (
-    <Maindiv>
+    <MainDiv>
       <NewsFeed>
-        {questions.map((question) => (
+        {searchedQuestions.map((question) => (
           <ListCard question={question} key={question.id} />
         ))}
       </NewsFeed>
-    </Maindiv>
+    </MainDiv>
   );
 };
 
 export default List;
 
-const Maindiv = styled.main`
+const MainDiv = styled.main`
   height: calc(100vh - 88px); // -88px (헤더 높이)
   display: flex;
   justify-content: center;
