@@ -11,6 +11,7 @@ const HintCard = ({ hint }) => {
   const [hintUpdate, onChangeUpdate] = useInput('');
   const [isOpen, setIsOpen] = useState(false);
 
+  console.log(hint.hint);
   const edithint = {
     id: hint.id,
     hint: hintUpdate,
@@ -38,6 +39,9 @@ const HintCard = ({ hint }) => {
   };
 
   const onClickEditHintButtonHandler = (id, edithint) => {
+    if (hintUpdate.replace(/ /g, '') === '') {
+      alert('수정된 내용이 없습니다!');
+    }
     dispatch(__editHint({ id, edithint }));
     setIsOpen(false);
   };
@@ -73,7 +77,9 @@ const HintCard = ({ hint }) => {
           defaultValue={hint.hint}
         />
       ) : (
-        <HintTextBox>{hint.hint}</HintTextBox>
+        <HintTextBox>
+          <pre children={hint.hint} />
+        </HintTextBox>
       )}
       <InputNamePassword
         type="text"
