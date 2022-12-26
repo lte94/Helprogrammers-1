@@ -194,7 +194,7 @@ const AddButton = styled.button`
 const InputHint = styled.textarea`
   margin-top: 30px;
   width: 100%;
-  min-height: 70px;
+  min-height: 150px;
   background-color: #2f2f33;
   border: transparent;
   font-size: 20px;

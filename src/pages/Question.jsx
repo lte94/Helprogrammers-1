@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  __getQuestions,
-  questionsActions,
-} from '../redux/module/QuestionsSlice';
 import { useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import AddHint from '../components/AddHint';

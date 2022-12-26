@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Input from '../components/input';
+import Input from '../components/Input';
 
 function AddQuestion() {
   return (

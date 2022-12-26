@@ -36,6 +36,8 @@ export const __getSearchedQuestions = createAsyncThunk(
     try {
       const searchString = payload.toLowerCase();
       const data = await axios.get(`http://localhost:3001/questions`);
+      console.log(data.data);
+      console.log(searchString);
       const getMatchingData = data.data.filter(
         (question) =>
           question.place.includes(searchString) ||

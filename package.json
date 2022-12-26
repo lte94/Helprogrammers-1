@@ -21,6 +21,7 @@
     "redux": "^4.2.0",
     "sass": "^1.57.1",
     "styled-components": "^5.3.6",
+    "styled-react-modal": "^3.0.1",
     "styled-reset": "^4.4.4"
   },
   "scripts": {

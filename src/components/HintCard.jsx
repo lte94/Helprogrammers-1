@@ -1,12 +1,46 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useInput from '../hooks/useInput';
-import { __deleteHint } from '../redux/module/HintsSlice';
+import { __deleteHint, __editHint } from '../redux/module/HintsSlice';
 
 const HintCard = ({ hint }) => {
   const dispatch = useDispatch();
   const [writer, onChangeWriter] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const [hintUpdate, onChangeUpdate] = useInput('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  const edithint = {
+    id: hint.id,
+    hint: hintUpdate,
+    writer: hint.writer,
+    password: Number(hint.password),
+    level: hint.level,
+    questionId: hint.questionId,
+  };
+
+  const openUpdateHandler = () => {
+    if (hint.writer !== writer) {
+      alert('작성자가 틀렸습니다!');
+      return;
+    } else if (writer.replace(/ /g, '') === '') {
+      alert('작성자를 입력해주세요!');
+      return;
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('password를 4자리 숫자로 입력해주세요!');
+      return;
+    } else if (hint.password !== Number(password)) {
+      alert('password가 틀렸습니다!');
+      return;
+    }
+    setIsOpen(!isOpen);
+  };
+
+  const onClickEditHintButtonHandler = (id, edithint) => {
+    dispatch(__editHint({ id, edithint }));
+    setIsOpen(false);
+  };
 
   const onClickDeleteHintButtonHandler = (Id) => {
     if (hint.writer !== writer) {
@@ -18,27 +52,46 @@ const HintCard = ({ hint }) => {
     } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
       alert('password를 4자리 숫자로 입력해주세요!');
       return;
-    } else if (hint.password !== password) {
+    } else if (hint.password !== Number(password)) {
       alert('password가 틀렸습니다!');
       return;
     }
+
     dispatch(__deleteHint(Id));
   };
 
   return (
     <HintBox key={hint.id}>
-      <HintTextBox>{hint.hint}</HintTextBox>
+      {isOpen ? (
+        <HintUpdateBox
+          type="text"
+          onChange={onChangeUpdate}
+          defaultValue={hint.hint}
+        />
+      ) : (
+        <HintTextBox>{hint.hint}</HintTextBox>
+      )}
       <InputNamePassword
         type="text"
         placeholder="이름 입력"
         onChange={onChangeWriter}
       />
       <InputNamePassword
-        type="password"
+        type="Number"
         placeholder="비밀번호 입력"
         onChange={onChangePassword}
       />
-      <DeleteUpdateButton>수정</DeleteUpdateButton>
+      {isOpen ? (
+        <DeleteUpdateButton
+          onClick={() => onClickEditHintButtonHandler(hint.id, edithint)}
+        >
+          완료
+        </DeleteUpdateButton>
+      ) : (
+        <DeleteUpdateButton onClick={openUpdateHandler}>
+          수정
+        </DeleteUpdateButton>
+      )}
       <DeleteUpdateButton
         onClick={() => onClickDeleteHintButtonHandler(hint.id)}
       >
@@ -60,14 +113,30 @@ const HintBox = styled.div`
   position: relative;
 `;
 const HintTextBox = styled.div`
-  width: 100%;
+  min-width: 100%;
   min-height: 220px;
+  word-break: break-word;
+  table-layout: fixed;
   background-color: #2f2f33;
   border: transparent;
   padding: 20px;
   font-size: 20px;
   color: #ffffff;
   border-radius: 20px;
+`;
+
+const HintUpdateBox = styled.textarea`
+  min-width: 100%;
+  min-height: 220px;
+  word-break: break-word;
+  table-layout: fixed;
+  background-color: #2f2f33;
+  border: transparent;
+  padding: 20px;
+  font-size: 20px;
+  color: #ffffff;
+  border-radius: 20px;
+  resize: none;
 `;
 
 const InputNamePassword = styled.input`
@@ -89,6 +158,14 @@ const InputNamePassword = styled.input`
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
     scale: 1.01;
+  }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 
