@@ -1,11 +1,27 @@
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
+import useInput from '../hooks/useInput';
 import { __deleteHint } from '../redux/module/HintsSlice';
 
 const HintCard = ({ hint }) => {
   const dispatch = useDispatch();
+  const [writer, onChangeWriter] = useInput('');
+  const [password, onChangePassword] = useInput('');
 
   const onClickDeleteHintButtonHandler = (Id) => {
+    if (hint.writer !== writer) {
+      alert('작성자가 틀렸습니다!');
+      return;
+    } else if (writer.replace(/ /g, '') === '') {
+      alert('작성자를 입력해주세요!');
+      return;
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('password를 4자리 숫자로 입력해주세요!');
+      return;
+    } else if (hint.password !== password) {
+      alert('password가 틀렸습니다!');
+      return;
+    }
     dispatch(__deleteHint(Id));
   };
 
@@ -15,12 +31,12 @@ const HintCard = ({ hint }) => {
       <InputNamePassword
         type="text"
         placeholder="이름 입력"
-        value={hint.writer}
+        onChange={onChangeWriter}
       />
       <InputNamePassword
         type="password"
         placeholder="비밀번호 입력"
-        value={hint.password}
+        onChange={onChangePassword}
       />
       <DeleteUpdateButton>수정</DeleteUpdateButton>
       <DeleteUpdateButton
@@ -48,6 +64,7 @@ const HintTextBox = styled.div`
   min-height: 220px;
   background-color: #2f2f33;
   border: transparent;
+  padding: 20px;
   font-size: 20px;
   color: #ffffff;
   border-radius: 20px;

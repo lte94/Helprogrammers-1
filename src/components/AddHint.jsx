@@ -28,8 +28,8 @@ const AddHint = ({ question }) => {
     } else if (writer.replace(/ /g, '') === '') {
       alert('작성자를 입력해주세요!');
       return;
-    } else if (password.replace(/ /g, '') === '') {
-      alert('password를 입력해주세요!');
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('password를 4자리 숫자로 입력해주세요!');
       return;
     } else if (addlevel.replace(/ /g, '') === '') {
       alert('level을 선택해주세요!');
@@ -74,7 +74,7 @@ const AddHint = ({ question }) => {
           onChange={onChangeWriter}
         />
         <InputNamePassword
-          type="password"
+          type="Number"
           placeholder="비밀번호 입력"
           onChange={onChangePassword}
         />
@@ -171,6 +171,14 @@ const InputNamePassword = styled.input`
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
     scale: 1.01;
+  }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 const AddButton = styled.button`
