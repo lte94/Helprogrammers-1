@@ -8,6 +8,7 @@ import { __getHints } from '../redux/module/HintsSlice';
 
 function Question() {
   const dispatch = useDispatch();
+  const { hellMode } = useSelector((state) => state.theme);
 
   // qeustion state
   const {question} = useSelector((state) => state.detail);
@@ -28,6 +29,17 @@ function Question() {
   const questionHints = hints?.filter(
     (hint) => hint.questionId === question.id,
   );
+
+  const onClickDelete = (event) => {
+    event.preventDefault();
+    const check = window.confirm('진짜 삭제?');
+
+    if (check) {
+      console.log('삭제되었습니다.');
+    } else {
+      console.log('삭제 안되었습니다.');
+    }
+  };
 
   return (
   <QuestionContainer>

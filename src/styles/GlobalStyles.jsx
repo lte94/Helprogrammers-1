@@ -10,8 +10,8 @@ ${reset}
     
 body {
 	font-family: apple-system, 'Open Sans', sans-serif;
-	background-color: #252527;
-	color: #ffffff
+	background-color:  ${(props) => props.theme.colors.background};
+	color:  ${(props) => props.theme.colors.textcolor};
 }
 
 ol, ul {

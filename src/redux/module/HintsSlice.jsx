@@ -32,6 +32,18 @@ export const __addHint = createAsyncThunk(
   },
 );
 
+export const __deleteHint = createAsyncThunk(
+  'DELETE_HINT',
+  async (payload, thunkAPI) => {
+    try {
+      await axios.delete(`http://localhost:3001/hints/${payload}`);
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
 export const hintsSlice = createSlice({
   name: 'hints',
   initialState,
@@ -59,6 +71,12 @@ export const hintsSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    [__deleteHint.fulfilled]: (state, action) => {
+      state.hints = state.hints.filter((hint) => hint.id !== action.payload);
+    },
+    [__deleteHint.pending]: (state) => {},
+
+    [__deleteHint.rejected]: (state, action) => {},
   },
 });
 

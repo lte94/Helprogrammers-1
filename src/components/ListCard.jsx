@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { __getDetail } from '../redux/module/DetailSlice';
 
 const ListCard = ({ question }) => {
+  const { hellMode } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
 
   const onClickEvent = (id) => {
@@ -17,7 +19,7 @@ const ListCard = ({ question }) => {
           {/* 사이트 네임 태그 */}
           <Place>{question.place}</Place>
           {/* 언어 태그 */}
-          <Language>
+          <Language hellMode={hellMode}>
             <span className="dot" />
             {question.language}
           </Language>
@@ -47,7 +49,7 @@ const Thread = styled.div`
   gap: 24px;
   padding: 20px;
   border-radius: 20px;
-  background-color: rgba(68, 69, 74, 1);
+  background-color: ${(props) => props.theme.colors.card};
 `;
 const ThreadHead = styled.div`
   display: flex;
@@ -61,16 +63,12 @@ const Place = styled.span`
   padding: 10px 16px;
   font-size: 16px;
   border-radius: 20px;
-  background-color: ${(props) => {
-    if (props.children === 'baekjoon') {
-      return 'rgba(162, 255, 147, 1)';
-    } else if (props.children === 'programmers') {
-      return 'rgba(204, 136, 255, 1)';
-    } else {
-      return 'rgba(135, 255, 255, 1)';
-    }
-  }};
-
+  background-color: ${(props) =>
+    props.children === 'baekjoon'
+      ? props.theme.colors.baekjoon
+      : props.children === 'programmers'
+      ? props.theme.colors.programmers
+      : props.theme.colors.swexpert};
   color: black;
 `;
 const Language = styled.span`
@@ -79,11 +77,11 @@ const Language = styled.span`
   align-items: center;
   padding-left: 0 10px;
   gap: 10px;
-  color: white;
+  color: ${(props) => (props.hellMode === true ? '#FF2525' : '#FFFFFF')};
   span {
     height: 12px;
     width: 12px;
-    background-color: rgba(13, 240, 172, 1);
+    background-color: ${(props) => props.theme.colors.pointcolor};
     border-radius: 50%;
   }
 `;
@@ -91,14 +89,14 @@ const ThreadBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  color: white;
+  color: ${(props) => props.theme.colors.textcolor};
   h2 {
     font-size: 24px;
     font-weight: 600;
   }
   p {
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 26px;
   }
 `;
