@@ -33,22 +33,14 @@ export const __getQuestions = createAsyncThunk(
   },
 );
 
-export const __getSearchedQuestions = createAsyncThunk(
-  'GET_SEARCH_QUESTIONS',
+export const __getQuestion = createAsyncThunk(
+  'GET_QUESTION',
   async (payload, thunkAPI) => {
     try {
-      const searchString = payload.toLowerCase();
-      const data = await axios.get(`http://localhost:3001/questions`);
-      console.log(data.data);
-      console.log(searchString);
-      const getMatchingData = data.data.filter(
-        (question) =>
-          question.place.includes(searchString) ||
-          question.language.includes(searchString) ||
-          question.title.includes(searchString) ||
-          question.content.includes(searchString),
+      const data = await axios.get(
+        `http://localhost:3001/questions/${payload}`,
       );
-      return thunkAPI.fulfillWithValue(getMatchingData);
+      return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -89,8 +81,9 @@ export const questionsSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    [__addQuestions.pending]: (state) => {
-      state.isLoading = true;
+
+    [__getQuestion.pending]: (state) => {
+      state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
     },
     [__addQuestions.fulfilled]: (state, action) => {
       state.isLoading = false;

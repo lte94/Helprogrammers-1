@@ -1,19 +1,20 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
-import { __getSearchedQuestions } from '../redux/module/QuestionsSlice';
+// import { __getSearchedQuestions } from '../redux/module/QuestionsSlice';
 import { changeTheme } from '../redux/module/ThemeSlice';
 
 const Header = () => {
   const { hellMode } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
   const [term, setTerm] = useState('');
+  const navigate = useNavigate();
 
   const searchHandler = (e) => {
     e.preventDefault();
-    dispatch(__getSearchedQuestions(term));
+    navigate(`/?q=${term}`);
   };
 
   const resetSearchHandler = () => {
