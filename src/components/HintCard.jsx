@@ -54,7 +54,7 @@ const HintBox = styled.div`
   margin-top: 20px;
   width: 100%;
   min-height: 350px;
-  background-color: #44454a;
+  background-color: ${(props) => props.theme.colors.card};
   border-radius: 20px;
   padding: 24px;
   position: relative;
@@ -62,29 +62,29 @@ const HintBox = styled.div`
 const HintTextBox = styled.div`
   width: 100%;
   min-height: 220px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border: transparent;
   padding: 20px;
   font-size: 20px;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
   border-radius: 20px;
 `;
 
 const InputNamePassword = styled.input`
   width: 190px;
   height: 40px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   position: relative;
   border: none;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
   margin-top: 40px;
   left: 41%;
   margin-left: 10px;
   padding-left: 16px;
   &::placeholder {
     padding-left: 2px;
-    color: #90969e;
+    color: ${(props) => props.theme.colors.placeholder};
   }
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
@@ -95,7 +95,7 @@ const InputNamePassword = styled.input`
 const DeleteUpdateButton = styled.button`
   width: 60px;
   height: 40px;
-  background-color: #90969e;
+  background-color: ${(props) => props.theme.colors.subbutton};
   border-radius: 20px;
   border: transparent;
   position: relative;

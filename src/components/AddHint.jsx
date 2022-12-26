@@ -101,14 +101,12 @@ const Middle = styled.section`
   flex-direction: column;
   padding-top: 20px;
   min-width: 1000px;
-  /* border: 1px solid red; */
-  /* background-color: yellow; */
 `;
 
 const AddHintBox = styled.form`
   width: 100%;
   min-height: 200px;
-  background-color: #44454a;
+  background-color: ${(props) => props.theme.colors.card};
   border-radius: 20px;
   padding: 24px;
 `;
@@ -122,14 +120,14 @@ const LevelCheckSpan = styled.span`
   font-size: 18px;
   width: 36px;
   height: 36px;
-  background: #2f2f33;
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 50%;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.placeholder};
 `;
 
 const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
@@ -144,10 +142,10 @@ const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
     color: black;
     background-color: ${(props) =>
       props.value === '상'
-        ? '#0DF0AC'
+        ? props.theme.colors.high
         : props.value === '중'
-        ? '#89F9D7'
-        : '#CBFFEF'};
+        ? props.theme.colors.middle
+        : props.theme.colors.low};
   }
 
   display: none;
@@ -156,7 +154,7 @@ const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
 const InputNamePassword = styled.input`
   width: 190px;
   height: 40px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   position: relative;
   border: none;
@@ -184,7 +182,7 @@ const InputNamePassword = styled.input`
 const AddButton = styled.button`
   width: 60px;
   height: 40px;
-  background-color: #0df0ac;
+  background-color: ${(props) => props.theme.colors.pointcolor};
   border-radius: 20px;
   border: transparent;
   position: relative;
@@ -195,7 +193,7 @@ const InputHint = styled.textarea`
   margin-top: 30px;
   width: 100%;
   min-height: 70px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border: transparent;
   font-size: 20px;
   color: #ffffff;

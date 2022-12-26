@@ -9,13 +9,15 @@ const initialState = {
   error: null,
 };
 
-export const __getHints = createAsyncThunk('GET_HINTS', async (_, thunkAPI) => {
-  try {
-    const data = await axios.get(serverUrl);
-    return thunkAPI.fulfillWithValue(data.data);
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
-  }
+export const __getHints = createAsyncThunk(
+  'GET_HINTS',
+  async (_, thunkAPI) => {
+    try {
+      const data = await axios.get(serverUrl);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
 });
 
 export const __addHint = createAsyncThunk(
