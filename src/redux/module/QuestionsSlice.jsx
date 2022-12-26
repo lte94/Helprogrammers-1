@@ -10,12 +10,40 @@ const initialState = {
   error: null,
 };
 
+export const addQuestions = createAsyncThunk(
+  'POST_QUESTIONS',
+  async (newQuestion) => {
+    const response = await axios.post(serverUrl, newQuestion);
+    return response.data;
+  },
+);
+
 export const __getQuestions = createAsyncThunk(
   'GET_QUESTIONS',
   async (_, thunkAPI) => {
     try {
       const data = await axios.get(serverUrl);
       return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
+export const __getSearchedQuestions = createAsyncThunk(
+  'GET_SEARCH_QUESTIONS',
+  async (payload, thunkAPI) => {
+    try {
+      const searchString = payload.toLowerCase();
+      const data = await axios.get(`http://localhost:3001/questions`);
+      const getMatchingData = data.data.filter(
+        (question) =>
+          question.place.includes(searchString) ||
+          question.language.includes(searchString) ||
+          question.title.includes(searchString) ||
+          question.content.includes(searchString),
+      );
+      return thunkAPI.fulfillWithValue(getMatchingData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -39,7 +67,13 @@ export const __getQuestion = createAsyncThunk(
 export const questionsSlice = createSlice({
   name: 'questions',
   initialState,
-  reducers: {},
+  reducers: {
+    getQuestionId: (state, action) => {
+      state.questions.find((question) => {
+        return question.id === action.payload;
+      });
+    },
+  },
   extraReducers: {
     [__getQuestions.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
@@ -52,6 +86,19 @@ export const questionsSlice = createSlice({
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
     },
+
+    [__getSearchedQuestions.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getSearchedQuestions.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.questions = action.payload;
+    },
+    [__getSearchedQuestions.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
     [__getQuestion.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
     },

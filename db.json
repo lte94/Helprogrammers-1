@@ -3,7 +3,7 @@
     {
       "id": 1,
       "title": "helprogrammers",
-      "content": "you can do it!",
+      "content": "조건에 맞는",
       "place": "programmers",
       "language": "javascript",
       "writer": "YJ",
@@ -26,6 +26,23 @@
       "language": "phython",
       "writer": "Dram",
       "password": 1234
+    },
+    {
+      "id": 4,
+      "title": "제목을 써봅시다~",
+      "content": "아아 마이크 테스트",
+      "place": "programmers",
+      "language": "javascript",
+      "writer": "YJ",
+      "password": 1111
+    },
+    {
+      "title": "ㅁㄴㅇㅁ",
+      "id": 5
+    },
+    {
+      "title": "ㅁㄴㅇㄹ",
+      "id": 6
     }
   ],
   "hints": [
@@ -54,27 +71,19 @@
       "password": 1111
     },
     {
-      "id": "141aa9c2-696c-43af-acf1-c4e48ed7155f",
-      "hint": "중간급 힌트지롱!",
-      "writer": "영진",
-      "password": 1234,
-      "level": "중",
-      "questionId": 1
-    },
-    {
-      "id": "0428beda-6a57-4e60-94d9-3963fbad6cbe",
-      "hint": "sdf",
-      "writer": "sdf",
-      "password": null,
-      "level": "하",
+      "id": "24d67d01-db6b-4d1a-87c2-d452426432b6",
+      "hint": "이것은 const nanana = banana; 로 쉽게 해결이 가능합니다",
+      "writer": "hyoloui",
+      "password": 123123,
+      "level": "상",
       "questionId": 2
     },
     {
-      "id": "4e87e198-738f-4804-86d4-c09db5cea34e",
-      "hint": "ㄴㅇㄹ",
-      "writer": "ㄴㅇㅇ",
-      "password": 123,
-      "level": "중",
+      "id": "db7e44dd-e5bd-452b-8e18-64b8ed6060c9",
+      "hint": "",
+      "writer": "",
+      "password": 0,
+      "level": "",
       "questionId": 2
     },
     {
