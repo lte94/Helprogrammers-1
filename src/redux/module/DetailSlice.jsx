@@ -47,7 +47,6 @@ export const detailSlice = createSlice({
     },
     [__getDetail.fulfilled]: (state, action) => {
       state.isLoading = false; // 네트워크 요청이 끝났으니, false로 변경합니다.
-      console.log(action.payload);
       state.question = action.payload; // Store에 있는 todos에 서버에서 가져온 todos를 넣습니다.
     },
     [__getDetail.rejected]: (state, action) => {
@@ -58,13 +57,10 @@ export const detailSlice = createSlice({
     [__deleteDetail.pending]: (state) => {
       state.isLoading = true;
     },
-    [__deleteDetail.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.question.filter((detail) => detail.id !== action.payload);
-    },
+    [__deleteDetail.fulfilled]: (state) => {},
     [__deleteDetail.rejected]: (state, action) => {
       state.isLoading = false;
-      state.question = action.payload;
+      state.error = action.payload;
     },
   },
 });

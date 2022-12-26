@@ -33,10 +33,10 @@ function Question() {
   return (
     <QuestionContainer>
       {/* 상세 페이지 */}
-      <Detail question={question} key={question.id} />
+      <Detail/>
 
       {/*  댓글 */}
-      <AddHint question={question} key={question.id} />
+      <AddHint question={question}/>
       <HintList questionHints={questionHints} key={question.id} />
     </QuestionContainer>
   );
