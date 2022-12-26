@@ -125,6 +125,14 @@ const Input = () => {
       return;
     }
     dispatch(__addQuestions(newQuestion));
+    setTitle('');
+    setContent('');
+    setUrl('');
+    setWriter('');
+    setPassword('');
+    setPlace('');
+    setLanguage('');
+    alert('작성을 완료했습니다.');
   };
 
   const onChangeInputTitle = (e) => {
