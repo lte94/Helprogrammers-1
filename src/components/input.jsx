@@ -179,6 +179,7 @@ const InputBoxs = styled.div`
   order: 0;
   flex-grow: 0;
 `;
+
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
@@ -192,15 +193,17 @@ const Layout = styled.div`
   right: 14.47%;
   top: 140px;
   margin: 0 auto;
-  background: #44454a;
+  background: ${(props) => props.theme.colors.card};
   border-radius: 20px;
 `;
+
 const InputBox = styled.div`
   height: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
+
 const InputTitle = styled.input`
   display: flex;
   flex-direction: column;
@@ -209,14 +212,15 @@ const InputTitle = styled.input`
   gap: 32px;
   width: 1180px;
   height: 68px;
-  color: #ffffff;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
   order: 1;
   flex-grow: 0;
 `;
+
 const InputContent = styled.textarea`
   display: flex;
   flex-direction: column;
@@ -225,8 +229,8 @@ const InputContent = styled.textarea`
   gap: 32px;
   width: 1180px;
   height: 570px;
-  color: #ffffff;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
@@ -235,6 +239,7 @@ const InputContent = styled.textarea`
   white-space: pre-wrap;
   resize: none;
 `;
+
 const InputUrl = styled.input`
   display: flex;
   flex-direction: column;
@@ -243,14 +248,15 @@ const InputUrl = styled.input`
   gap: 32px;
   width: 1180px;
   height: 68px;
-  color: #ffffff;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
   order: 0;
   flex-grow: 0;
 `;
+
 const DropdownButton = styled.div`
   display: flex;
   flex-direction: row;
@@ -263,6 +269,7 @@ const DropdownButton = styled.div`
   flex-grow: 0;
   /* height: -webkit-fill-available; */
 `;
+
 const ButtonBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -276,6 +283,7 @@ const ButtonBox = styled.div`
   order: 3;
   flex-grow: 0;
 `;
+
 const AddButton = styled.button`
   display: flex;
   flex-direction: row;
@@ -285,13 +293,16 @@ const AddButton = styled.button`
   gap: 10px;
   width: 91px;
   height: 39px;
-  background: #0df0ac;
+  color: ${(props) => props.theme.colors.reversetextcolor};
+  background: ${(props) => props.theme.colors.pointcolor};
   border-radius: 20px;
   border: none;
   flex: none;
   order: 0;
   flex-grow: 0;
+  cursor: pointer;
 `;
+
 const BackButton = styled.button`
   display: flex;
   flex-direction: row;
@@ -303,40 +314,35 @@ const BackButton = styled.button`
   height: 44px;
   border-radius: 20px;
   border: none;
-  background-color: #44454a;
-  color: white;
+  background-color: transparent;
+  color: ${(props) => props.theme.colors.textcolor};
   flex: none;
   order: 0;
   flex-grow: 0;
+  cursor: pointer;
 `;
+
 const InputNamePass = styled.input`
   width: 190px;
   height: 40px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   position: relative;
   border: none;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
   margin-left: 10px;
   padding-left: 16px;
   border: none;
   &::placeholder {
     padding-left: 2px;
-    color: #90969e;
+    color: ${(props) => props.theme.colors.placeholder};
   }
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
     scale: 1.01;
   }
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  ::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
 `;
+
 const DropdownButtonSite = styled.select`
   display: flex;
   flex-direction: row;
@@ -346,14 +352,16 @@ const DropdownButtonSite = styled.select`
   gap: 10px;
   width: 158px;
   height: 39px;
-  color: #90969e;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
   border-radius: 20px;
+  background: ${(props) => props.theme.colors.insidecard};
   border: none;
   flex: none;
   order: 0;
   flex-grow: 0;
+  cursor: pointer;
 `;
+
 const DropdownButtonLanguage = styled.select`
   display: flex;
   flex-direction: row;
@@ -363,14 +371,16 @@ const DropdownButtonLanguage = styled.select`
   gap: 10px;
   width: 120px;
   height: 39px;
-  color: #90969e;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
   order: 1;
   flex-grow: 0;
+  cursor: pointer;
 `;
+
 const ContentsBox = styled.div`
   display: flex;
   flex-direction: column;
