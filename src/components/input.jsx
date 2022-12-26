@@ -46,7 +46,7 @@ const Input = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (title & content & url & writer & password & place & language) {
+    if (title) {
       const newQuestion = {
         title,
         content,
