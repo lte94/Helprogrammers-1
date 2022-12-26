@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { __getDetail } from '../redux/module/DetailSlice';
 
 const ListCard = ({ question }) => {
+  const dispatch = useDispatch();
+
+  const onClickEvent = (id) => {
+    dispatch(__getDetail(id));
+  };
   return (
     <QuestionLink to={`/${question.id}`}>
-      <Thread>
+      <Thread onClick={() => onClickEvent(question.id)}>
         <ThreadHead>
           {/* 사이트 네임 태그 */}
           <Place>{question.place}</Place>
