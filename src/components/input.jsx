@@ -46,7 +46,7 @@ const Input = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (title) {
+    if (title & content & url & writer & password) {
       const newQuestion = {
         title,
         content,
@@ -62,6 +62,7 @@ const Input = () => {
       setUrl('');
       setWriter('');
       setPassword('');
+      alert('작성을 완료했습니다.');
     } else {
       alert('작성을 완료해주세요');
     }
