@@ -105,7 +105,7 @@ const Detail = () => {
       <QuestionContent>{question.content}</QuestionContent>
       <QuestionCode>
         <CodeName>소스 코드</CodeName>
-        <span>const nanana = banana;</span>
+        <CodeContent>const nanana = banana;</CodeContent>
       </QuestionCode>
     </Wrapper>
   );
@@ -117,11 +117,12 @@ export default Detail;
 
 const QuestionContent = styled.p`
   color: ${(props) => props.theme.colors.textcolor};
+  padding: 15px;
 `;
 
 const Wrapper = styled.div`
-  border: 1px solid red;
-  width: 50%;
+  width: 1000px;
+  max-width: 1000px;
   padding: 24px;
   border-radius: 20px;
   background-color: ${(props) => props.theme.colors.card};
@@ -166,10 +167,11 @@ const QuestionTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 20px;
+  padding: 15px;
+  width: 100%;
 `;
 const TitleFont = styled.h1`
-  font-size: 1.5vw;
+  font-size: 24px;
   font-weight: bold;
 `;
 const InputNamePassword = styled.input`
@@ -180,8 +182,7 @@ const InputNamePassword = styled.input`
   position: relative;
   border: none;
   color: ${(props) => props.theme.colors.textcolor};
-  margin-top: 40px;
-  left: 41%;
+  padding: 10px 0;
   margin-left: 10px;
   padding-left: 16px;
   &::placeholder {
@@ -212,6 +213,8 @@ const AddButton = styled.button`
 const QuestionLink = styled.a`
   color: ${(props) => props.theme.colors.pointcolor};
   font-weight: bold;
+  display: inline-block;
+  padding: 15px;
 `;
 
 const QuestionCode = styled.section`
@@ -219,8 +222,14 @@ const QuestionCode = styled.section`
   height: 300px;
   border-radius: 20px;
   background-color: ${(props) => props.theme.colors.insidecard};
+  display: flex;
+  flex-direction: column;
 `;
 const CodeName = styled.p`
   color: ${(props) => props.theme.colors.pointcolor};
   font-weight: bold;
+  padding: 15px;
+`;
+const CodeContent = styled.span`
+  padding: 0 15px;
 `;
