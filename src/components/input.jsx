@@ -30,7 +30,7 @@ const Input = () => {
       content,
       url,
       writer,
-      password,
+      password: Number(password),
       place,
       language,
       id: uuidv4(),
@@ -57,6 +57,11 @@ const Input = () => {
       alert('언어를 선택해주세요!');
       return;
     }
+    if (window.confirm('작성을 완료하시겠습니까??') === true) {
+      navigate('/');
+    } else {
+      return;
+    }
     dispatch(__addQuestions(newQuestion));
     setTitle('');
     setContent('');
@@ -65,7 +70,6 @@ const Input = () => {
     setPassword('');
     setPlace('');
     setLanguage('');
-    alert('작성을 완료했습니다.');
   };
   const onChangeInputTitle = (e) => {
     setTitle(e.target.value);
@@ -118,7 +122,7 @@ const Input = () => {
               <InputNamePass
                 value={password}
                 onChange={onChangeInputPassword}
-                type="text"
+                type="Number"
                 placeholder="비밀번호 입력"
               />
             </div>
@@ -323,6 +327,14 @@ const InputNamePass = styled.input`
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
     scale: 1.01;
+  }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 const DropdownButtonSite = styled.select`
