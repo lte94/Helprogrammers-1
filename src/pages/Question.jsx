@@ -5,21 +5,16 @@ import {
   questionsActions,
 } from '../redux/module/QuestionsSlice';
 import { useParams, useLocation } from 'react-router-dom';
-
 import styled from 'styled-components';
 import AddHint from '../components/AddHint';
 import axios from 'axios';
 import HintList from '../components/HintList';
-import { useDispatch, useSelector } from 'react-redux';
 import { __getHints } from '../redux/module/HintsSlice';
 
 function Question() {
   const location = useLocation();
   const [questionState, setQuestionState] = useState('');
   const dispatch = useDispatch();
-  const { isLoading, error, questions } = useSelector(
-    (state) => state.questions,
-  );
 
   // useEfect로 axios 데이터 받아오기
   useEffect(() => {
@@ -53,14 +48,14 @@ function Question() {
 
   const onClickDelete = (event) => {
     event.preventDefault();
-    const check = window.confirm("진짜 삭제?");
-    
-    if(check){
-      console.log("삭제되었습니다.")
-    } else{
-      console.log("삭제 안되었습니다.")
+    const check = window.confirm('진짜 삭제?');
+
+    if (check) {
+      console.log('삭제되었습니다.');
+    } else {
+      console.log('삭제 안되었습니다.');
     }
-  }
+  };
 
   return (
     <QuestionContainer>
@@ -77,7 +72,9 @@ function Question() {
             <InputNamePassword type="text" placeholder="이름 입력" />
             <InputNamePassword type="password" placeholder="비밀번호 입력" />
             <AddButton>수정</AddButton>
-            <AddButton onClick={(event) => onClickDelete(event)}>삭제</AddButton>
+            <AddButton onClick={(event) => onClickDelete(event)}>
+              삭제
+            </AddButton>
           </form>
         </QuestionTitle>
 

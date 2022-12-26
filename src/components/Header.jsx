@@ -113,7 +113,7 @@ const SearchForm = styled.form`
 const SearchInput = styled.input`
   width: 90%;
   height: 100%;
-  color: white;
+  color: ${(props) => props.theme.colors.textcolor};
   font-size: 16px;
   position: relative;
   background: transparent;
