@@ -33,8 +33,9 @@ const Header = () => {
           <Programmers>programmers</Programmers>
         </Helprogrammers>
       </MainLink>
+
       <SearchForm onSubmit={searchHandler}>
-        <SearchIcon src="/assets/search.png" />
+        <SearchIcon src="/assets/search.png" />{' '}
         <SearchInput
           type="text"
           value={term}
@@ -42,6 +43,7 @@ const Header = () => {
           onChange={(e) => setTerm(e.target.value)}
         />
       </SearchForm>
+
       <HeaderButtons>
         <Link to="/add">
           <AddQuestionButton>
