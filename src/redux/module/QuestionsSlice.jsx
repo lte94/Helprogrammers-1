@@ -10,6 +10,14 @@ const initialState = {
   error: null,
 };
 
+export const addQuestions = createAsyncThunk(
+  'POST_QUESTIONS',
+  async (newQuestion) => {
+    const response = await axios.post(serverUrl, newQuestion);
+    return response.data;
+  },
+);
+
 export const __getQuestions = createAsyncThunk(
   'GET_QUESTIONS',
   async (_, thunkAPI) => {
@@ -59,7 +67,13 @@ export const __getQuestion = createAsyncThunk(
 export const questionsSlice = createSlice({
   name: 'questions',
   initialState,
-  reducers: {},
+  reducers: {
+    getQuestionId: (state, action) => {
+      state.questions.find((question) => {
+        return question.id === action.payload;
+      });
+    },
+  },
   extraReducers: {
     [__getQuestions.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.

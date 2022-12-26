@@ -1,5 +1,12 @@
+import styled from 'styled-components';
+import Input from '../components/input';
+
 function AddQuestion() {
-  return null;
+  return (
+    <>
+      <Input />
+    </>
+  );
 }
 
 export default AddQuestion;

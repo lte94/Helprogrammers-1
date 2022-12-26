@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  __getQuestions,
+  questionsActions,
+} from '../redux/module/QuestionsSlice';
+import { useParams, useLocation } from 'react-router-dom';
+
 import styled from 'styled-components';
 import AddHint from '../components/AddHint';
 import axios from 'axios';
@@ -11,6 +17,9 @@ function Question() {
   const location = useLocation();
   const [questionState, setQuestionState] = useState('');
   const dispatch = useDispatch();
+  const { isLoading, error, questions } = useSelector(
+    (state) => state.questions,
+  );
 
   // useEfect로 axios 데이터 받아오기
   useEffect(() => {
