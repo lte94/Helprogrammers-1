@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { __deleteDetail, __getDetail } from '../redux/module/DetailSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import useInput from '../hooks/useInput';
+import UpdateComponent from './UpdateComponent';
 
 // props로 받은 question state
 const Detail = () => {
@@ -55,7 +56,22 @@ const Detail = () => {
   const updateButton = (event) => {
     event.preventDefault();
     // 토글 수정, 완료
-    setEdit(!edit);
+    if (writer.replace(/ /g, '') === '') {
+      alert('(이름)작성자)를 입력해주세요!');
+      return;
+    } else if (question.writer !== writer) {
+      alert('(이름)작성자가 다릅니다');
+      return;
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('비밀번호는 4자리 숫자로 입력해주세요!');
+      return;
+    } else if (question.password !== Number(password)) {
+      alert('비밀번호는 숫자입니다');
+      return;
+    } else {
+      setEdit(!edit);
+      return;
+    }
   };
 
   // (수정)완료 버튼
@@ -65,49 +81,57 @@ const Detail = () => {
   };
 
   return (
-    <Wrapper>
-      <QuestionHead key={question.id}>
-        {/* 사이트 네임 태그 */}
-        <Place>{question.place}</Place>
-        {/* 언어 태그 */}
-        <Language hellMode={hellMode}>
-          <span className="dot" />
-          {question.language}
-        </Language>
-      </QuestionHead>
-      <QuestionTitle>
-        <TitleFont>{question.title}</TitleFont>
-        <form>
-          <InputNamePassword
-            type="text"
-            placeholder="이름 입력"
-            onChange={onChangeWriter}
-          />
-          <InputNamePassword
-            type="Number"
-            placeholder="비밀번호 입력"
-            onChange={onChangePassword}
-          />
-          {edit ? (
-            <AddButton onClick={(event) => completeButton(event)}>
-              완료
-            </AddButton>
-          ) : (
-            <AddButton onClick={(event) => updateButton(event)}>수정</AddButton>
-          )}
+    <>
+      {edit ? (
+        <UpdateComponent />
+      ) : (
+        <Wrapper>
+          <QuestionHead key={question.id}>
+            {/* 사이트 네임 태그 */}
+            <Place>{question.place}</Place>
+            {/* 언어 태그 */}
+            <Language hellMode={hellMode}>
+              <span className="dot" />
+              {question.language}
+            </Language>
+          </QuestionHead>
+          <QuestionTitle>
+            <TitleFont>{question.title}</TitleFont>
+            <form>
+              <InputNamePassword
+                type="text"
+                placeholder="이름 입력"
+                onChange={onChangeWriter}
+              />
+              <InputNamePassword
+                type="Number"
+                placeholder="비밀번호 입력"
+                onChange={onChangePassword}
+              />
+              {edit ? (
+                <AddButton onClick={(event) => completeButton(event)}>
+                  완료
+                </AddButton>
+              ) : (
+                <AddButton onClick={(event) => updateButton(event)}>
+                  수정
+                </AddButton>
+              )}
 
-          <AddButton onClick={(event) => deleteButton(event, question.id)}>
-            삭제
-          </AddButton>
-        </form>
-      </QuestionTitle>
-      <QuestionLink>Link</QuestionLink>
-      <QuestionContent>{question.content}</QuestionContent>
-      <QuestionCode>
-        <CodeName>소스 코드</CodeName>
-        <CodeContent>const nanana = banana;</CodeContent>
-      </QuestionCode>
-    </Wrapper>
+              <AddButton onClick={(event) => deleteButton(event, question.id)}>
+                삭제
+              </AddButton>
+            </form>
+          </QuestionTitle>
+          <QuestionLink>Link</QuestionLink>
+          <QuestionContent>{question.content}</QuestionContent>
+          <QuestionCode>
+            <CodeName>소스 코드</CodeName>
+            <CodeContent>const nanana = banana;</CodeContent>
+          </QuestionCode>
+        </Wrapper>
+      )}
+    </>
   );
 };
 
