@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { __getQuestions, questionsActions } from '../redux/module/QuestionsSlice';
+import {
+  __getQuestions,
+  questionsActions,
+} from '../redux/module/QuestionsSlice';
 import { useParams } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -9,7 +12,7 @@ import AddHint from '../components/AddHint';
 function Question() {
   const dispatch = useDispatch();
   const { isLoading, error, questions } = useSelector(
-    (state) => (state.questions),
+    (state) => state.questions,
   );
 
   const { id } = useParams();
@@ -18,7 +21,6 @@ function Question() {
     dispatch(__getQuestions());
   }, [dispatch]);
 
-
   if (isLoading) {
     return <div>로딩 중....</div>;
   }
@@ -26,7 +28,6 @@ function Question() {
   if (error) {
     return <div>{error.message}</div>;
   }
-
 
   return (
     <QuestionContainer>
@@ -59,9 +60,8 @@ function Question() {
       </Wrapper>
 
       {/*  댓글 */}
-      <AddHint/>
+      <AddHint />
     </QuestionContainer>
-
   );
 }
 

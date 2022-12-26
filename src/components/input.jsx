@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
@@ -12,32 +13,48 @@ const Input = () => {
   const [writer, setWriter] = useState('');
   const [password, setPassword] = useState('');
 
+  const selectSiteList = ['baekjoon', 'programmers', 'SW Expert Academy'];
+  const [place, setPlace] = useState('');
+
+  const handleSelectSite = (e) => {
+    setPlace(e.target.value);
+  };
+
+  const selectLanguageList = ['javacript', 'python', 'c++', 'java'];
+  const [language, setLanguage] = useState('');
+
+  const handleSelectLanguage = (e) => {
+    setLanguage(e.target.value);
+  };
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.questions);
+  // const { isLoading, error } = useSelector((state) => state.questions);
 
-  useEffect(() => {
-    dispatch(__getQuestions());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(__getQuestions());
+  // }, [dispatch]);
 
-  if (isLoading) {
-    return <div>로딩 중....</div>;
-  }
+  // if (isLoading) {
+  //   return <div>로딩 중....</div>;
+  // }
 
-  if (error) {
-    return <div>{error.message}</div>;
-  }
+  // if (error) {
+  //   return <div>{error.message}</div>;
+  // }
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (title) {
+    if (title & content & url & writer & password & place & language) {
       const newQuestion = {
         title,
         content,
         url,
         writer,
         password,
+        place,
+        language,
       };
       dispatch(addQuestions(newQuestion));
       setTitle('');
@@ -46,7 +63,7 @@ const Input = () => {
       setWriter('');
       setPassword('');
     } else {
-      alert('제목을 입력하세요');
+      alert('작성을 완료해주세요');
     }
   };
 
@@ -75,60 +92,74 @@ const Input = () => {
       <InputBoxs>
         <form onSubmit={onSubmitHandler}>
           <InputBox>
-            <Dropdownbutton>
-              <button>문제풀이 사이트</button>
-              <button>사용언어</button>
-            </Dropdownbutton>
+            <DropdownButton>
+              <DropdownButtonSite onChange={handleSelectSite} value={place}>
+                <option value="none">사이트 선택</option>
+                {selectSiteList.map((item) => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </DropdownButtonSite>
+              <DropdownButtonLanguage
+                onChange={handleSelectLanguage}
+                value={language}
+              >
+                <option value="none">언어 선택</option>
+                {selectLanguageList.map((item) => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </DropdownButtonLanguage>
+            </DropdownButton>
 
-            <UserBox>
-              <input
+            <div>
+              <InputNamePass
                 value={writer}
                 onChange={onChangeInputWriter}
                 type="text"
                 placeholder="이름 입력"
-              ></input>
-              <input
+              />
+              <InputNamePass
                 value={password}
                 onChange={onChangeInputPassword}
                 type="text"
                 placeholder="비밀번호 입력"
-              ></input>
-              <button>확인</button>
-            </UserBox>
+              />
+            </div>
           </InputBox>
-          <Inputurl>
-            <input
+
+          <ContentsBox>
+            <InputUrl
               value={url}
               onChange={onChangeInputUrl}
               type="text"
               placeholder="url을 입력해 주세요"
             />
-          </Inputurl>
-          <InputTitle>
-            <input
+            <InputTitle
               value={title}
               onChange={onChangeInputTitle}
               type="text"
               placeholder="제목을 입력해 주세요"
             />
-          </InputTitle>
-
-          <InputContent>
-            <input
+            <InputContent
               value={content}
               onChange={onChangeInputContent}
-              type="textarea"
+              type="text"
               placeholder="내용을 입력해 주세요"
             />
-          </InputContent>
-          <BackButton
-            onClick={() => {
-              navigate('/');
-            }}
-          >
-            뒤로가기
-          </BackButton>
-          <AddButton>작성완료</AddButton>
+            <ButtonBox>
+              <BackButton
+                onClick={() => {
+                  navigate('/');
+                }}
+              >
+                ← 나가기
+              </BackButton>
+              <AddButton>작성완료</AddButton>
+            </ButtonBox>
+          </ContentsBox>
         </form>
       </InputBoxs>
     </Layout>
@@ -138,16 +169,39 @@ const Input = () => {
 export default Input;
 
 const InputBoxs = styled.div`
-  width: 800px;
-  padding: 20px;
-  height: 800px;
-  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  gap: 32px;
+
+  position: absolute;
+  height: 920px;
+  left: 10%;
+  right: 10%;
+  bottom: 20px;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 `;
 
 const Layout = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  gap: 32px;
+
+  position: absolute;
+  width: 1300px;
+  height: 918px;
+  left: 12%;
+  right: 14.47%;
+  top: 140px;
+
+  background: #44454a;
+  border-radius: 20px;
 `;
 
 const InputBox = styled.div`
@@ -157,30 +211,215 @@ const InputBox = styled.div`
   align-items: center;
 `;
 
-const InputTitle = styled.div`
-  width: 750px;
-  display: grid;
-  height: 50px;
+const InputTitle = styled.input`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22px;
+  gap: 32px;
+
+  width: 1180px;
+  height: 68px;
+  color: #ffffff;
+
+  background: #2f2f33;
+  border-radius: 20px;
+  border: none;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
 `;
 
-const InputContent = styled.div`
-  width: 750px;
-  display: grid;
-  height: 500px;
+const InputContent = styled.textarea`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22px;
+  gap: 32px;
+
+  width: 1180px;
+  height: 570px;
+  color: #ffffff;
+
+  background: #2f2f33;
+  border-radius: 20px;
+  border: none;
+
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+  white-space: pre-wrap;
 `;
 
-const Inputurl = styled.div`
-  width: 750px;
-  display: grid;
-  height: 50px;
+const InputUrl = styled.input`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22px;
+  gap: 32px;
+
+  width: 1180px;
+  height: 68px;
+  color: #ffffff;
+
+  background: #2f2f33;
+  border-radius: 20px;
+  border: none;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 `;
 
-const Dropdownbutton = styled.div``;
+const DropdownButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 30px;
 
-const UserBox = styled.div``;
+  width: 279px;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  /* height: -webkit-fill-available; */
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  gap: 12px;
+
+  width: 1180px;
+  height: 44px;
+
+  flex: none;
+  order: 3;
+  flex-grow: 0;
+`;
 
 const AddButton = styled.button`
-  float: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 10px;
+
+  width: 91px;
+  height: 39px;
+
+  background: #0df0ac;
+  border-radius: 20px;
+  border: none;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 `;
 
-const BackButton = styled.button``;
+const BackButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0px;
+  gap: 6px;
+
+  width: 75px;
+  height: 44px;
+
+  border-radius: 20px;
+  border: none;
+  background-color: #44454a;
+  color: white;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+const InputNamePass = styled.input`
+  width: 190px;
+  height: 40px;
+  background-color: #2f2f33;
+  border-radius: 20px;
+  position: relative;
+  border: none;
+  color: #ffffff;
+  margin-left: 10px;
+  padding-left: 16px;
+  border: none;
+  &::placeholder {
+    padding-left: 2px;
+    color: #90969e;
+  }
+  &:focus {
+    box-shadow: 3px 3px 5px #aaa;
+    scale: 1.01;
+  }
+`;
+
+const DropdownButtonSite = styled.select`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 10px;
+
+  width: 158px;
+  height: 39px;
+
+  color: #90969e;
+  background: #2f2f33;
+  border-radius: 20px;
+  border: none;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+const DropdownButtonLanguage = styled.select`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 10px;
+
+  width: 120px;
+  height: 39px;
+
+  color: #90969e;
+  background: #2f2f33;
+  border-radius: 20px;
+  border: none;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+`;
+
+const ContentsBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 16px;
+
+  width: 1180px;
+  height: 10px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+`;
