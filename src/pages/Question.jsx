@@ -51,6 +51,17 @@ function Question() {
     (hint) => hint.questionId === questionState.id,
   );
 
+  const onClickDelete = (event) => {
+    event.preventDefault();
+    const check = window.confirm("진짜 삭제?");
+    
+    if(check){
+      console.log("삭제되었습니다.")
+    } else{
+      console.log("삭제 안되었습니다.")
+    }
+  }
+
   return (
     <QuestionContainer>
       <Wrapper>
@@ -66,7 +77,7 @@ function Question() {
             <InputNamePassword type="text" placeholder="이름 입력" />
             <InputNamePassword type="password" placeholder="비밀번호 입력" />
             <AddButton>수정</AddButton>
-            <AddButton>삭제</AddButton>
+            <AddButton onClick={(event) => onClickDelete(event)}>삭제</AddButton>
           </form>
         </QuestionTitle>
 
