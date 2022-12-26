@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { __deleteDetail } from '../redux/module/DetailSlice';
+import { __deleteDetail, __getDetail } from '../redux/module/DetailSlice';
+import { useParams } from 'react-router-dom';
 
 // props로 받은 question state
-const Detail = ({ question }) => {
+const Detail = () => {
   const dispatch = useDispatch();
   const { hellMode } = useSelector((state) => state.theme);
+
+  const { isLoading, error, question } = useSelector((state) => state.detail);
+  const { id } = useParams();
+  useEffect(() => {
+    dispatch(__getDetail(id));
+  }, []);
+
+  if (isLoading) {
+    return <div>해당 게시글은 삭제 되었습니다</div>;
+  }
+  if (error) {
+    return <div>존재하지 않는 페이지 입니다..</div>;
+  }
 
   // 삭제 버튼
   const deleteButton = (id) => {
@@ -19,7 +33,7 @@ const Detail = ({ question }) => {
   };
   return (
     <Wrapper>
-      <QuestionHead>
+      <QuestionHead key={question.id}>
         {/* 사이트 네임 태그 */}
         <Place>{question.place}</Place>
         {/* 언어 태그 */}
