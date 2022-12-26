@@ -1,10 +1,12 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
 import { __addQuestions } from '../redux/module/QuestionsSlice';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { Link } from 'react-router-dom';
 
 const Input = () => {
   const [title, setTitle] = useState('');
@@ -31,9 +33,9 @@ const Input = () => {
 
   const dispatch = useDispatch();
 
-  // const specialLetter = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-
-  // const isValidPassword = password.length === 4 && specialLetter === 0;
+  // const contentsChangeHandler = useCallback((e) => {
+  //   setContent(e.target.value);
+  // }, []);
 
   // const { isLoading, error } = useSelector((state) => state.questions);
 
@@ -49,43 +51,80 @@ const Input = () => {
   //   return <div>{error.message}</div>;
   // }
 
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    if (title && content && url && writer && password && place && language) {
-      const newQuestion = {
-        title,
-        content,
-        url,
-        writer,
-        password,
-        place,
-        language,
-      };
+  const onSubmitHandler = (e) => {
+    // const contentReplaceNewline = () => {
+    //   return content.replaceAll('\r\n', '<br>');
+    // };
 
-      dispatch(__addQuestions(newQuestion));
-      setTitle('');
-      setContent('');
-      setUrl('');
-      setWriter('');
-      setPassword('');
-      setPlace('');
-      setLanguage('');
-      alert('작성을 완료했습니다.');
-    } else if (title === '') {
-      return alert('제목을 입력해 주세요');
-    } else if (content === '') {
-      return alert('내용을 입력해 주세요');
-    } else if (url === '') {
-      return alert('URL을 입력해 주세요');
-    } else if (writer === '') {
-      return alert('이름을 입력해 주세요');
-    } else if (password === '') {
-      return alert('비밀번호를 입력해 주세요');
-    } else if (place === '') {
-      return alert('사이트를 선택해 주세요');
-    } else if (language === '') {
-      return alert('언어를 선택해 주세요');
+    e.preventDefault();
+
+    const newQuestion = {
+      title,
+      content,
+      url,
+      writer,
+      password,
+      place,
+      language,
+      id: uuidv4(),
+    };
+
+    // if (
+    //   title &&
+    //   content &&
+    //   url &&
+    //   writer &&
+    //   password.length === 4 &&
+    //   place &&
+    //   language
+    // ) {
+    //   dispatch(__addQuestions(newQuestion));
+    //   setTitle('');
+    //   setContent('');
+    //   setUrl('');
+    //   setWriter('');
+    //   setPassword('');
+    //   setPlace('');
+    //   setLanguage('');
+    //   alert('작성을 완료했습니다.');
+    // } else if (title === '') {
+    //   return alert('제목을 입력해 주세요');
+    // } else if (content === '') {
+    //   return alert('내용을 입력해 주세요');
+    // } else if (url === '') {
+    //   return alert('URL을 입력해 주세요');
+    // } else if (writer === '') {
+    //   return alert('이름을 입력해 주세요');
+    // } else if (password === '') {
+    //   return alert('비밀번호를 입력해 주세요');
+    // } else if (place === '') {
+    //   return alert('사이트를 선택해 주세요');
+    // } else if (language === '') {
+    //   return alert('언어를 선택해 주세요');
+    // }
+    if (title.replace(/ /g, '') === '') {
+      alert('제목을 입력해주세요!');
+      return;
+    } else if (writer.replace(/ /g, '') === '') {
+      alert('작성자를 입력해주세요!');
+      return;
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('password를 4자리 숫자로 입력해주세요!');
+      return;
+    } else if (content.replace(/ /g, '') === '') {
+      alert('내용을 입력해주세요!');
+      return;
+    } else if (url.replace(/ /g, '') === '') {
+      alert('url을 입력해주세요!');
+      return;
+    } else if (place.replace(/ /g, '') === '') {
+      alert('사이트 선택을 해주세요!');
+      return;
+    } else if (language.replace(/ /g, '') === '') {
+      alert('언어를 선택해주세요!');
+      return;
     }
+    dispatch(__addQuestions(newQuestion));
   };
 
   const onChangeInputTitle = (e) => {
@@ -172,13 +211,15 @@ const Input = () => {
             />
             <ButtonBox>
               <BackButton
+                type="button"
                 onClick={() => {
                   navigate('/');
                 }}
               >
                 ← 나가기
               </BackButton>
-              <AddButton>작성완료</AddButton>
+
+              <AddButton type="submit">작성완료</AddButton>
             </ButtonBox>
           </ContentsBox>
         </form>
