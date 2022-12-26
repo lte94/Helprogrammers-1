@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
-import ListCard from './ListCard';
 import styled from 'styled-components';
+import ListCard from './ListCard';
 
 const List = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,6 @@ const List = () => {
 export default List;
 
 const Maindiv = styled.main`
-  background-color: rgba(37, 37, 39, 1);
   height: calc(100vh - 88px); // -88px (헤더 높이)
   display: flex;
   justify-content: center;

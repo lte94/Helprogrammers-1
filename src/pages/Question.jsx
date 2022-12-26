@@ -1,24 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   __getQuestions,
   questionsActions,
 } from '../redux/module/QuestionsSlice';
-import { useParams } from 'react-router-dom';
-
+import { useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import AddHint from '../components/AddHint';
+import axios from 'axios';
+import HintList from '../components/HintList';
+import { __getHints } from '../redux/module/HintsSlice';
 
 function Question() {
+  const location = useLocation();
+  const [questionState, setQuestionState] = useState('');
   const dispatch = useDispatch();
-  const { isLoading, error, questions } = useSelector(
-    (state) => state.questions,
-  );
 
-  const { id } = useParams();
+  // useEfect로 axios 데이터 받아오기
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await axios.get(
+        `http://localhost:3001/questions${location.pathname}`,
+      );
+      // 받은데이터 state로 업로드
+      setQuestionState(data);
+    };
+    getData();
+  }, []);
+
+  const { isLoading, error, hints } = useSelector((state) => state.hints);
 
   useEffect(() => {
-    dispatch(__getQuestions());
+    dispatch(__getHints());
   }, [dispatch]);
 
   if (isLoading) {
@@ -29,29 +42,45 @@ function Question() {
     return <div>{error.message}</div>;
   }
 
+  const questionHints = hints?.filter(
+    (hint) => hint.questionId === questionState.id,
+  );
+
+  const onClickDelete = (event) => {
+    event.preventDefault();
+    const check = window.confirm('진짜 삭제?');
+
+    if (check) {
+      console.log('삭제되었습니다.');
+    } else {
+      console.log('삭제 안되었습니다.');
+    }
+  };
+
   return (
     <QuestionContainer>
       <Wrapper>
         <QuestionHead>
           {/* 사이트 네임 태그 */}
-          <Place>Baekjoon</Place>
+          <Place>{questionState.place}</Place>
           {/* 언어 태그 */}
-          <Language>javascript</Language>
+          <Language>{questionState.language}</Language>
         </QuestionHead>
-
         <QuestionTitle>
-          <TitleFont>제목</TitleFont>
+          <TitleFont>{questionState.title}</TitleFont>
           <form>
             <InputNamePassword type="text" placeholder="이름 입력" />
             <InputNamePassword type="password" placeholder="비밀번호 입력" />
             <AddButton>수정</AddButton>
-            <AddButton>삭제</AddButton>
+            <AddButton onClick={(event) => onClickDelete(event)}>
+              삭제
+            </AddButton>
           </form>
         </QuestionTitle>
 
         <QuestionLink>Link</QuestionLink>
 
-        <QuestionContent>이게 너무 어렵잖아요ㅠ</QuestionContent>
+        <QuestionContent>{questionState.content}</QuestionContent>
 
         <QuestionCode>
           <CodeName>소스 코드</CodeName>
@@ -60,7 +89,8 @@ function Question() {
       </Wrapper>
 
       {/*  댓글 */}
-      <AddHint />
+      <AddHint question={questionState} key={questionState.id} />
+      <HintList questionHints={questionHints} key={questionState.id} />
     </QuestionContainer>
   );
 }

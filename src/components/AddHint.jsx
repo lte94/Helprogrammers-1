@@ -1,30 +1,92 @@
 import styled from 'styled-components';
+import useInput from '../hooks/useInput';
+import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { __addHint } from '../redux/module/HintsSlice';
 
-const AddHint = () => {
+const AddHint = ({ question }) => {
+  const dispatch = useDispatch();
+  const [hint, onChangeHint] = useInput('');
+  const [writer, onChangeWriter] = useInput('');
+  const [password, onChangePassword] = useInput('');
+  const [addlevel, onChangeAddLevel] = useInput('');
+
+  const newhint = {
+    id: uuidv4(),
+    hint: hint,
+    writer: writer,
+    password: Number(password),
+    level: addlevel,
+    questionId: question.id,
+  };
+
+  const onClickAddHint = (event) => {
+    event.preventDefault();
+    if (hint.replace(/ /g, '') === '') {
+      alert('hint를 입력해주세요!');
+      return;
+    } else if (writer.replace(/ /g, '') === '') {
+      alert('작성자를 입력해주세요!');
+      return;
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('password를 4자리 숫자로 입력해주세요!');
+      return;
+    } else if (addlevel.replace(/ /g, '') === '') {
+      alert('level을 선택해주세요!');
+      return;
+    }
+    dispatch(__addHint(newhint));
+  };
+
   return (
-    <Maindiv>
-      <Middle>
-        <AddHintBox>
-          <LevelCheckLabel>
-            <LevelCheckRadio type="radio" name="level" value="상" />
-            <LevelCheckSpan>상</LevelCheckSpan>
-          </LevelCheckLabel>
-          <LevelCheckLabel>
-            <LevelCheckRadio type="radio" name="level" value="중" />
-            <LevelCheckSpan>중</LevelCheckSpan>
-          </LevelCheckLabel>
-          <LevelCheckLabel>
-            <LevelCheckRadio type="radio" name="level" value="하" />
-            <LevelCheckSpan>하</LevelCheckSpan>
-          </LevelCheckLabel>
-          <InputNamePassword type="text" placeholder="이름 입력" />
-          <InputNamePassword type="password" placeholder="비밀번호 입력" />
-          <AddButton>확인</AddButton>
-          <br />
-          <InputHint type="text" placeholder="힌트를 입력해 주세요!" />
-        </AddHintBox>
-      </Middle>
-    </Maindiv>
+    <Middle>
+      <AddHintBox>
+        <LevelCheckLabel>
+          <LevelCheckRadio
+            type="radio"
+            name="level"
+            value="상"
+            onChange={onChangeAddLevel}
+          />
+          <LevelCheckSpan>상</LevelCheckSpan>
+        </LevelCheckLabel>
+        <LevelCheckLabel>
+          <LevelCheckRadio
+            type="radio"
+            name="level"
+            value="중"
+            onChange={onChangeAddLevel}
+          />
+          <LevelCheckSpan>중</LevelCheckSpan>
+        </LevelCheckLabel>
+        <LevelCheckLabel>
+          <LevelCheckRadio
+            type="radio"
+            name="level"
+            value="하"
+            onChange={onChangeAddLevel}
+          />
+          <LevelCheckSpan>하</LevelCheckSpan>
+        </LevelCheckLabel>
+        <InputNamePassword
+          type="text"
+          placeholder="이름 입력"
+          onChange={onChangeWriter}
+        />
+        <InputNamePassword
+          type="Number"
+          placeholder="비밀번호 입력"
+          onChange={onChangePassword}
+        />
+        <AddButton onClick={onClickAddHint}>확인</AddButton>
+        <br />
+        <InputHint
+          type="text"
+          placeholder="힌트를 입력해 주세요!"
+          onChange={onChangeHint}
+        />
+      </AddHintBox>
+    </Middle>
   );
 };
 
@@ -32,27 +94,20 @@ export default AddHint;
 
 //styled-components
 
-const Maindiv = styled.main`
-  background-color: #252527;
-  height: calc(100vh - 88px); // -88px (헤더 높이)
-  display: flex;
-  justify-content: center;
-`;
-
 const Middle = styled.section`
   display: flex;
   position: relative;
   justify-content: center;
   flex-direction: column;
-  padding-top: 50px;
+  padding-top: 20px;
   min-width: 1000px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   /* background-color: yellow; */
 `;
 
 const AddHintBox = styled.form`
   width: 100%;
-  height: 200px;
+  min-height: 200px;
   background-color: #44454a;
   border-radius: 20px;
   padding: 24px;
@@ -67,19 +122,14 @@ const LevelCheckSpan = styled.span`
   font-size: 18px;
   width: 36px;
   height: 36px;
-  background: ${(props) =>
-    props.children === '상'
-      ? '#0DF0AC'
-      : props.children === '중'
-      ? '#89F9D7'
-      : '#CBFFEF'};
+  background: #2f2f33;
   border-radius: 50%;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: black;
+  color: #ffffff;
 `;
 
 const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
@@ -91,7 +141,15 @@ const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
   }
   &:checked + ${LevelCheckSpan} {
     scale: 1.1;
+    color: black;
+    background-color: ${(props) =>
+      props.value === '상'
+        ? '#0DF0AC'
+        : props.value === '중'
+        ? '#89F9D7'
+        : '#CBFFEF'};
   }
+
   display: none;
 `;
 
@@ -113,6 +171,14 @@ const InputNamePassword = styled.input`
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
     scale: 1.01;
+  }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 const AddButton = styled.button`
