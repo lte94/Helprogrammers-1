@@ -49,6 +49,12 @@ const Input = () => {
     if (title) {
       const newQuestion = {
         title,
+        content,
+        url,
+        writer,
+        password,
+        place,
+        language,
       };
       dispatch(addQuestions(newQuestion));
       setTitle('');
