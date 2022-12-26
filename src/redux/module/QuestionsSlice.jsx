@@ -10,11 +10,15 @@ const initialState = {
   error: null,
 };
 
-export const addQuestions = createAsyncThunk(
+export const __addQuestions = createAsyncThunk(
   'POST_QUESTIONS',
-  async (newQuestion) => {
-    const response = await axios.post(serverUrl, newQuestion);
-    return response.data;
+  async (newQuestion, thunkAPI) => {
+    try {
+      const response = await axios.post(serverUrl, newQuestion);
+      return thunkAPI.fulfillWithValue(response.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   },
 );
 
@@ -109,6 +113,17 @@ export const questionsSlice = createSlice({
     [__getQuestion.rejected]: (state, action) => {
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
+    },
+    [__addQuestions.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__addQuestions.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.question = action.payload;
+    },
+    [__addQuestions.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });

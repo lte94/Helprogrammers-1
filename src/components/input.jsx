@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
-import { addQuestions } from '../redux/module/QuestionsSlice';
+import { __addQuestions } from '../redux/module/QuestionsSlice';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,6 +30,11 @@ const Input = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  // const specialLetter = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+  // const isValidPassword = password.length === 4 && specialLetter === 0;
+
   // const { isLoading, error } = useSelector((state) => state.questions);
 
   // useEffect(() => {
@@ -46,7 +51,7 @@ const Input = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (title & content & url & writer & password) {
+    if (title && content && url && writer && password && place && language) {
       const newQuestion = {
         title,
         content,
@@ -56,15 +61,30 @@ const Input = () => {
         place,
         language,
       };
-      dispatch(addQuestions(newQuestion));
+
+      dispatch(__addQuestions(newQuestion));
       setTitle('');
       setContent('');
       setUrl('');
       setWriter('');
       setPassword('');
+      setPlace('');
+      setLanguage('');
       alert('작성을 완료했습니다.');
-    } else {
-      alert('작성을 완료해주세요');
+    } else if (title === '') {
+      return alert('제목을 입력해 주세요');
+    } else if (content === '') {
+      return alert('내용을 입력해 주세요');
+    } else if (url === '') {
+      return alert('URL을 입력해 주세요');
+    } else if (writer === '') {
+      return alert('이름을 입력해 주세요');
+    } else if (password === '') {
+      return alert('비밀번호를 입력해 주세요');
+    } else if (place === '') {
+      return alert('사이트를 선택해 주세요');
+    } else if (language === '') {
+      return alert('언어를 선택해 주세요');
     }
   };
 
@@ -95,7 +115,7 @@ const Input = () => {
           <InputBox>
             <DropdownButton>
               <DropdownButtonSite onChange={handleSelectSite} value={place}>
-                <option value="none">사이트 선택</option>
+                <option value="">사이트 선택</option>
                 {selectSiteList.map((item) => (
                   <option value={item} key={item}>
                     {item}
@@ -106,7 +126,7 @@ const Input = () => {
                 onChange={handleSelectLanguage}
                 value={language}
               >
-                <option value="none">언어 선택</option>
+                <option value="">언어 선택</option>
                 {selectLanguageList.map((item) => (
                   <option value={item} key={item}>
                     {item}
@@ -200,6 +220,7 @@ const Layout = styled.div`
   left: 12%;
   right: 14.47%;
   top: 140px;
+  margin: 0 auto;
 
   background: #44454a;
   border-radius: 20px;
@@ -251,6 +272,7 @@ const InputContent = styled.textarea`
   order: 2;
   flex-grow: 0;
   white-space: pre-wrap;
+  resize: none;
 `;
 
 const InputUrl = styled.input`
