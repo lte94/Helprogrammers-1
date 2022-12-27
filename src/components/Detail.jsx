@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { __deleteDetail, __getDetail } from '../redux/module/DetailSlice';
@@ -7,15 +7,17 @@ import useInput from '../hooks/useInput';
 import UpdateComponent from './UpdateComponent';
 
 // props로 받은 question state
-const Detail = () => {
+const Detail = ({ setEdit, edit }) => {
   const dispatch = useDispatch();
   const navigation = useNavigate();
-  const [edit, setEdit] = useState(false);
   const { id } = useParams();
   const { hellMode } = useSelector((state) => state.theme);
   const { isLoading, error, question } = useSelector((state) => state.detail); // global state
   const [writer, onChangeWriter] = useInput('');
   const [password, onChangePassword] = useInput('');
+
+  const focusWriter = useRef();
+  const focusPassword = useRef();
 
   useEffect(() => {
     dispatch(__getDetail(id));
@@ -33,16 +35,18 @@ const Detail = () => {
     event.preventDefault();
     // const reCheck = window.confirm('정말 삭제하시겠습니까?'); // confirm 으로 재확인
     if (writer.replace(/ /g, '') === '') {
-      alert('(이름)작성자)를 입력해주세요!');
+      alert('이름을 입력해주세요!');
+      focusWriter.current.focus();
       return;
     } else if (question.writer !== writer) {
-      alert('(이름)작성자가 다릅니다');
+      alert('이름이 틀렸습니다!');
       return;
     } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
       alert('비밀번호는 4자리 숫자로 입력해주세요!');
+      focusPassword.current.focus();
       return;
     } else if (question.password !== Number(password)) {
-      alert('비밀번호는 숫자입니다');
+      alert('비밀번호가 틀렸습니다!');
       return;
     } else if (window.confirm('정말 삭제하시겠습니까?')) {
       dispatch(__deleteDetail(id)); // DetailSlice >> deleteDetail (action)
@@ -57,33 +61,27 @@ const Detail = () => {
     event.preventDefault();
     // 토글 수정, 완료
     if (writer.replace(/ /g, '') === '') {
-      alert('(이름)작성자)를 입력해주세요!');
+      alert('이름을 입력해주세요!');
+      focusWriter.current.focus();
       return;
     } else if (question.writer !== writer) {
-      alert('(이름)작성자가 다릅니다');
+      alert('이름이 틀렸습니다!');
       return;
     } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
       alert('비밀번호는 4자리 숫자로 입력해주세요!');
+      focusPassword.current.focus();
       return;
     } else if (question.password !== Number(password)) {
-      alert('비밀번호는 숫자입니다');
-      return;
-    } else {
-      setEdit(!edit);
+      alert('비밀번호가 틀렸습니다!');
       return;
     }
-  };
-
-  // (수정)완료 버튼
-  const completeButton = (event) => {
-    event.preventDefault();
-    console.log('완료');
+    setEdit(!edit);
   };
 
   return (
     <>
       {edit ? (
-        <UpdateComponent />
+        <UpdateComponent question={question} setEdit={setEdit} />
       ) : (
         <Wrapper>
           <QuestionHead key={question.id}>
@@ -101,23 +99,18 @@ const Detail = () => {
               <InputNamePassword
                 type="text"
                 placeholder="이름 입력"
+                ref={focusWriter}
                 onChange={onChangeWriter}
               />
               <InputNamePassword
                 type="Number"
                 placeholder="비밀번호 입력"
+                ref={focusPassword}
                 onChange={onChangePassword}
               />
-              {edit ? (
-                <AddButton onClick={(event) => completeButton(event)}>
-                  완료
-                </AddButton>
-              ) : (
-                <AddButton onClick={(event) => updateButton(event)}>
-                  수정
-                </AddButton>
-              )}
-
+              <AddButton onClick={(event) => updateButton(event)}>
+                수정
+              </AddButton>
               <AddButton onClick={(event) => deleteButton(event, question.id)}>
                 삭제
               </AddButton>
@@ -239,6 +232,7 @@ const QuestionLink = styled.a`
   font-weight: bold;
   display: inline-block;
   padding: 15px;
+  cursor: pointer;
 `;
 
 const QuestionCode = styled.section`

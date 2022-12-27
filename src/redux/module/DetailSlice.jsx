@@ -37,8 +37,7 @@ export const __updateDetail = createAsyncThunk(
   'UPDATE_DETAIL',
   async (payload, thunkAPI) => {
     try {
-      console.log(payload.updateQuestion);
-      await axios.patch(`${serverUrl}/${payload}`, payload.updateQuestion);
+      await axios.patch(`${serverUrl}/${payload.id}`, payload.updateQuestion);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

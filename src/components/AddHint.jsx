@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useRef } from 'react';
 import useInput from '../hooks/useInput';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,6 +11,9 @@ const AddHint = ({ question }) => {
   const [writer, onChangeWriter] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [addlevel, onChangeAddLevel] = useInput('');
+  const focusWriter = useRef();
+  const focusPassword = useRef();
+  const focusHint = useRef();
 
   const newhint = {
     id: uuidv4(),
@@ -24,18 +28,25 @@ const AddHint = ({ question }) => {
     event.preventDefault();
     if (hint.replace(/ /g, '') === '') {
       alert('hint를 입력해주세요!');
+      focusHint.current.focus();
       return;
     } else if (writer.replace(/ /g, '') === '') {
-      alert('작성자를 입력해주세요!');
+      alert('이름을 입력해주세요!');
+      focusWriter.current.focus();
       return;
     } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
-      alert('password를 4자리 숫자로 입력해주세요!');
+      alert('비밀번호를 4자리 숫자로 입력해주세요!');
+      focusPassword.current.focus();
       return;
     } else if (addlevel.replace(/ /g, '') === '') {
-      alert('level을 선택해주세요!');
+      alert('난이도를 선택해주세요!');
       return;
     }
-    dispatch(__addHint(newhint));
+    if (window.confirm('작성을 완료하시겠습니까??') === true) {
+      dispatch(__addHint(newhint));
+    } else {
+      return;
+    }
   };
 
   return (
@@ -71,11 +82,13 @@ const AddHint = ({ question }) => {
         <InputNamePassword
           type="text"
           placeholder="이름 입력"
+          ref={focusWriter}
           onChange={onChangeWriter}
         />
         <InputNamePassword
           type="Number"
           placeholder="비밀번호 입력"
+          ref={focusPassword}
           onChange={onChangePassword}
         />
         <AddButton onClick={onClickAddHint}>확인</AddButton>
@@ -83,6 +96,7 @@ const AddHint = ({ question }) => {
         <InputHint
           type="text"
           placeholder="힌트를 입력해 주세요!"
+          ref={focusHint}
           onChange={onChangeHint}
         />
       </AddHintBox>

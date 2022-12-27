@@ -10,6 +10,7 @@ function Question() {
   const dispatch = useDispatch();
   // qeustion state
   const { question } = useSelector((state) => state.detail);
+  const [edit, setEdit] = useState(false);
 
   const { isLoading, error, hints } = useSelector((state) => state.hints);
 
@@ -31,11 +32,15 @@ function Question() {
   return (
     <QuestionContainer>
       {/* 상세 페이지 */}
-      <Detail/>
+      <Detail setEdit={setEdit} edit={edit} />
 
       {/*  댓글 */}
-      <AddHint question={question}/>
-      <HintList questionHints={questionHints} key={question.id} />
+      {!edit && (
+        <>
+          <AddHint question={question} />
+          <HintList questionHints={questionHints} key={question.id} />
+        </>
+      )}
     </QuestionContainer>
   );
 }

@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { __updateDetail } from '../redux/module/DetailSlice';
 
-const UpdateComponent = () => {
-  const navigate = useNavigate();
+const UpdateComponent = ({ question, setEdit }) => {
   const dispatch = useDispatch();
-  const { question } = useSelector((state) => state.detail);
-  const hints = document.getElementsByTagName('section'); // 지워야 함
-  console.log(question);
 
   const [title, setTitle] = useState(question.title);
   const [content, setContent] = useState(question.content);
   const [url, setUrl] = useState(question.url);
   const [place, setPlace] = useState(question.place);
   const [language, setLanguage] = useState(question.language);
+
+  const focusTitle = useRef();
+  const focusContent = useRef();
+  const focusUrl = useRef();
+  const focusPlace = useRef();
+  const focusLanguege = useRef();
 
   const selectSiteList = ['baekjoon', 'programmers', 'SW Expert Academy'];
   const selectLanguageList = ['javacript', 'python', 'c++', 'java'];
@@ -26,19 +27,51 @@ const UpdateComponent = () => {
     url,
     place,
     language,
+    writer: question.writer,
+    password: question.password,
+    id: question.id,
   };
-  const onSubmitEditor = () => {
-    // event.preventDefault();
-    dispatch(__updateDetail(question.id, updateQuestion));
+
+  const onSubmitEditor = (id, updateQuestion) => {
+    if (place.replace(/ /g, '') === '') {
+      alert('사이트 선택을 해주세요!');
+      focusPlace.current.focus();
+      return;
+    } else if (language.replace(/ /g, '') === '') {
+      alert('언어를 선택해주세요!');
+      focusLanguege.current.focus();
+      return;
+    } else if (url.replace(/ /g, '') === '') {
+      alert('url을 입력해주세요!');
+      focusUrl.current.focus();
+      return;
+    } else if (title.replace(/ /g, '') === '') {
+      alert('제목을 입력해주세요!');
+      focusTitle.current.focus();
+      return;
+    } else if (content.replace(/ /g, '') === '') {
+      alert('내용을 입력해주세요!');
+      focusContent.current.focus();
+      return;
+    }
+    if (window.confirm('수정을 완료하시겠습니까??') === true) {
+      dispatch(__updateDetail({ id, updateQuestion }));
+      setEdit(false);
+    } else {
+      return;
+    }
   };
 
   return (
     <>
       <Layout>
         <InputBoxs>
-          <form onSubmit={onSubmitEditor}>
+          <div>
             <DropdownButton>
-              <DropdownButtonbox onChange={(e) => setPlace(e.target.value)}>
+              <DropdownButtonbox
+                onChange={(e) => setPlace(e.target.value)}
+                ref={focusPlace}
+              >
                 <option value="">{place}</option>
                 {selectSiteList.map((item) => (
                   <option value={item} key={item}>
@@ -46,7 +79,10 @@ const UpdateComponent = () => {
                   </option>
                 ))}
               </DropdownButtonbox>
-              <DropdownButtonbox onChange={(e) => setLanguage(e.target.value)}>
+              <DropdownButtonbox
+                onChange={(e) => setLanguage(e.target.value)}
+                ref={focusLanguege}
+              >
                 <option value="">{language}</option>
                 {selectLanguageList.map((item) => (
                   <option value={item} key={item}>
@@ -62,6 +98,7 @@ const UpdateComponent = () => {
                 onChange={(e) => {
                   setUrl(e.target.value);
                 }}
+                ref={focusUrl}
                 type="text"
                 placeholder="url을 입력해 주세요"
               ></InputTag>
@@ -70,6 +107,7 @@ const UpdateComponent = () => {
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
+                ref={focusTitle}
                 type="text"
                 placeholder="제목을 입력해 주세요"
               />
@@ -78,6 +116,7 @@ const UpdateComponent = () => {
                 onChange={(e) => {
                   setContent(e.target.value);
                 }}
+                ref={focusContent}
                 type="text"
                 placeholder="내용을 입력해 주세요"
               />
@@ -85,15 +124,20 @@ const UpdateComponent = () => {
                 <BackButton
                   type="button"
                   onClick={() => {
-                    navigate('/');
+                    setEdit(false);
                   }}
                 >
                   ← 나가기
                 </BackButton>
-                <AddButton type="submit">작성완료</AddButton>
+                <AddButton
+                  type="submit"
+                  onClick={() => onSubmitEditor(question.id, updateQuestion)}
+                >
+                  작성완료
+                </AddButton>
               </ButtonBox>
             </ContentsBox>
-          </form>
+          </div>
         </InputBoxs>
       </Layout>
     </>
@@ -114,7 +158,7 @@ const Layout = styled.div`
 
 const InputBoxs = styled.div`
   display: flex;
-  padding: 24px;
+  /* padding: 0px; */
   gap: 32px;
 `;
 
@@ -127,8 +171,8 @@ const DropdownButton = styled.div`
 `;
 
 const DropdownButtonbox = styled.select`
-  padding: 10px 16px;
-  width: 158px;
+  padding: 0px 10px 0px 16px;
+  width: 190px;
   height: 39px;
   color: ${(props) => props.theme.colors.textcolor};
   border-radius: 20px;
@@ -190,7 +234,6 @@ const AddButton = styled.button`
 `;
 
 const BackButton = styled.button`
-  padding: 10px 0px;
   gap: 6px;
   width: 75px;
   height: 44px;

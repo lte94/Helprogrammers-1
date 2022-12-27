@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import useInput from '../hooks/useInput';
 import { __deleteHint, __editHint } from '../redux/module/HintsSlice';
@@ -8,10 +8,11 @@ const HintCard = ({ hint }) => {
   const dispatch = useDispatch();
   const [writer, onChangeWriter] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const [hintUpdate, onChangeUpdate] = useInput('');
+  const [hintUpdate, onChangeUpdate] = useInput(hint.hint);
   const [isOpen, setIsOpen] = useState(false);
+  const focusWriter = useRef();
+  const focusPassword = useRef();
 
-  console.log(hint.hint);
   const edithint = {
     id: hint.id,
     hint: hintUpdate,
@@ -22,17 +23,19 @@ const HintCard = ({ hint }) => {
   };
 
   const openUpdateHandler = () => {
-    if (hint.writer !== writer) {
-      alert('작성자가 틀렸습니다!');
+    if (writer.replace(/ /g, '') === '') {
+      alert('이름를 입력해주세요!');
+      focusWriter.current.focus();
       return;
-    } else if (writer.replace(/ /g, '') === '') {
-      alert('작성자를 입력해주세요!');
+    } else if (hint.writer !== writer) {
+      alert('이름이 틀렸습니다!');
       return;
     } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
-      alert('password를 4자리 숫자로 입력해주세요!');
+      alert('비밀번호는 4자리 숫자로 입력해주세요!');
+      focusPassword.current.focus();
       return;
     } else if (hint.password !== Number(password)) {
-      alert('password가 틀렸습니다!');
+      alert('비밀번호가 틀렸습니다!');
       return;
     }
     setIsOpen(!isOpen);
@@ -41,23 +44,30 @@ const HintCard = ({ hint }) => {
   const onClickEditHintButtonHandler = (id, edithint) => {
     if (hintUpdate.replace(/ /g, '') === '') {
       alert('수정된 내용이 없습니다!');
+      return;
     }
-    dispatch(__editHint({ id, edithint }));
-    setIsOpen(false);
+    if (window.confirm('수정을 완료하시겠습니까??') === true) {
+      dispatch(__editHint({ id, edithint }));
+      setIsOpen(false);
+    } else {
+      return;
+    }
   };
 
   const onClickDeleteHintButtonHandler = (Id) => {
-    if (hint.writer !== writer) {
-      alert('작성자가 틀렸습니다!');
+    if (writer.replace(/ /g, '') === '') {
+      alert('이름를 입력해주세요!');
+      focusWriter.current.focus();
       return;
-    } else if (writer.replace(/ /g, '') === '') {
-      alert('작성자를 입력해주세요!');
+    } else if (hint.writer !== writer) {
+      alert('이름이 틀렸습니다!');
       return;
     } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
-      alert('password를 4자리 숫자로 입력해주세요!');
+      alert('비밀번호는 4자리 숫자로 입력해주세요!');
+      focusPassword.current.focus();
       return;
     } else if (hint.password !== Number(password)) {
-      alert('password가 틀렸습니다!');
+      alert('비밀번호가 틀렸습니다!');
       return;
     } else if (window.confirm('정말 삭제하시겠습니까??') === true) {
       //확인
@@ -84,11 +94,13 @@ const HintCard = ({ hint }) => {
       <InputNamePassword
         type="text"
         placeholder="이름 입력"
+        ref={focusWriter}
         onChange={onChangeWriter}
       />
       <InputNamePassword
         type="Number"
         placeholder="비밀번호 입력"
+        ref={focusPassword}
         onChange={onChangePassword}
       />
       {isOpen ? (
@@ -142,11 +154,11 @@ const HintUpdateBox = styled.textarea`
   min-height: 220px;
   word-break: break-word;
   table-layout: fixed;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border: transparent;
   padding: 20px;
   font-size: 20px;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
   border-radius: 20px;
   resize: none;
 `;

@@ -1,28 +1,38 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { __addQuestions } from '../redux/module/QuestionsSlice';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 const Input = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [url, setUrl] = useState('');
   const [writer, setWriter] = useState('');
   const [password, setPassword] = useState('');
-  const selectSiteList = ['baekjoon', 'programmers', 'SW Expert Academy'];
-  const [place, setPlace] = useState('');
-  const handleSelectSite = (e) => {
-    setPlace(e.target.value);
-  };
-  const selectLanguageList = ['javacript', 'python', 'c++', 'java'];
   const [language, setLanguage] = useState('');
+  const [place, setPlace] = useState('');
+
+  const focusWriter = useRef();
+  const focusPassword = useRef();
+  const focusTitle = useRef();
+  const focusContent = useRef();
+  const focusUrl = useRef();
+  const focusPlace = useRef();
+  const focusLanguege = useRef();
+
+  const selectSiteList = ['baekjoon', 'programmers', 'SW Expert Academy'];
+  const selectLanguageList = ['javacript', 'python', 'c++', 'java'];
   const handleSelectLanguage = (e) => {
     setLanguage(e.target.value);
   };
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const handleSelectSite = (e) => {
+    setPlace(e.target.value);
+  };
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const newQuestion = {
@@ -35,34 +45,41 @@ const Input = () => {
       language,
       id: uuidv4(),
     };
-    if (title.replace(/ /g, '') === '') {
-      alert('제목을 입력해주세요!');
-      return;
-    } else if (writer.replace(/ /g, '') === '') {
-      alert('작성자를 입력해주세요!');
-      return;
-    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
-      alert('password를 4자리 숫자로 입력해주세요!');
-      return;
-    } else if (content.replace(/ /g, '') === '') {
-      alert('내용을 입력해주세요!');
-      return;
-    } else if (url.replace(/ /g, '') === '') {
-      alert('url을 입력해주세요!');
-      return;
-    } else if (place.replace(/ /g, '') === '') {
+    if (place.replace(/ /g, '') === '') {
       alert('사이트 선택을 해주세요!');
+      focusPlace.current.focus();
       return;
     } else if (language.replace(/ /g, '') === '') {
       alert('언어를 선택해주세요!');
+      focusLanguege.current.focus();
+      return;
+    } else if (writer.replace(/ /g, '') === '') {
+      alert('이름을 입력해주세요!');
+      focusWriter.current.focus();
+      return;
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('비밀번호를 4자리 숫자로 입력해주세요!');
+      focusPassword.current.focus();
+      return;
+    } else if (url.replace(/ /g, '') === '') {
+      alert('url을 입력해주세요!');
+      focusUrl.current.focus();
+      return;
+    } else if (title.replace(/ /g, '') === '') {
+      alert('제목을 입력해주세요!');
+      focusTitle.current.focus();
+      return;
+    } else if (content.replace(/ /g, '') === '') {
+      alert('내용을 입력해주세요!');
+      focusContent.current.focus();
       return;
     }
     if (window.confirm('작성을 완료하시겠습니까??') === true) {
+      dispatch(__addQuestions(newQuestion));
       navigate('/');
     } else {
       return;
     }
-    dispatch(__addQuestions(newQuestion));
     setTitle('');
     setContent('');
     setUrl('');
@@ -92,7 +109,11 @@ const Input = () => {
         <form onSubmit={onSubmitHandler}>
           <InputBox>
             <DropdownButton>
-              <DropdownButtonSite onChange={handleSelectSite} value={place}>
+              <DropdownButtonSite
+                onChange={handleSelectSite}
+                value={place}
+                ref={focusPlace}
+              >
                 <option value="">사이트 선택</option>
                 {selectSiteList.map((item) => (
                   <option value={item} key={item}>
@@ -103,6 +124,7 @@ const Input = () => {
               <DropdownButtonLanguage
                 onChange={handleSelectLanguage}
                 value={language}
+                ref={focusLanguege}
               >
                 <option value="">언어 선택</option>
                 {selectLanguageList.map((item) => (
@@ -116,12 +138,14 @@ const Input = () => {
               <InputNamePass
                 value={writer}
                 onChange={onChangeInputWriter}
+                ref={focusWriter}
                 type="text"
                 placeholder="이름 입력"
               />
               <InputNamePass
                 value={password}
                 onChange={onChangeInputPassword}
+                ref={focusPassword}
                 type="Number"
                 placeholder="비밀번호 입력"
               />
@@ -131,18 +155,21 @@ const Input = () => {
             <InputUrl
               value={url}
               onChange={onChangeInputUrl}
+              ref={focusUrl}
               type="text"
               placeholder="url을 입력해 주세요"
             />
             <InputTitle
               value={title}
               onChange={onChangeInputTitle}
+              ref={focusTitle}
               type="text"
               placeholder="제목을 입력해 주세요"
             />
             <InputContent
               value={content}
               onChange={onChangeInputContent}
+              ref={focusContent}
               type="text"
               placeholder="내용을 입력해 주세요"
             />
@@ -340,6 +367,14 @@ const InputNamePass = styled.input`
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
     scale: 1.01;
+  }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 
