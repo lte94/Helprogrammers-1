@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const serverUrl = 'https://helprogrammers-json-glitch.glitch.me/questions';
+const QUESTIONS_URL = process.env.REACT_APP_QUESTIONS_URL;
 
 const initialState = {
   questions: [],
@@ -13,7 +13,7 @@ export const __addQuestions = createAsyncThunk(
   'POST_QUESTIONS',
   async (newQuestion, thunkAPI) => {
     try {
-      const response = await axios.post(serverUrl, newQuestion);
+      const response = await axios.post(QUESTIONS_URL, newQuestion);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -25,7 +25,7 @@ export const __deleteDetail = createAsyncThunk(
   'DELETE_DETAIL',
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(`${serverUrl}/${payload}`);
+      await axios.delete(`${QUESTIONS_URL}/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -37,7 +37,7 @@ export const __getQuestions = createAsyncThunk(
   'GET_QUESTIONS',
   async (_, thunkAPI) => {
     try {
-      const data = await axios.get(serverUrl);
+      const data = await axios.get(QUESTIONS_URL);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

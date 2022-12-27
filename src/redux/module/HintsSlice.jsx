@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const serverUrl = 'https://helprogrammers-json-glitch.glitch.me/hints';
+const HINT_URL = process.env.REACT_APP_HINT_URL;
 
 const initialState = {
   hints: [],
@@ -11,7 +11,7 @@ const initialState = {
 
 export const __getHints = createAsyncThunk('GET_HINTS', async (_, thunkAPI) => {
   try {
-    const data = await axios.get(serverUrl);
+    const data = await axios.get(HINT_URL);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -22,7 +22,7 @@ export const __addHint = createAsyncThunk(
   'ADD_HINT',
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.post(serverUrl, payload);
+      const { data } = await axios.post(HINT_URL, payload);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -34,9 +34,7 @@ export const __deleteHint = createAsyncThunk(
   'DELETE_HINT',
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(
-        `https://helprogrammers-json-glitch.glitch.me/hints/${payload}`,
-      );
+      await axios.delete(`${HINT_URL}/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
