@@ -9,6 +9,7 @@ function hellTheme() {
       reversetextcolor: '#FFFFFF',
       card: '#E4DED5',
       insidecard: '#DBD3C8',
+      markdown: '#EEE9E2',
       pointcolor: '#FF2525',
       placeholder: '#90969E',
       background: '#FF2525',
@@ -18,6 +19,7 @@ function hellTheme() {
       high: '#FF2525',
       middle: '#FF8125',
       low: '#FFC224',
+      scrollbar: '#CEC5B7',
     },
   };
 }

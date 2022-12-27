@@ -9,6 +9,7 @@ function darkTheme() {
       reversetextcolor: '#000000',
       card: '#44454A',
       insidecard: '#2F2F33',
+      markdown: '#252527',
       pointcolor: '#0DF0AC',
       placeholder: '#90969E',
       background: '#252527',
@@ -18,6 +19,7 @@ function darkTheme() {
       high: '#0DF0AC',
       middle: '#89F9D7',
       low: '#CBFFEF',
+      scrollbar: '#44454A',
     },
   };
 }

@@ -85,6 +85,26 @@
       "place": "programmers",
       "language": "java",
       "id": "c119e742-da49-4182-a391-976f0d6a68b3"
+    },
+    {
+      "title": "마크다운 테스트",
+      "content": "이렇게 해보시면 어떨까요? 수정?\n~~~javascript\nfunction solution(angle) {\n    if (angle < 90) {\n        answer = 1\n    } else if (angle == 90) {\n        answer = 2\n    } else if (angle < 180) {\n        answer = 3\n    } else {\n        answer = 4\n    }\n    return answer;\n}\n\n~~~\n위 코드를 적용해보세요!\n\nCSS 적어볼게요!\n~~~css\n.container{\n  max-width: 100%;\n  margin: 0 auto;\n  padding: 0;\n}\n \n.child-1{\n  background-color: red;\n}\n \n.child-2{\n  background-color: blue;\n}\n이렇게 해보시면 어떨까요?\n~~~javascript\nfunction solution(angle) {\n    if (angle < 90) {\n        answer = 1\n    } else if (angle == 90) {\n        answer = 2\n    } else if (angle < 180) {\n        answer = 3\n    } else {\n        answer = 4\n    }\n    return answer;\n}\n\n~~~\n위 코드를 적용해보세요!\n\nCSS 적어볼게요!\n~~~css\n.container{\n  max-width: 100%;\n  margin: 0 auto;\n  padding: 0;\n}\n \n.child-1{\n  background-color: red;\n}\n \n.child-2{\n  background-color: blue;\n}\n",
+      "url": "https://www.positronx.io/how-to-create-live-markdown-editor-in-react-js/",
+      "writer": "dev",
+      "password": 0,
+      "place": "baekjoon",
+      "language": "javacript",
+      "id": "c874acf2-b627-4fe2-b61c-888d7037672b"
+    },
+    {
+      "title": "엔터",
+      "content": "슬래시\n슬래시\n슬래시\n\n슬래시",
+      "url": "https://brunch.co.kr/",
+      "writer": "아아",
+      "password": 9999,
+      "place": "programmers",
+      "language": "java",
+      "id": "aaf30262-8e5f-43e0-914e-0275c62ded59"
     }
   ],
   "hints": [
@@ -199,6 +219,22 @@
       "password": 1234,
       "level": "상",
       "questionId": "2e2acc04-4816-4125-a3aa-edad737551e0"
+    },
+    {
+      "id": "5c8aa735-d9c3-476d-a0d2-2b6e4a9044d5",
+      "hint": "~~~javascript\nfunction solution(array, n) {\n  let counter = 0;\n  for (arr of array) {\n    if (arr === n) {\n      counter += 1;\n    }\n  }\n  return counter;\n}\n~~~\n~~~javascript\nfunction solution(array, n) {\n  let counter = 0;\n  for (arr of array) {\n    if (arr === n) {\n      counter += 1;\n    }\n  }\n  return counter;\n}\n~~~",
+      "writer": "aa",
+      "password": 7777,
+      "level": "상",
+      "questionId": "c874acf2-b627-4fe2-b61c-888d7037672b"
+    },
+    {
+      "id": "50871056-2d44-438c-8036-0439f5f67c51",
+      "hint": "수정할거이미미미 엔터?\nㅇㄹㄴsdfsdfs오 해결~ㅇㅇㄴㄴㄴ\n1\n오 해결!!!!!\n\n~~~javascript\nfunction solution(array, n) {\n  let counter = 0;\n  for (arr of array) {\n    if (arr === n) {\n      counter += 1;s\n    }\n  }\n  return counter;\n}\n~~~\n~~~javascript\nfunction solution(array, n) {\n  let counter = 0;\n  for (arr of array) {\n    if (arr === n) {\n      counter += 1;\n    }\n  }\n  return counter;\n}\n~~~",
+      "writer": "11",
+      "password": 1111,
+      "level": "중",
+      "questionId": "c874acf2-b627-4fe2-b61c-888d7037672b"
     }
   ]
 }

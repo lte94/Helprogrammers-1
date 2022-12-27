@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { __updateDetail } from '../redux/module/DetailSlice';
+import InputMarkDown from '../components/InputMarkDown';
 
 const UpdateComponent = ({ question, setEdit }) => {
   const dispatch = useDispatch();
@@ -69,165 +70,225 @@ const UpdateComponent = ({ question, setEdit }) => {
   };
 
   return (
-    <>
-      <Layout>
-        <InputBoxs>
-          <div>
-            <DropdownButton>
-              <DropdownButtonbox
-                onChange={(e) => setPlace(e.target.value)}
-                ref={focusPlace}
-              >
-                <option value="">{place}</option>
-                {selectSiteList.map((item) => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </DropdownButtonbox>
-              <DropdownButtonbox
-                onChange={(e) => setLanguage(e.target.value)}
-                ref={focusLanguege}
-              >
-                <option value="">{language}</option>
-                {selectLanguageList.map((item) => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </DropdownButtonbox>
+    <Layout>
+      <Inputform>
+        <InputBox>
+          <InputButtons>
+            <DropdownButton
+              onChange={(e) => setPlace(e.target.value)}
+              ref={focusPlace}
+            >
+              <option value="">{place}</option>
+              {selectSiteList.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
             </DropdownButton>
+            <DropdownButton
+              onChange={(e) => setLanguage(e.target.value)}
+              ref={focusLanguege}
+            >
+              <option value="">{language}</option>
+              {selectLanguageList.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
+            </DropdownButton>
+          </InputButtons>
+        </InputBox>
 
-            <ContentsBox>
-              <InputTag
-                value={url}
-                onChange={(e) => {
-                  setUrl(e.target.value);
-                }}
-                ref={focusUrl}
-                type="text"
-                placeholder="url을 입력해 주세요"
-              ></InputTag>
-              <InputTag
-                value={title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-                ref={focusTitle}
-                type="text"
-                placeholder="제목을 입력해 주세요"
-              />
-              <InputContent
-                value={content}
-                onChange={(e) => {
-                  setContent(e.target.value);
-                }}
-                ref={focusContent}
-                type="text"
-                placeholder="내용을 입력해 주세요"
-              />
-              <ButtonBox>
-                <BackButton
-                  type="button"
-                  onClick={() => {
-                    setEdit(false);
-                  }}
-                >
-                  ← 나가기
-                </BackButton>
-                <AddButton
-                  type="submit"
-                  onClick={() => onSubmitEditor(question.id, updateQuestion)}
-                >
-                  작성완료
-                </AddButton>
-              </ButtonBox>
-            </ContentsBox>
-          </div>
-        </InputBoxs>
-      </Layout>
-    </>
+        <ContentsBox>
+          <InputUrl
+            value={url}
+            onChange={(e) => {
+              setUrl(e.target.value);
+            }}
+            ref={focusUrl}
+            type="text"
+            placeholder="url을 입력해 주세요"
+          />
+          <InputTitle
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+            ref={focusTitle}
+            type="text"
+            placeholder="제목을 입력해 주세요"
+          />
+          <InputContent>
+            <ContentTextArea
+              value={content}
+              onChange={(e) => {
+                setContent(e.target.value);
+              }}
+              ref={focusContent}
+              type="text"
+              placeholder="내용을 입력해 주세요&#13;&#10;.&#13;&#10;[마크다운 에디터 사용법]&#13;&#10;1. 엔터를 두번 치면 줄바꿈이 됩니다.&#13;&#10;2. 코드의 처음과 끝에 ~~~를 입력하면 코드 창으로 바뀝니다.&#13;&#10;3. ~~~ 옆에 개발 언어를 입력하면 자동으로 하이라이팅 됩니다.&#13;&#10;.&#13;&#10;Ex)&#13;&#10;~~~javascript&#13;&#10;여기에 코드를 입력하세요.&#13;&#10;~~~"
+            />
+            <InputMarkDown
+              language={language}
+              content={content}
+            ></InputMarkDown>
+          </InputContent>
+          <ButtonBox>
+            <BackButton
+              type="button"
+              onClick={() => {
+                setEdit(false);
+              }}
+            >
+              ← 나가기
+            </BackButton>
+            <AddButton
+              type="submit"
+              onClick={() => onSubmitEditor(question.id, updateQuestion)}
+            >
+              작성완료
+            </AddButton>
+          </ButtonBox>
+        </ContentsBox>
+      </Inputform>
+    </Layout>
   );
 };
-
 export default UpdateComponent;
 
 const Layout = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 1228px;
+  height: 918px;
+  top: 128px;
+  padding: 24px;
+  border-radius: 20px;
+  background: ${(props) => props.theme.colors.card};
+`;
+
+const Inputform = styled.form`
   display: flex;
   flex-direction: column;
-  padding: 24px;
   gap: 32px;
-  margin: 0 auto;
-  background: ${(props) => props.theme.colors.card};
-  border-radius: 20px;
+  height: 100%;
 `;
 
-const InputBoxs = styled.div`
+const InputBox = styled.div`
+  height: fit-content;
+  width: 100%;
   display: flex;
-  /* padding: 0px; */
-  gap: 32px;
+  justify-content: space-between;
+  align-items: center;
 `;
 
-const DropdownButton = styled.div`
-  display: flex;
-  gap: 30px;
-  width: 279px;
-  padding: 15px 0;
-  /* height: -webkit-fill-available; */
-`;
-
-const DropdownButtonbox = styled.select`
-  padding: 0px 10px 0px 16px;
-  width: 190px;
-  height: 39px;
-  color: ${(props) => props.theme.colors.textcolor};
-  border-radius: 20px;
-  background: ${(props) => props.theme.colors.insidecard};
-  border: none;
-  cursor: pointer;
-`;
-
-const ContentsBox = styled.div`
+const InputTitle = styled.input`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
-  /* Inside auto layout */
-`;
-
-const InputTag = styled.input`
   padding: 22px;
-  width: 1000px;
+  gap: 32px;
+  width: 100%;
   height: 68px;
   color: ${(props) => props.theme.colors.textcolor};
   background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
+  flex: none;
+  flex-grow: 0;
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
+  }
 `;
 
-const InputContent = styled.textarea`
+const InputContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 570px;
+  flex: none;
+  resize: none;
+`;
+
+const ContentTextArea = styled.textarea`
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
+  border-radius: 20px 0px 0px 20px;
+  border: none;
+  padding: 22px;
+  width: 50%;
+  height: 100%;
+  resize: none;
+  outline: none;
+  white-space: pre-wrap;
+  ::-webkit-scrollbar-track {
+    background-color: none;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+    background-color: none;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.colors.scrollbar};
+    border: none;
+  }
+  ::placeholder {
+    line-height: 20px;
+  }
+`;
+
+const InputUrl = styled.input`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 22px;
   gap: 32px;
-  width: 1000px;
-  height: 300px;
+  width: 100%;
+  height: 68px;
   color: ${(props) => props.theme.colors.textcolor};
   background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
-  white-space: pre-wrap;
-  resize: none;
+  flex: none;
+  flex-grow: 0;
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
+  }
+`;
+
+const InputButtons = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 12px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 `;
 
 const ButtonBox = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  gap: 12px;
   width: 100%;
+  height: 44px;
+  flex: none;
+  order: 3;
+  flex-grow: 0;
 `;
 
 const AddButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   padding: 10px 16px;
   gap: 10px;
   width: 91px;
@@ -236,10 +297,18 @@ const AddButton = styled.button`
   background: ${(props) => props.theme.colors.pointcolor};
   border-radius: 20px;
   border: none;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
   cursor: pointer;
 `;
 
 const BackButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0px;
   gap: 6px;
   width: 75px;
   height: 44px;
@@ -247,5 +316,68 @@ const BackButton = styled.button`
   border: none;
   background-color: transparent;
   color: ${(props) => props.theme.colors.textcolor};
+  flex: none;
+  order: 0;
+  flex-grow: 0;
   cursor: pointer;
+`;
+
+const InputNamePass = styled.input`
+  width: 190px;
+  height: 40px;
+  background-color: ${(props) => props.theme.colors.insidecard};
+  border-radius: 20px;
+  position: relative;
+  border: none;
+  color: ${(props) => props.theme.colors.textcolor};
+  padding-left: 16px;
+  border: none;
+  &::placeholder {
+    padding-left: 2px;
+    color: ${(props) => props.theme.colors.placeholder};
+  }
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
+  }
+`;
+
+const DropdownButton = styled.select`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 16px 0px;
+  width: 158px;
+  height: 39px;
+  color: ${(props) => props.theme.colors.pointcolor};
+  border-radius: 20px;
+  background: ${(props) => props.theme.colors.insidecard};
+  border: none;
+  flex: none;
+  flex-grow: 0;
+  outline: none;
+  cursor: pointer;
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
+  }
+`;
+
+const ContentsBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  gap: 16px;
+  width: 100%;
+  height: fit-content;
+  flex-grow: 0;
 `;

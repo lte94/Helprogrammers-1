@@ -3,6 +3,8 @@ import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import useInput from '../hooks/useInput';
 import { __deleteHint, __editHint } from '../redux/module/HintsSlice';
+import DetailMarkDown from './DetailMarkDown';
+import InputMarkDown from '../components/InputMarkDown';
 
 const HintCard = ({ hint }) => {
   const dispatch = useDispatch();
@@ -80,16 +82,23 @@ const HintCard = ({ hint }) => {
 
   return (
     <HintBox key={hint.id}>
+      {/* <DetailMarkDown content={hint.hint}
+        /> */}
       {isOpen ? (
-        <HintUpdateBox
-          type="text"
-          onChange={onChangeUpdate}
-          defaultValue={hint.hint}
-        />
+        <InputHint>
+          <ContentTextArea
+            type="text"
+            onChange={onChangeUpdate}
+            defaultValue={hint.hint}
+            placeholder="내용을 입력해 주세요&#13;&#10;.&#13;&#10;[마크다운 에디터 사용법]&#13;&#10;1. 엔터를 두번 치면 줄바꿈이 됩니다.&#13;&#10;2. 코드의 처음과 끝에 ~~~를 입력하면 코드 창으로 바뀝니다.&#13;&#10;3. ~~~ 옆에 개발 언어를 입력하면 자동으로 하이라이팅 됩니다.&#13;&#10;.&#13;&#10;Ex)&#13;&#10;~~~javascript&#13;&#10;여기에 코드를 입력하세요.&#13;&#10;~~~"
+          />
+          <InputMarkDown
+            language="javascript"
+            content={hintUpdate !== '' ? hintUpdate : hint.hint}
+          ></InputMarkDown>
+        </InputHint>
       ) : (
-        <HintTextBox>
-          <pre children={hint.hint} />
-        </HintTextBox>
+        <DetailMarkDown content={hint.hint} />
       )}
       <InputNamePassword
         type="text"
@@ -134,34 +143,68 @@ const HintBox = styled.div`
   padding: 24px;
   position: relative;
 `;
-const HintTextBox = styled.div`
-  min-width: 100%;
-  min-height: 220px;
-  word-break: break-word;
-  table-layout: fixed;
-  background-color: ${(props) => props.theme.colors.insidecard};
-  border: transparent;
-  padding: 20px;
-  font-size: 20px;
-  color: ${(props) => props.theme.colors.textcolor};
-  border-radius: 20px;
-  word-break: break-all;
-  white-space: pre-line;
-`;
 
-const HintUpdateBox = styled.textarea`
-  min-width: 100%;
-  min-height: 220px;
-  word-break: break-word;
-  table-layout: fixed;
-  background-color: ${(props) => props.theme.colors.insidecard};
-  border: transparent;
-  padding: 20px;
-  font-size: 20px;
-  color: ${(props) => props.theme.colors.textcolor};
-  border-radius: 20px;
+const InputHint = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 224px;
+  flex: none;
   resize: none;
 `;
+
+const ContentTextArea = styled.textarea`
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
+  border-radius: 20px 0px 0px 20px;
+  border: none;
+  padding: 22px;
+  width: 50%;
+  height: 100%;
+  resize: none;
+  outline: none;
+  white-space: pre-wrap;
+  ::-webkit-scrollbar-track {
+    background-color: none;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+    background-color: none;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.colors.scrollbar};
+    border: none;
+  }
+`;
+
+// const HintTextBox = styled.div`
+//   min-width: 100%;
+//   min-height: 220px;
+//   word-break: break-word;
+//   table-layout: fixed;
+//   background-color: ${(props) => props.theme.colors.insidecard};
+//   border: transparent;
+//   padding: 20px;
+//   font-size: 20px;
+//   color: ${(props) => props.theme.colors.textcolor};
+//   border-radius: 20px;
+//   word-break: break-all;
+//   white-space: pre-line;
+// `;
+
+// const HintUpdateBox = styled.textarea`
+//   min-width: 100%;
+//   min-height: 220px;
+//   word-break: break-word;
+//   table-layout: fixed;
+//   background-color: ${(props) => props.theme.colors.insidecard};
+//   border: transparent;
+//   padding: 20px;
+//   font-size: 20px;
+//   color: ${(props) => props.theme.colors.textcolor};
+//   border-radius: 20px;
+//   resize: none;
+// `;
 
 const InputNamePassword = styled.input`
   width: 190px;
@@ -179,9 +222,9 @@ const InputNamePassword = styled.input`
     padding-left: 2px;
     color: ${(props) => props.theme.colors.placeholder};
   }
-  &:focus {
-    box-shadow: 3px 3px 5px #aaa;
-    scale: 1.01;
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
   }
   ::-webkit-inner-spin-button {
     -webkit-appearance: none;

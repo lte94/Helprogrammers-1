@@ -5,6 +5,8 @@ import { __addQuestions } from '../redux/module/QuestionsSlice';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import InputMarkDown from '../components/InputMarkDown';
+
 const Input = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,7 +24,7 @@ const Input = () => {
   const focusContent = useRef();
   const focusUrl = useRef();
   const focusPlace = useRef();
-  const focusLanguege = useRef();
+  const focusLanguage = useRef();
 
   const selectSiteList = ['baekjoon', 'programmers', 'SW Expert Academy'];
   const selectLanguageList = ['javacript', 'python', 'c++', 'java'];
@@ -54,7 +56,7 @@ const Input = () => {
       return;
     } else if (language.replace(/ /g, '') === '') {
       alert('언어를 선택해주세요!');
-      focusLanguege.current.focus();
+      focusLanguage.current.focus();
       return;
     } else if (writer.replace(/ /g, '') === '') {
       alert('이름을 입력해주세요!');
@@ -111,127 +113,119 @@ const Input = () => {
   };
   return (
     <Layout>
-      <InputBoxs>
-        <form onSubmit={onSubmitHandler}>
-          <InputBox>
-            <DropdownButton>
-              <DropdownButtonSite
-                onChange={handleSelectSite}
-                value={place}
-                ref={focusPlace}
-              >
-                <option value="">사이트 선택</option>
-                {selectSiteList.map((item) => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </DropdownButtonSite>
-              <DropdownButtonLanguage
-                onChange={handleSelectLanguage}
-                value={language}
-                ref={focusLanguege}
-              >
-                <option value="">언어 선택</option>
-                {selectLanguageList.map((item) => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </DropdownButtonLanguage>
+      <Inputform onSubmit={onSubmitHandler}>
+        <InputBox>
+          <InputButtons>
+            <DropdownButton
+              onChange={handleSelectSite}
+              value={place}
+              ref={focusPlace}
+            >
+              <option value="">사이트 선택</option>
+              {selectSiteList.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
             </DropdownButton>
-            <div>
-              <InputNamePass
-                value={writer}
-                onChange={onChangeInputWriter}
-                ref={focusWriter}
-                type="text"
-                placeholder="이름 입력"
-              />
-              <InputNamePass
-                value={password}
-                onChange={onChangeInputPassword}
-                ref={focusPassword}
-                type="Number"
-                placeholder="비밀번호 입력"
-              />
-            </div>
-          </InputBox>
-          <ContentsBox>
-            <InputUrl
-              value={url}
-              onChange={onChangeInputUrl}
-              ref={focusUrl}
+            <DropdownButton
+              onChange={handleSelectLanguage}
+              value={language}
+              ref={focusLanguage}
+            >
+              <option value="">언어 선택</option>
+              {selectLanguageList.map((item) => (
+                <option value={item} key={item}>
+                  {item}
+                </option>
+              ))}
+            </DropdownButton>
+          </InputButtons>
+          <InputButtons>
+            <InputNamePass
+              value={writer}
+              onChange={onChangeInputWriter}
+              ref={focusWriter}
               type="text"
-              placeholder="url을 입력해 주세요"
+              placeholder="이름 입력"
             />
-            <InputTitle
-              value={title}
-              onChange={onChangeInputTitle}
-              ref={focusTitle}
-              type="text"
-              placeholder="제목을 입력해 주세요"
+            <InputNamePass
+              value={password}
+              onChange={onChangeInputPassword}
+              ref={focusPassword}
+              type="Number"
+              placeholder="비밀번호 입력"
             />
-            <InputContent
+          </InputButtons>
+        </InputBox>
+        <ContentsBox>
+          <InputUrl
+            value={url}
+            onChange={onChangeInputUrl}
+            ref={focusUrl}
+            type="text"
+            placeholder="url을 입력해 주세요"
+          />
+          <InputTitle
+            value={title}
+            onChange={onChangeInputTitle}
+            ref={focusTitle}
+            type="text"
+            placeholder="제목을 입력해 주세요"
+          />
+          <InputContent>
+            <ContentTextArea
               value={content}
               onChange={onChangeInputContent}
               ref={focusContent}
               type="text"
-              placeholder="내용을 입력해 주세요"
+              placeholder="내용을 입력해 주세요!&#13;&#10;.&#13;&#10;[마크다운 에디터 사용법]&#13;&#10;1. 엔터를 두번 치면 줄바꿈이 됩니다.&#13;&#10;2. 코드의 처음과 끝에 ~~~를 입력하면 코드 창으로 바뀝니다.&#13;&#10;3. ~~~ 옆에 개발 언어를 입력하면 자동으로 하이라이팅 됩니다.&#13;&#10;.&#13;&#10;Ex)&#13;&#10;~~~javascript&#13;&#10;여기에 코드를 입력하세요.&#13;&#10;~~~"
             />
-            <ButtonBox>
-              <BackButton
-                type="button"
-                onClick={() => {
-                  navigate('/');
-                }}
-              >
-                ← 나가기
-              </BackButton>
-              <AddButton type="submit">작성완료</AddButton>
-            </ButtonBox>
-          </ContentsBox>
-        </form>
-      </InputBoxs>
+            <InputMarkDown
+              language={language}
+              content={content}
+            ></InputMarkDown>
+          </InputContent>
+          <ButtonBox>
+            <BackButton
+              type="button"
+              onClick={() => {
+                navigate('/');
+              }}
+            >
+              ← 나가기
+            </BackButton>
+            <AddButton type="submit">작성완료</AddButton>
+          </ButtonBox>
+        </ContentsBox>
+      </Inputform>
     </Layout>
   );
 };
 export default Input;
-const InputBoxs = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px;
-  gap: 32px;
-  position: absolute;
-  height: 920px;
-  left: 10%;
-  right: 10%;
-  bottom: 20px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-`;
 
 const Layout = styled.div`
   display: flex;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+`;
+
+const Inputform = styled.form`
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 24px;
   gap: 32px;
-  position: absolute;
-  width: 1300px;
+  height: 100%;
+  width: 1228px;
   height: 918px;
-  left: 12%;
-  right: 14.47%;
-  top: 140px;
-  margin: 0 auto;
-  background: ${(props) => props.theme.colors.card};
+  padding: 24px;
   border-radius: 20px;
+  background: ${(props) => props.theme.colors.card};
 `;
 
 const InputBox = styled.div`
-  height: 100px;
+  height: fit-content;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -243,34 +237,54 @@ const InputTitle = styled.input`
   align-items: flex-start;
   padding: 22px;
   gap: 32px;
-  width: 1180px;
+  width: 100%;
   height: 68px;
   color: ${(props) => props.theme.colors.textcolor};
   background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
-  order: 1;
   flex-grow: 0;
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
+  }
 `;
 
-const InputContent = styled.textarea`
+const InputContent = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 22px;
-  gap: 32px;
-  width: 1180px;
+  flex-direction: row;
+  width: 100%;
   height: 570px;
+  flex: none;
+  resize: none;
+`;
+
+const ContentTextArea = styled.textarea`
   color: ${(props) => props.theme.colors.textcolor};
   background: ${(props) => props.theme.colors.insidecard};
-  border-radius: 20px;
+  border-radius: 20px 0px 0px 20px;
   border: none;
-  flex: none;
-  order: 2;
-  flex-grow: 0;
-  white-space: pre-wrap;
+  padding: 22px;
+  width: 50%;
+  height: 100%;
   resize: none;
+  outline: none;
+  white-space: pre-wrap;
+  ::-webkit-scrollbar-track {
+    background-color: none;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+    background-color: none;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${(props) => props.theme.colors.scrollbar};
+    border: none;
+  }
+  ::placeholder {
+    line-height: 20px;
+  }
 `;
 
 const InputUrl = styled.input`
@@ -279,28 +293,29 @@ const InputUrl = styled.input`
   align-items: flex-start;
   padding: 22px;
   gap: 32px;
-  width: 1180px;
+  width: 100%;
   height: 68px;
   color: ${(props) => props.theme.colors.textcolor};
   background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
-  order: 0;
   flex-grow: 0;
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
+  }
 `;
 
-const DropdownButton = styled.div`
+const InputButtons = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   padding: 0px;
-  gap: 30px;
-  width: 279px;
+  gap: 12px;
   flex: none;
   order: 0;
   flex-grow: 0;
-  /* height: -webkit-fill-available; */
 `;
 
 const ButtonBox = styled.div`
@@ -310,7 +325,7 @@ const ButtonBox = styled.div`
   align-items: center;
   padding: 0px;
   gap: 12px;
-  width: 1180px;
+  width: 100%;
   height: 44px;
   flex: none;
   order: 3;
@@ -363,16 +378,11 @@ const InputNamePass = styled.input`
   position: relative;
   border: none;
   color: ${(props) => props.theme.colors.textcolor};
-  margin-left: 10px;
   padding-left: 16px;
   border: none;
   &::placeholder {
     padding-left: 2px;
     color: ${(props) => props.theme.colors.placeholder};
-  }
-  &:focus {
-    box-shadow: 3px 3px 5px #aaa;
-    scale: 1.01;
   }
   ::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -382,56 +392,40 @@ const InputNamePass = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
+  }
 `;
 
-const DropdownButtonSite = styled.select`
+const DropdownButton = styled.select`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 16px;
-  gap: 10px;
+  padding: 0px 16px 0px;
   width: 158px;
   height: 39px;
-  color: ${(props) => props.theme.colors.textcolor};
+  color: ${(props) => props.theme.colors.pointcolor};
   border-radius: 20px;
   background: ${(props) => props.theme.colors.insidecard};
   border: none;
   flex: none;
-  order: 0;
   flex-grow: 0;
+  outline: none;
   cursor: pointer;
-`;
-
-const DropdownButtonLanguage = styled.select`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 16px;
-  gap: 10px;
-  width: 120px;
-  height: 39px;
-  color: ${(props) => props.theme.colors.textcolor};
-  background: ${(props) => props.theme.colors.insidecard};
-  border-radius: 20px;
-  border: none;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  cursor: pointer;
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
+  }
 `;
 
 const ContentsBox = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   padding: 0px;
   gap: 16px;
-  width: 1180px;
-  height: 10px;
-  /* Inside auto layout */
-  flex: none;
-  order: 1;
+  width: 100%;
+  height: fit-content;
   flex-grow: 0;
 `;

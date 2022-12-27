@@ -49,9 +49,10 @@ export default Question;
 
 const QuestionContainer = styled.div`
   width: 100%;
-  height: calc(100vh - 88px);
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 50px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 `;

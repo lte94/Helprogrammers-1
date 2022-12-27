@@ -39,9 +39,9 @@ const Thread = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 216px;
+  height: fit-content;
   gap: 24px;
-  padding: 20px;
+  padding: 20px 20px 14px;
   border-radius: 20px;
   background-color: ${(props) => props.theme.colors.card};
 `;
@@ -49,6 +49,7 @@ const ThreadHead = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  height: fit-content;
 `;
 const Place = styled.span`
   display: flex;
@@ -83,6 +84,7 @@ const ThreadBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: 116px;
   color: ${(props) => props.theme.colors.textcolor};
   h2 {
     font-size: 24px;
@@ -92,5 +94,6 @@ const ThreadBody = styled.div`
     font-size: 16px;
     font-weight: 400;
     line-height: 26px;
+    overflow: hidden;
   }
 `;

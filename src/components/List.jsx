@@ -50,15 +50,17 @@ const List = () => {
 export default List;
 
 const MainDiv = styled.main`
-  height: calc(100vh - 88px); // -88px (헤더 높이)
   display: flex;
   justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
 `;
+
 const NewsFeed = styled.section`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  padding-top: 40px;
   width: 868px;
+  height: fit-content;
   gap: 24px;
 `;

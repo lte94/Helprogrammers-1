@@ -5,6 +5,7 @@ import { __deleteDetail, __getDetail } from '../redux/module/DetailSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import UpdateComponent from './UpdateComponent';
+import DetailMarkDown from './DetailMarkDown';
 
 // props로 받은 question state
 const Detail = ({ setEdit, edit }) => {
@@ -117,11 +118,7 @@ const Detail = ({ setEdit, edit }) => {
             </form>
           </QuestionTitle>
           <QuestionLink>Link</QuestionLink>
-          <QuestionContent>{question.content}</QuestionContent>
-          <QuestionCode>
-            <CodeName>소스 코드</CodeName>
-            <CodeContent>const nanana = banana;</CodeContent>
-          </QuestionCode>
+          <DetailMarkDown content={question.content}></DetailMarkDown>
         </Wrapper>
       )}
     </>
@@ -131,11 +128,6 @@ const Detail = ({ setEdit, edit }) => {
 export default Detail;
 
 // styled component
-
-const QuestionContent = styled.p`
-  color: ${(props) => props.theme.colors.textcolor};
-  padding: 15px;
-`;
 
 const Wrapper = styled.div`
   width: 1000px;
@@ -206,9 +198,9 @@ const InputNamePassword = styled.input`
     padding-left: 2px;
     color: ${(props) => props.theme.colors.placeholder};
   }
-  &:focus {
-    box-shadow: 3px 3px 5px #aaa;
-    scale: 1.01;
+  :focus {
+    outline: none;
+    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
   }
   ::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -227,27 +219,11 @@ const AddButton = styled.button`
   position: relative;
   cursor: pointer;
 `;
+
 const QuestionLink = styled.a`
   color: ${(props) => props.theme.colors.pointcolor};
   font-weight: bold;
   display: inline-block;
   padding: 15px;
   cursor: pointer;
-`;
-
-const QuestionCode = styled.section`
-  width: 100%;
-  height: 300px;
-  border-radius: 20px;
-  background-color: ${(props) => props.theme.colors.insidecard};
-  display: flex;
-  flex-direction: column;
-`;
-const CodeName = styled.p`
-  color: ${(props) => props.theme.colors.pointcolor};
-  font-weight: bold;
-  padding: 15px;
-`;
-const CodeContent = styled.span`
-  padding: 0 15px;
 `;

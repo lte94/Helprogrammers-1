@@ -90,6 +90,7 @@ const Helprogrammers = styled.p`
   left: 36px;
   position: relative;
   font-size: 36px;
+  font-weight: 600;
 `;
 const Hel = styled.span`
   color: ${(props) => props.theme.colors.pointcolor};
