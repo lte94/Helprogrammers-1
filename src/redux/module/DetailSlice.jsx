@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const serverUrl = 'http://helprogrammers-json-glitch.glitch.me/questions';
+const serverUrl = 'https://helprogrammers-json-glitch.glitch.me/questions';
 
 const initialState = {
   question: [],
