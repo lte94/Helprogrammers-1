@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const serverUrl = 'http://localhost:3001/hints';
+const serverUrl = 'http://helprogrammers-json-glitch.glitch.me/hints';
 
 const initialState = {
   hints: [],
@@ -34,7 +34,24 @@ export const __deleteHint = createAsyncThunk(
   'DELETE_HINT',
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(`http://localhost:3001/hints/${payload}`);
+      await axios.delete(
+        `http://helprogrammers-json-glitch.glitch.me/hints/${payload}`,
+      );
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
+export const __editHint = createAsyncThunk(
+  'EDIT_HINT',
+  async (payload, thunkAPI) => {
+    try {
+      await axios.patch(
+        `http://helprogrammers-json-glitch.glitch.me/hints/${payload.id}`,
+        payload.edithint,
+      );
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -75,6 +92,19 @@ export const hintsSlice = createSlice({
     [__deleteHint.pending]: (state) => {},
 
     [__deleteHint.rejected]: (state, action) => {},
+    [__editHint.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__editHint.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.hints = state.hints.map((hint) =>
+        hint.id === action.payload.id ? (hint = action.payload.edithint) : hint,
+      );
+    },
+    [__editHint.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
   },
 });
 

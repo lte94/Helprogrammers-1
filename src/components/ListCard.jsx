@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const ListCard = ({ question }) => {
   const { hellMode } = useSelector((state) => state.theme);
+
   return (
     <QuestionLink to={`/${question.id}`}>
       <Thread>
@@ -38,16 +39,17 @@ const Thread = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 216px;
+  height: fit-content;
   gap: 24px;
-  padding: 20px;
+  padding: 20px 20px 14px;
   border-radius: 20px;
-  background-color: ${(props) => props.theme.colors.questioncard};
+  background-color: ${(props) => props.theme.colors.card};
 `;
 const ThreadHead = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  height: fit-content;
 `;
 const Place = styled.span`
   display: flex;
@@ -56,16 +58,13 @@ const Place = styled.span`
   padding: 10px 16px;
   font-size: 16px;
   border-radius: 20px;
-  background-color: ${(props) => {
-    if (props.children === 'baekjoon') {
-      return props.theme.colors.baekjoon;
-    } else if (props.children === 'programmers') {
-      return props.theme.colors.programmers;
-    } else {
-      return props.theme.colors.swexpert;
-    }
-  }};
-  color: ${(props) => props.theme.colors.reversetextcolor};
+  background-color: ${(props) =>
+    props.children === 'baekjoon'
+      ? props.theme.colors.baekjoon
+      : props.children === 'programmers'
+      ? props.theme.colors.programmers
+      : props.theme.colors.swexpert};
+  color: black;
 `;
 const Language = styled.span`
   display: flex;
@@ -85,6 +84,7 @@ const ThreadBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: 116px;
   color: ${(props) => props.theme.colors.textcolor};
   h2 {
     font-size: 24px;
@@ -94,5 +94,6 @@ const ThreadBody = styled.div`
     font-size: 16px;
     font-weight: 400;
     line-height: 26px;
+    overflow: hidden;
   }
 `;

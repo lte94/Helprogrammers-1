@@ -1,19 +1,20 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, Children } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { __getQuestions } from '../redux/module/QuestionsSlice';
-import { __getSearchedQuestions } from '../redux/module/QuestionsSlice';
 import { changeTheme } from '../redux/module/ThemeSlice';
+import CustomButton from './CustomButton';
 
 const Header = () => {
   const { hellMode } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
   const [term, setTerm] = useState('');
+  const navigate = useNavigate();
 
   const searchHandler = (e) => {
     e.preventDefault();
-    dispatch(__getSearchedQuestions(term));
+    navigate(`/?q=${term}`);
   };
 
   const resetSearchHandler = () => {
@@ -33,8 +34,9 @@ const Header = () => {
           <Programmers>programmers</Programmers>
         </Helprogrammers>
       </MainLink>
+
       <SearchForm onSubmit={searchHandler}>
-        <SearchIcon src="/assets/search.png" />
+        <SearchIcon src="/assets/search.png" />{' '}
         <SearchInput
           type="text"
           value={term}
@@ -42,20 +44,18 @@ const Header = () => {
           onChange={(e) => setTerm(e.target.value)}
         />
       </SearchForm>
+
       <HeaderButtons>
         <Link to="/add">
-          <AddQuestionButton>
-            <AddQuestionIcon
-              src={
-                hellMode ? '/assets/white-write.png' : '/assets/black-write.png'
-              }
-            ></AddQuestionIcon>
-            질문 작성
-          </AddQuestionButton>
+          <CustomButton name={'AddQuestionButton'}>{Children}</CustomButton>
         </Link>
-        <ChangeModeButton onClick={changeModeHandler}>
-          {hellMode ? '🔥' : '🌝'}
-        </ChangeModeButton>
+
+        <CustomButton
+          name={'ChangeModeButton'}
+          changeModeHandler={changeModeHandler}
+        >
+          {Children}
+        </CustomButton>
       </HeaderButtons>
     </HeaderBox>
   );
@@ -87,6 +87,7 @@ const Helprogrammers = styled.p`
   left: 36px;
   position: relative;
   font-size: 36px;
+  font-weight: 600;
 `;
 const Hel = styled.span`
   color: ${(props) => props.theme.colors.pointcolor};
@@ -137,37 +138,4 @@ const HeaderButtons = styled.div`
   right: 28px;
   display: flex;
   gap: 20px;
-`;
-
-const AddQuestionButton = styled.button`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 10px 16px 10px;
-  font-size: 16px;
-  gap: 10px;
-  background-color: ${(props) => props.theme.colors.pointcolor};
-  color: ${(props) => props.theme.colors.reversetextcolor};
-  border-radius: 22px;
-  border: none;
-  left: 80%;
-  top: 18px;
-  cursor: pointer;
-`;
-
-const AddQuestionIcon = styled.img`
-  width: 24px;
-  height: 24px;
-`;
-
-const ChangeModeButton = styled.button`
-  width: 46px;
-  height: 46px;
-  background-color: ${(props) => props.theme.colors.togglebutton};
-  border-radius: 23px;
-  border: none;
-  left: 80%;
-  top: 18px;
-  font-size: 24px;
-  cursor: pointer;
 `;

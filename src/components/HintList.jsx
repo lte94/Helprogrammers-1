@@ -41,11 +41,11 @@ const HintList = ({ questionHints }) => {
         </LevelCheckLabel>
       </div>
       {level === '상'
-        ? highHints.map((hint) => <HintCard hint={hint} />)
+        ? highHints.map((hint) => <HintCard hint={hint} key={hint.id} />)
         : level === '중'
-        ? middleHints.map((hint) => <HintCard hint={hint} />)
+        ? middleHints.map((hint) => <HintCard hint={hint} key={hint.id} />)
         : level === '하'
-        ? lowHints.map((hint) => <HintCard hint={hint} />)
+        ? lowHints.map((hint) => <HintCard hint={hint} key={hint.id} />)
         : null}
     </Middle>
   );
@@ -59,9 +59,7 @@ const Middle = styled.section`
   justify-content: center;
   flex-direction: column;
   padding-top: 20px;
-  min-width: 1000px;
-  /* border: 1px solid red; */
-  /* background-color: yellow; */
+  width: 1000px;
 `;
 
 const LevelCheckLabel = styled.label`
@@ -76,14 +74,14 @@ const LevelCheckSpan = styled.span`
   font-size: 18px;
   width: 36px;
   height: 36px;
-  background: #44454a;
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 50%;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: black;
+  color: ${(props) => props.theme.colors.placeholder};
 `;
 
 const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
@@ -95,12 +93,13 @@ const LevelCheckRadio = styled.input.attrs({ type: 'radio' })`
   }
   &:checked + ${LevelCheckSpan} {
     scale: 1.1;
+    color: black;
     background-color: ${(props) =>
       props.value === '상'
-        ? '#0DF0AC'
+        ? props.theme.colors.high
         : props.value === '중'
-        ? '#89F9D7'
-        : '#CBFFEF'};
+        ? props.theme.colors.middle
+        : props.theme.colors.low};
   }
   display: none;
 `;
