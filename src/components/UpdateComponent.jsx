@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, Children } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { __updateDetail } from '../redux/module/DetailSlice';
 import InputMarkDown from '../components/InputMarkDown';
+import CustomButton from './CustomButton';
 
 const UpdateComponent = ({ question, setEdit }) => {
   const dispatch = useDispatch();
@@ -134,20 +135,20 @@ const UpdateComponent = ({ question, setEdit }) => {
             ></InputMarkDown>
           </InputContent>
           <ButtonBox>
-            <BackButton
-              type="button"
-              onClick={() => {
+            <CustomButton
+              name="updateBackButton"
+              setEdit={() => {
                 setEdit(false);
               }}
             >
-              ← 나가기
-            </BackButton>
-            <AddButton
-              type="submit"
-              onClick={() => onSubmitEditor(question.id, updateQuestion)}
+              {Children}
+            </CustomButton>
+            <CustomButton
+              name="updateSuccessButton"
+              onSubmitEditor={() => onSubmitEditor(question.id, updateQuestion)}
             >
-              작성완료
-            </AddButton>
+              {Children}
+            </CustomButton>
           </ButtonBox>
         </ContentsBox>
       </Inputform>
@@ -282,72 +283,6 @@ const ButtonBox = styled.div`
   flex: none;
   order: 3;
   flex-grow: 0;
-`;
-
-const AddButton = styled.button`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 16px;
-  gap: 10px;
-  width: 91px;
-  height: 39px;
-  color: ${(props) => props.theme.colors.reversetextcolor};
-  background: ${(props) => props.theme.colors.pointcolor};
-  border-radius: 20px;
-  border: none;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  cursor: pointer;
-`;
-
-const BackButton = styled.button`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0px;
-  gap: 6px;
-  width: 75px;
-  height: 44px;
-  border-radius: 20px;
-  border: none;
-  background-color: transparent;
-  color: ${(props) => props.theme.colors.textcolor};
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  cursor: pointer;
-`;
-
-const InputNamePass = styled.input`
-  width: 190px;
-  height: 40px;
-  background-color: ${(props) => props.theme.colors.insidecard};
-  border-radius: 20px;
-  position: relative;
-  border: none;
-  color: ${(props) => props.theme.colors.textcolor};
-  padding-left: 16px;
-  border: none;
-  &::placeholder {
-    padding-left: 2px;
-    color: ${(props) => props.theme.colors.placeholder};
-  }
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  ::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  :focus {
-    outline: none;
-    box-shadow: 0 0 8px 1px ${(props) => props.theme.colors.pointcolor};
-  }
 `;
 
 const DropdownButton = styled.select`

@@ -58,8 +58,8 @@ const MainDiv = styled.main`
 
 const NewsFeed = styled.section`
   display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
+  justify-content: flex-end;
+  flex-direction: column-reverse;
   width: 868px;
   height: fit-content;
   gap: 24px;

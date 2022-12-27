@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, Children } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { __deleteDetail, __getDetail } from '../redux/module/DetailSlice';
@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import UpdateComponent from './UpdateComponent';
 import DetailMarkDown from './DetailMarkDown';
+import CustomButton from './CustomButton';
 
 // props로 받은 question state
 const Detail = ({ setEdit, edit }) => {
@@ -96,7 +97,7 @@ const Detail = ({ setEdit, edit }) => {
           </QuestionHead>
           <QuestionTitle>
             <TitleFont>{question.title}</TitleFont>
-            <form>
+            <InputButtonForm>
               <InputNamePassword
                 type="text"
                 placeholder="이름 입력"
@@ -109,13 +110,19 @@ const Detail = ({ setEdit, edit }) => {
                 ref={focusPassword}
                 onChange={onChangePassword}
               />
-              <AddButton onClick={(event) => updateButton(event)}>
-                수정
-              </AddButton>
-              <AddButton onClick={(event) => deleteButton(event, question.id)}>
-                삭제
-              </AddButton>
-            </form>
+              <CustomButton
+                name="updateButton"
+                updateButton={(event) => updateButton(event)}
+              >
+                {Children}
+              </CustomButton>
+              <CustomButton
+                name="deleteButton"
+                deleteButton={(event) => deleteButton(event, question.id)}
+              >
+                {Children}
+              </CustomButton>
+            </InputButtonForm>
           </QuestionTitle>
           <QuestionLink>Link</QuestionLink>
           <DetailMarkDown content={question.content}></DetailMarkDown>
@@ -183,6 +190,13 @@ const TitleFont = styled.h1`
   font-size: 24px;
   font-weight: bold;
 `;
+
+const InputButtonForm = styled.form`
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+`;
+
 const InputNamePassword = styled.input`
   width: 190px;
   height: 40px;
@@ -192,7 +206,6 @@ const InputNamePassword = styled.input`
   border: none;
   color: ${(props) => props.theme.colors.textcolor};
   padding: 10px 0;
-  margin-left: 10px;
   padding-left: 16px;
   &::placeholder {
     padding-left: 2px;
@@ -210,14 +223,6 @@ const InputNamePassword = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
-`;
-const AddButton = styled.button`
-  height: 40px;
-  background-color: transparent;
-  border: transparent;
-  color: ${(props) => props.theme.colors.pointcolor};
-  position: relative;
-  cursor: pointer;
 `;
 
 const QuestionLink = styled.a`

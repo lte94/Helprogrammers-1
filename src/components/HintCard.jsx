@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { useState, useRef } from 'react';
+import { useState, useRef, Children } from 'react';
 import { useDispatch } from 'react-redux';
 import useInput from '../hooks/useInput';
 import { __deleteHint, __editHint } from '../redux/module/HintsSlice';
 import DetailMarkDown from './DetailMarkDown';
 import InputMarkDown from '../components/InputMarkDown';
+import CustomButton from './CustomButton';
 
 const HintCard = ({ hint }) => {
   const dispatch = useDispatch();
@@ -82,8 +83,6 @@ const HintCard = ({ hint }) => {
 
   return (
     <HintBox key={hint.id}>
-      {/* <DetailMarkDown content={hint.hint}
-        /> */}
       {isOpen ? (
         <InputHint>
           <ContentTextArea
@@ -113,21 +112,30 @@ const HintCard = ({ hint }) => {
         onChange={onChangePassword}
       />
       {isOpen ? (
-        <DeleteUpdateButton
-          onClick={() => onClickEditHintButtonHandler(hint.id, edithint)}
+        //완료
+        <CustomButton
+          name="hintSuccess"
+          onClickEditHintButtonHandler={() =>
+            onClickEditHintButtonHandler(hint.id, edithint)
+          }
         >
-          완료
-        </DeleteUpdateButton>
+          {Children}
+        </CustomButton>
       ) : (
-        <DeleteUpdateButton onClick={openUpdateHandler}>
-          수정
-        </DeleteUpdateButton>
+        // 수정
+        <CustomButton name="hintUpdate" openUpdateHandler={openUpdateHandler}>
+          {Children}
+        </CustomButton>
       )}
-      <DeleteUpdateButton
-        onClick={() => onClickDeleteHintButtonHandler(hint.id)}
+      {/* 삭제 */}
+      <CustomButton
+        name="hintDelete"
+        onClickDeleteHintButtonHandler={() =>
+          onClickDeleteHintButtonHandler(hint.id)
+        }
       >
-        삭제
-      </DeleteUpdateButton>
+        {Children}
+      </CustomButton>
     </HintBox>
   );
 };
@@ -137,7 +145,7 @@ export default HintCard;
 const HintBox = styled.div`
   margin-top: 20px;
   width: 100%;
-  min-height: 350px;
+  height: fit-content;
   background-color: ${(props) => props.theme.colors.card};
   border-radius: 20px;
   padding: 24px;

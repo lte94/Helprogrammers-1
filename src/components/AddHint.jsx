@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { useRef } from 'react';
+import { useRef, Children } from 'react';
 import useInput from '../hooks/useInput';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { __addHint } from '../redux/module/HintsSlice';
 import InputMarkDown from '../components/InputMarkDown';
+import CustomButton from './CustomButton';
 
 const AddHint = ({ question }) => {
   const dispatch = useDispatch();
@@ -97,7 +98,9 @@ const AddHint = ({ question }) => {
               ref={focusPassword}
               onChange={onChangePassword}
             />
-            <AddButton onClick={onClickAddHint}>확인</AddButton>
+            <CustomButton name="AddButton" onClickAddHint={onClickAddHint}>
+              {Children}
+            </CustomButton>
           </InputNamePasswordWrapper>
         </HintBoxHeader>
         <InputHint>
@@ -213,14 +216,6 @@ const InputNamePassword = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
-`;
-const AddButton = styled.button`
-  width: 60px;
-  height: 40px;
-  background-color: ${(props) => props.theme.colors.pointcolor};
-  border-radius: 20px;
-  border: transparent;
-  cursor: pointer;
 `;
 
 const InputHint = styled.div`

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const serverUrl = 'http://localhost:3001/questions';
+const serverUrl = 'http://helprogrammers-json-glitch.glitch.me/questions';
 
 const initialState = {
   questions: [],
@@ -38,7 +38,7 @@ export const __getQuestion = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await axios.get(
-        `http://localhost:3001/questions/${payload}`,
+        `http://helprogrammers-json-glitch.glitch.me/questions/${payload}`,
       );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
