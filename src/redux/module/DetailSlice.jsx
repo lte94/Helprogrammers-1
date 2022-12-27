@@ -9,14 +9,11 @@ const initialState = {
   error: null,
 };
 
-
 export const __getDetail = createAsyncThunk(
   'GET_DETAIL',
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(
-        `${serverUrl}/${payload}`,
-      );
+      const data = await axios.get(`${serverUrl}/${payload}`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -26,14 +23,26 @@ export const __getDetail = createAsyncThunk(
 
 export const __deleteDetail = createAsyncThunk(
   'DELETE_DETAIL',
-  async (payload, thunkAPI)=>{
-    try{
+  async (payload, thunkAPI) => {
+    try {
       await axios.delete(`${serverUrl}/${payload}`);
-      return thunkAPI.fulfillWithValue(payload)
+      return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
-  }
+  },
+);
+
+export const __updateDetail = createAsyncThunk(
+  'UPDATE_DETAIL',
+  async (payload, thunkAPI) => {
+    try {
+      await axios.patch(`${serverUrl}/${payload.id}`, payload.updateQuestion);
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
 );
 
 export const detailSlice = createSlice({
@@ -59,6 +68,18 @@ export const detailSlice = createSlice({
     },
     [__deleteDetail.fulfilled]: (state) => {},
     [__deleteDetail.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    // update
+    [__updateDetail.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__updateDetail.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.question = action.payload.updateQuestion;
+    },
+    [__updateDetail.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },

@@ -1,30 +1,43 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { __addQuestions } from '../redux/module/QuestionsSlice';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 const Input = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [url, setUrl] = useState('');
   const [writer, setWriter] = useState('');
   const [password, setPassword] = useState('');
-  const selectSiteList = ['baekjoon', 'programmers', 'SW Expert Academy'];
-  const [place, setPlace] = useState('');
-  const handleSelectSite = (e) => {
-    setPlace(e.target.value);
-  };
-  const selectLanguageList = ['javacript', 'python', 'c++', 'java'];
   const [language, setLanguage] = useState('');
+  const [place, setPlace] = useState('');
+
+  const focusWriter = useRef();
+  const focusPassword = useRef();
+  const focusTitle = useRef();
+  const focusContent = useRef();
+  const focusUrl = useRef();
+  const focusPlace = useRef();
+  const focusLanguege = useRef();
+
+  const selectSiteList = ['baekjoon', 'programmers', 'SW Expert Academy'];
+  const selectLanguageList = ['javacript', 'python', 'c++', 'java'];
   const handleSelectLanguage = (e) => {
     setLanguage(e.target.value);
   };
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const handleSelectSite = (e) => {
+    setPlace(e.target.value);
+  };
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    let reg_url =
+      /^(https?:\/\/)?([a-z\d\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?$/;
+
     const newQuestion = {
       title,
       content,
@@ -35,34 +48,44 @@ const Input = () => {
       language,
       id: uuidv4(),
     };
-    if (title.replace(/ /g, '') === '') {
-      alert('제목을 입력해주세요!');
-      return;
-    } else if (writer.replace(/ /g, '') === '') {
-      alert('작성자를 입력해주세요!');
-      return;
-    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
-      alert('password를 4자리 숫자로 입력해주세요!');
-      return;
-    } else if (content.replace(/ /g, '') === '') {
-      alert('내용을 입력해주세요!');
-      return;
-    } else if (url.replace(/ /g, '') === '') {
-      alert('url을 입력해주세요!');
-      return;
-    } else if (place.replace(/ /g, '') === '') {
+    if (place.replace(/ /g, '') === '') {
       alert('사이트 선택을 해주세요!');
+      focusPlace.current.focus();
       return;
     } else if (language.replace(/ /g, '') === '') {
       alert('언어를 선택해주세요!');
+      focusLanguege.current.focus();
+      return;
+    } else if (writer.replace(/ /g, '') === '') {
+      alert('이름을 입력해주세요!');
+      focusWriter.current.focus();
+      return;
+    } else if (password.replace(/ /g, '') === '' || password.length !== 4) {
+      alert('비밀번호를 4자리 숫자로 입력해주세요!');
+      focusPassword.current.focus();
+      return;
+    } else if (url.replace(/ /g, '') === '') {
+      alert('url을 입력해주세요!');
+      focusUrl.current.focus();
+      return;
+    } else if (!reg_url.test(url)) {
+      alert('URL 형식에 맞게 입력해주세요!');
+      return;
+    } else if (title.replace(/ /g, '') === '') {
+      alert('제목을 입력해주세요!');
+      focusTitle.current.focus();
+      return;
+    } else if (content.replace(/ /g, '') === '') {
+      alert('내용을 입력해주세요!');
+      focusContent.current.focus();
       return;
     }
     if (window.confirm('작성을 완료하시겠습니까??') === true) {
+      dispatch(__addQuestions(newQuestion));
       navigate('/');
     } else {
       return;
     }
-    dispatch(__addQuestions(newQuestion));
     setTitle('');
     setContent('');
     setUrl('');
@@ -92,7 +115,11 @@ const Input = () => {
         <form onSubmit={onSubmitHandler}>
           <InputBox>
             <DropdownButton>
-              <DropdownButtonSite onChange={handleSelectSite} value={place}>
+              <DropdownButtonSite
+                onChange={handleSelectSite}
+                value={place}
+                ref={focusPlace}
+              >
                 <option value="">사이트 선택</option>
                 {selectSiteList.map((item) => (
                   <option value={item} key={item}>
@@ -103,6 +130,7 @@ const Input = () => {
               <DropdownButtonLanguage
                 onChange={handleSelectLanguage}
                 value={language}
+                ref={focusLanguege}
               >
                 <option value="">언어 선택</option>
                 {selectLanguageList.map((item) => (
@@ -116,12 +144,14 @@ const Input = () => {
               <InputNamePass
                 value={writer}
                 onChange={onChangeInputWriter}
+                ref={focusWriter}
                 type="text"
                 placeholder="이름 입력"
               />
               <InputNamePass
                 value={password}
                 onChange={onChangeInputPassword}
+                ref={focusPassword}
                 type="Number"
                 placeholder="비밀번호 입력"
               />
@@ -131,18 +161,21 @@ const Input = () => {
             <InputUrl
               value={url}
               onChange={onChangeInputUrl}
+              ref={focusUrl}
               type="text"
               placeholder="url을 입력해 주세요"
             />
             <InputTitle
               value={title}
               onChange={onChangeInputTitle}
+              ref={focusTitle}
               type="text"
               placeholder="제목을 입력해 주세요"
             />
             <InputContent
               value={content}
               onChange={onChangeInputContent}
+              ref={focusContent}
               type="text"
               placeholder="내용을 입력해 주세요"
             />
@@ -179,6 +212,7 @@ const InputBoxs = styled.div`
   order: 0;
   flex-grow: 0;
 `;
+
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
@@ -192,15 +226,17 @@ const Layout = styled.div`
   right: 14.47%;
   top: 140px;
   margin: 0 auto;
-  background: #44454a;
+  background: ${(props) => props.theme.colors.card};
   border-radius: 20px;
 `;
+
 const InputBox = styled.div`
   height: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
+
 const InputTitle = styled.input`
   display: flex;
   flex-direction: column;
@@ -209,14 +245,15 @@ const InputTitle = styled.input`
   gap: 32px;
   width: 1180px;
   height: 68px;
-  color: #ffffff;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
   order: 1;
   flex-grow: 0;
 `;
+
 const InputContent = styled.textarea`
   display: flex;
   flex-direction: column;
@@ -225,8 +262,8 @@ const InputContent = styled.textarea`
   gap: 32px;
   width: 1180px;
   height: 570px;
-  color: #ffffff;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
@@ -235,6 +272,7 @@ const InputContent = styled.textarea`
   white-space: pre-wrap;
   resize: none;
 `;
+
 const InputUrl = styled.input`
   display: flex;
   flex-direction: column;
@@ -243,14 +281,15 @@ const InputUrl = styled.input`
   gap: 32px;
   width: 1180px;
   height: 68px;
-  color: #ffffff;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
   order: 0;
   flex-grow: 0;
 `;
+
 const DropdownButton = styled.div`
   display: flex;
   flex-direction: row;
@@ -263,6 +302,7 @@ const DropdownButton = styled.div`
   flex-grow: 0;
   /* height: -webkit-fill-available; */
 `;
+
 const ButtonBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -276,6 +316,7 @@ const ButtonBox = styled.div`
   order: 3;
   flex-grow: 0;
 `;
+
 const AddButton = styled.button`
   display: flex;
   flex-direction: row;
@@ -285,13 +326,16 @@ const AddButton = styled.button`
   gap: 10px;
   width: 91px;
   height: 39px;
-  background: #0df0ac;
+  color: ${(props) => props.theme.colors.reversetextcolor};
+  background: ${(props) => props.theme.colors.pointcolor};
   border-radius: 20px;
   border: none;
   flex: none;
   order: 0;
   flex-grow: 0;
+  cursor: pointer;
 `;
+
 const BackButton = styled.button`
   display: flex;
   flex-direction: row;
@@ -303,26 +347,28 @@ const BackButton = styled.button`
   height: 44px;
   border-radius: 20px;
   border: none;
-  background-color: #44454a;
-  color: white;
+  background-color: transparent;
+  color: ${(props) => props.theme.colors.textcolor};
   flex: none;
   order: 0;
   flex-grow: 0;
+  cursor: pointer;
 `;
+
 const InputNamePass = styled.input`
   width: 190px;
   height: 40px;
-  background-color: #2f2f33;
+  background-color: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   position: relative;
   border: none;
-  color: #ffffff;
+  color: ${(props) => props.theme.colors.textcolor};
   margin-left: 10px;
   padding-left: 16px;
   border: none;
   &::placeholder {
     padding-left: 2px;
-    color: #90969e;
+    color: ${(props) => props.theme.colors.placeholder};
   }
   &:focus {
     box-shadow: 3px 3px 5px #aaa;
@@ -337,6 +383,7 @@ const InputNamePass = styled.input`
     margin: 0;
   }
 `;
+
 const DropdownButtonSite = styled.select`
   display: flex;
   flex-direction: row;
@@ -346,14 +393,16 @@ const DropdownButtonSite = styled.select`
   gap: 10px;
   width: 158px;
   height: 39px;
-  color: #90969e;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
   border-radius: 20px;
+  background: ${(props) => props.theme.colors.insidecard};
   border: none;
   flex: none;
   order: 0;
   flex-grow: 0;
+  cursor: pointer;
 `;
+
 const DropdownButtonLanguage = styled.select`
   display: flex;
   flex-direction: row;
@@ -363,14 +412,16 @@ const DropdownButtonLanguage = styled.select`
   gap: 10px;
   width: 120px;
   height: 39px;
-  color: #90969e;
-  background: #2f2f33;
+  color: ${(props) => props.theme.colors.textcolor};
+  background: ${(props) => props.theme.colors.insidecard};
   border-radius: 20px;
   border: none;
   flex: none;
   order: 1;
   flex-grow: 0;
+  cursor: pointer;
 `;
+
 const ContentsBox = styled.div`
   display: flex;
   flex-direction: column;
