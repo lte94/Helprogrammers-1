@@ -35,6 +35,9 @@ const Input = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    let reg_url =
+      /^(https?:\/\/)?([a-z\d\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?$/;
+
     const newQuestion = {
       title,
       content,
@@ -64,6 +67,9 @@ const Input = () => {
     } else if (url.replace(/ /g, '') === '') {
       alert('url을 입력해주세요!');
       focusUrl.current.focus();
+      return;
+    } else if (!reg_url.test(url)) {
+      alert('URL 형식에 맞게 입력해주세요!');
       return;
     } else if (title.replace(/ /g, '') === '') {
       alert('제목을 입력해주세요!');

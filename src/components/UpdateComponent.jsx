@@ -33,6 +33,9 @@ const UpdateComponent = ({ question, setEdit }) => {
   };
 
   const onSubmitEditor = (id, updateQuestion) => {
+    let reg_url =
+      /^(https?:\/\/)?([a-z\d\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?$/;
+
     if (place.replace(/ /g, '') === '') {
       alert('사이트 선택을 해주세요!');
       focusPlace.current.focus();
@@ -44,6 +47,9 @@ const UpdateComponent = ({ question, setEdit }) => {
     } else if (url.replace(/ /g, '') === '') {
       alert('url을 입력해주세요!');
       focusUrl.current.focus();
+      return;
+    } else if (!reg_url.test(url)) {
+      alert('URL 형식에 맞게 입력해주세요!');
       return;
     } else if (title.replace(/ /g, '') === '') {
       alert('제목을 입력해주세요!');

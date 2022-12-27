@@ -41,11 +41,11 @@ const HintList = ({ questionHints }) => {
         </LevelCheckLabel>
       </div>
       {level === '상'
-        ? highHints.map((hint) => <HintCard hint={hint} />)
+        ? highHints.map((hint) => <HintCard hint={hint} key={hint.id} />)
         : level === '중'
-        ? middleHints.map((hint) => <HintCard hint={hint} />)
+        ? middleHints.map((hint) => <HintCard hint={hint} key={hint.id} />)
         : level === '하'
-        ? lowHints.map((hint) => <HintCard hint={hint} />)
+        ? lowHints.map((hint) => <HintCard hint={hint} key={hint.id} />)
         : null}
     </Middle>
   );
