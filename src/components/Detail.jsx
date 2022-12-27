@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, Children } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { __deleteDetail, __getDetail } from '../redux/module/DetailSlice';
+import { __getDetail } from '../redux/module/DetailSlice';
+import { __deleteDetail } from '../redux/module/QuestionsSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import UpdateComponent from './UpdateComponent';
@@ -124,7 +125,9 @@ const Detail = ({ setEdit, edit }) => {
               </CustomButton>
             </InputButtonForm>
           </QuestionTitle>
-          <QuestionLink>Link</QuestionLink>
+          <QuestionLink href={question.url} target="_blank">
+            Link
+          </QuestionLink>
           <DetailMarkDown content={question.content}></DetailMarkDown>
         </Wrapper>
       )}
@@ -231,4 +234,10 @@ const QuestionLink = styled.a`
   display: inline-block;
   padding: 15px;
   cursor: pointer;
+  :link {
+    color: ${(props) => props.theme.colors.pointcolor};
+  }
+  :visited {
+    color: ${(props) => props.theme.colors.pointcolor};
+  }
 `;
