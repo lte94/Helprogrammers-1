@@ -4,7 +4,7 @@
     2022. 12. 22 ~ 2022. 12. 27
 
 ## 기술스택
-
+    Javascript React Redux Styled-components Firebase
 
 ## Concept
 
