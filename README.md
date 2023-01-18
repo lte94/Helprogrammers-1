@@ -24,6 +24,7 @@
 5. 모든 게시글과 댓글 작성시 작성자와 비밀번호를 입력해 수정, 삭제 전 유효성검사를 진행합니다.
 
 
+## Image
 ![1](https://user-images.githubusercontent.com/117058034/213054959-6da7457a-61da-4380-91dc-29388f529e0a.png)
 ![2](https://user-images.githubusercontent.com/117058034/213055149-4fb0b3f5-6f3f-4a6f-aea3-75587bd09667.png)
 ![3](https://user-images.githubusercontent.com/117058034/213055168-44e51eeb-3819-431d-9eca-03eca9389642.png)
